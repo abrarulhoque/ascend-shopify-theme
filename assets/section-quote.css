@@ -1,0 +1,20 @@
+.section-quote .section__wrapper {
+  padding: 2rem;
+}
+.section-quote .section__wrapper .icon-quote {
+  width: 5rem;
+}
+.section-quote .section__wrapper .quote-content {
+  margin-bottom: 1rem;
+}
+.section-quote .section__wrapper .quote-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-quote .section__wrapper .quote-author .media {
+  width: 2.65rem;
+}
+.section-quote .section__wrapper:hover .icon-quote {
+  animation: scaleDown 300ms cubic-bezier(0, 0, 0.3, 1);
+}

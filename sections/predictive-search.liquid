@@ -1,0 +1,213 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{%- if predictive_search.performed -%}
+  {% comment %} 结果总数 {% endcomment %}
+  {% assign total_results = predictive_search.resources.products.size
+    | plus: predictive_search.resources.collections.size
+    | plus: predictive_search.resources.articles.size
+  %}
+  <div id="Predictive-Search-Results" class="predictive-search-results">
+    {%- if total_results > 0 -%}
+      <tab-panel class="tab-panel">
+        <scrollable-content-viewer class="scrollable-content" data-draggable>
+          <ul
+            class="tab-panel-tabs scrollable-content-wrapper"
+            role="tablist"
+          >
+            {%- if predictive_search.resources.products.size > 0 -%}
+              <li
+                id="Search-Result-Products-Tab"
+                class="tab focus-inset"
+                role="tab"
+                tabindex="0"
+                aria-controls="Search-Result-Products-Panel"
+                aria-selected="true"
+              >
+                {{ 'templates.search.type.products' | t }}
+                <span aria-hidden="true">{{ predictive_search.resources.products.size }}</span>
+                <span class="visually-hidden">
+                  {{- 'templates.search.results_with_count' | t: count: predictive_search.resources.products.size -}}
+                </span>
+              </li>
+            {%- endif -%}
+            {%- if predictive_search.resources.collections.size > 0 -%}
+              <li
+                id="Search-Result-Collections-Tab"
+                class="tab focus-inset"
+                role="tab"
+                tabindex="0"
+                aria-controls="Search-Result-Collections-Panel"
+                {% if predictive_search.resources.products.size <= 0 %}
+                  aria-selected="true"
+                {% else %}
+                  aria-selected="false"
+                {% endif %}
+              >
+                {{ 'templates.search.type.collections' | t }}
+                <span aria-hidden="true">{{ predictive_search.resources.collections.size }}</span>
+                <span class="visually-hidden">
+                  {{- 'templates.search.results_with_count' | t: count: predictive_search.resources.collections.size -}}
+                </span>
+              </li>
+            {%- endif -%}
+            {%- if predictive_search.resources.articles.size > 0 -%}
+              <li
+                id="Search-Result-Articles-Tab"
+                class="tab focus-inset"
+                role="tab"
+                tabindex="0"
+                aria-controls="Search-Result-Articles-Panel"
+                {% if predictive_search.resources.products.size <= 0
+                  and predictive_search.resources.collections.size <= 0
+                %}
+                  aria-selected="true"
+                {% else %}
+                  aria-selected="false"
+                {% endif %}
+              >
+                {{ 'templates.search.type.articles' | t }}
+                <span aria-hidden="true">{{ predictive_search.resources.articles.size }}</span>
+                <span class="visually-hidden">
+                  {{- 'templates.search.results_with_count' | t: count: predictive_search.resources.articles.size -}}
+                </span>
+              </li>
+            {%- endif -%}
+            {%- if predictive_search.resources.pages.size > 0 -%}
+              <li
+                id="Search-Result-Pages-Tab"
+                class="tab focus-inset"
+                role="tab"
+                tabindex="0"
+                aria-controls="Search-Result-Pages-Panel"
+                {% if predictive_search.resources.products.size <= 0
+                  and predictive_search.resources.collections.size <= 0
+                  and predictive_search.resources.articles.size <= 0
+                %}
+                  aria-selected="true"
+                {% else %}
+                  aria-selected="false"
+                {% endif %}
+              >
+                {{ 'templates.search.type.pages' | t }}
+                <span aria-hidden="true">{{ predictive_search.resources.pages.size }}</span>
+                <span class="visually-hidden">
+                  {{- 'templates.search.results_with_count' | t: count: predictive_search.resources.pages.size -}}
+                </span>
+              </li>
+            {%- endif -%}
+          </ul>
+        </scrollable-content-viewer>
+        <div class="tab-panel-panels hidden-scrollbar">
+          {%- if predictive_search.resources.products.size > 0 -%}
+            <div
+              id="Search-Result-Products-Panel"
+              class="panel"
+              role="tabpanel"
+              aria-labelledby="Search-Result-Products-Tab"
+            >
+              {%- for product in predictive_search.resources.products limit: 10 -%}
+                {% render 'card-product',
+                  card_product: product,
+                  section_id: section.id,
+                  image_width: '200px',
+                  image_width_mobile: '200px',
+                  show_horizontal: true
+                %}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+          {%- if predictive_search.resources.collections.size > 0 -%}
+            <div
+              id="Search-Result-Collections-Panel"
+              class="panel"
+              role="tabpanel"
+              {% unless predictive_search.resources.products.size <= 0 %}
+                aria-hidden="true"
+              {% endunless %}
+              aria-labelledby="Search-Result-Collections-Tab"
+            >
+              {%- for collection in predictive_search.resources.collections -%}
+                {% render 'card-collection',
+                  card_collection: collection,
+                  image_width: '200px',
+                  image_width_mobile: '200px',
+                  show_count: true,
+                  show_horizontal: true
+                %}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+          {%- if predictive_search.resources.articles.size > 0 -%}
+            <div
+              id="Search-Result-Articles-Panel"
+              class="panel"
+              role="tabpanel"
+              {% unless predictive_search.resources.products.size <= 0
+                and predictive_search.resources.collections.size <= 0
+              %}
+                aria-hidden="true"
+              {% endunless %}
+              aria-labelledby="Search-Result-Articles-Tab"
+            >
+              {%- for article in predictive_search.resources.articles -%}
+                {% render 'card-article',
+                  card_article: article,
+                  perfect_width: '200px',
+                  perfect_width_mobile: '200px',
+                  show_date: true,
+                  show_author: true,
+                  show_horizontal: true
+                %}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+          {%- if predictive_search.resources.pages.size > 0 -%}
+            <div
+              id="Search-Result-Pages-Panel"
+              class="panel"
+              role="tabpanel"
+              {% unless predictive_search.resources.products.size <= 0
+                and predictive_search.resources.collections.size <= 0
+                and predictive_search.resources.articles.size <= 0
+              %}
+                aria-hidden="true"
+              {% endunless %}
+              aria-labelledby="Search-Result-Pages-Tab"
+            >
+              {%- for page in predictive_search.resources.pages -%}
+                {% render 'card-page', card_page: page, show_horizontal: true %}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </tab-panel>
+    {%- else -%}
+      <div>
+        <div class="alert-message alert-error" role="alert">
+          {{ 'templates.search.no_results' | t: terms: predictive_search.terms }}
+        </div>
+      </div>
+    {%- endif -%}
+    <div class="suggestion-searches">
+      {%- if predictive_search.resources.queries.size > 0 -%}
+        <h6 class="font-body">{{ 'templates.search.suggestions' | t }}</h6>
+        <div class="suggestion-list">
+          {%- for query in predictive_search.resources.queries -%}
+            <a href="{{ query.url }}" class="link link-text show-underline">
+              {{ query.styled_text }}
+            </a>
+          {% endfor %}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+  {% comment %} 结果数量 {% endcomment %}
+  <span class="hidden" data-predictive-search-live-region-count-value>
+    {% liquid
+      if total_results == 0
+        echo 'templates.search.no_results' | t: terms: predictive_search.terms
+      else
+        echo 'templates.search.results_with_count' | t: count: total_results
+      endif
+    %}
+  </span>
+{%- endif -%}

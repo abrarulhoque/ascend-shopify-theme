@@ -1,0 +1,42 @@
+{% comment %}
+   分区标题
+
+   Accepts:
+    - heading: {String} 标题，必须
+    - description: {String} 描述
+    - water_text: {String} 水印文字
+    - button_label: {String} 按钮文本
+    - button_link: {String} 按钮链接
+    - button_style: {Enum} 按钮风格 primary|secondary|tertiary
+    - show_bottom_line: {Boolean} 显示底部分割线
+
+   Usage:
+    {% render 'section-header' %}
+{% endcomment %}
+<div class="title-wrapper text-align--{{ settings.section_alignment }} text-align-mobile--center{% if show_bottom_line %} title-wrapper--with-bottom{% endif %}">
+    <div class="text-content">
+        <h2 class="text-content-heading heading-size--{{ settings.section_title_size }}{% if settings.section_title_uppercase %} uppercase{% endif %}{% if settings.section_title_decorative %} font-decorative{% endif %}">
+            {{ heading | escape }}
+        </h2>
+        {%- if description != blank -%}
+            <div class="text-content-description rte">
+                {{ description }}
+            </div>
+        {%- endif -%}
+        {%- if button_label != blank -%}
+            <div class="text-content-buttons">
+                {%- render 'group-buttons',
+                        button_label: button_label,
+                        button_link: button_link,
+                        button_style: button_style,
+                        button_arrow: settings.section_button_arrow
+                -%}
+            </div>
+        {%- endif -%}
+    </div>
+    {%- if water_text != blank -%}
+        <div class="water-text{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--scale-in{% endif %}">
+            <span>{{ water_text | escape }}</span>
+        </div>
+    {%- endif -%}
+</div>

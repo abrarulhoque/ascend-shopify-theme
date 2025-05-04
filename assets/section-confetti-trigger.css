@@ -1,0 +1,18 @@
+.section-confetti-trigger {
+  height: 0;
+  position: relative;
+}
+.section-confetti-trigger custom-confetti {
+  display: block;
+  min-height: 2rem;
+}
+.section-confetti-trigger.design-mode {
+  height: auto;
+}
+.section-confetti-trigger.design-mode custom-confetti {
+  padding: 1rem 0;
+  background: rgba(var(--color-foreground), 0.05);
+  opacity: 0.75;
+  text-align: center;
+  font-weight: var(--font-body-weight-bold);
+}

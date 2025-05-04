@@ -1,0 +1,97 @@
+{% comment %}
+  分页器组件，支持普通的分页，LoadMore加载，滚动无限加载
+
+  Accepts:
+  - type: {Enum} Paginator, More, Infinite
+  - paginate: {Object}
+
+  Usage:
+  {% paginate results by 2 %}
+    {% render 'pagination', type: 'type',  paginate: paginator %}
+  {% endpaginate %}
+
+{% endcomment %}
+{% liquid
+    assign type = type | default: 'paginator'
+%}
+
+{%- if paginate.pages > 1 -%}
+    {{ 'component-pagination.css' | asset_url | stylesheet_tag }}
+
+    <div class="pagination-container">
+        {% if type == 'paginator' %}
+            {% comment %} 普通的分页器 {% endcomment %}
+            {%- if paginate.parts.size > 0 -%}
+              <pagination-page>
+                <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+                  <ul class="pagination-list list-unstyled">
+                    {%- if paginate.previous -%}
+                      <li>
+                        <a class="pagination-item pagination-item--prev button button--icon button--small button--ethereal"
+                           href="{{ paginate.previous.url }}"
+                           aria-label="{{ 'general.pagination.previous' | t }}"
+                        >
+                            {% render 'icon-sets', icon: 'caret-left' %}
+                        </a>
+                      </li>
+                    {%- endif -%}
+
+                    {%- for part in paginate.parts -%}
+                      <li>
+                        {%- if part.is_link -%}
+                          <a class="pagination-item button button--icon button--small button--ethereal"
+                             href="{{ part.url }}"
+                             aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
+                          >
+                            {{- part.title -}}
+                          </a>
+                        {%- else -%}
+                          {%- if part.title == paginate.current_page -%}
+                            <a class="pagination-item button button--icon button--small"
+                               role="link"
+                               aria-disabled="true"
+                               aria-current="page"
+                               aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
+                            >
+                              {{- part.title -}}
+                            </a>
+                          {%- else -%}
+                            <span class="pagination-item">{{ part.title }}</span>
+                          {%- endif -%}
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+
+                    {%- if paginate.next -%}
+                      <li>
+                        <a class="pagination-item pagination-item--next button button--icon button--small button--ethereal"
+                           href="{{ paginate.next.url }}"
+                           aria-label="{{ 'general.pagination.next' | t }}"
+                        >
+                            {% render 'icon-sets', icon: 'caret-right' %}
+                        </a>
+                      </li>
+                    {%- endif -%}
+                  </ul>
+                </nav>
+              </pagination-page>
+            {%- endif -%}
+        {%- elsif type == 'more' and paginate.next -%}
+            <div class="pagination-progress">
+                {% assign viewed_count = paginate.current_offset | plus: paginate.page_size %}
+                <div class="light">{{ 'general.pagination.has_viewed' | t: count: viewed_count, total: paginate.items }}</div>
+                <div class="pagination-progress-bar" style="--progress: {{ viewed_count | times: 100 | divided_by: paginate.items }}%;"></div>
+            </div>
+            <pagination-more>
+                <a href="{{ paginate.next.url }}" class="pagination-more-button button button--secondary has-loading button--hover-animate">
+                    <span class="loading-hidden">{{ 'general.pagination.load_more' | t }}</span>
+                    {% render 'loading-overlay' %}
+                </a>
+            </pagination-more>
+        {% elsif paginate.next %}
+            <pagination-scroll-more data-url="{{ paginate.next.url }}"></pagination-scroll-more>
+        {% endif %}
+    </div>
+
+    <script src="{{ 'pagination.js' | asset_url }}" defer="defer"></script>
+{% endif %}

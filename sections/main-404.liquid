@@ -1,0 +1,47 @@
+<style>
+  .main-404 {
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+  }
+
+  .main-404 .text-404 {
+    font-size: 14rem;
+    font-weight: 900;
+    overflow: hidden;     /* 隐藏溢出的文本 */
+    white-space: nowrap;  /* 防止文本换行 */
+    letter-spacing: 5.6rem;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(var(--color-foreground), 0.1) 0%, rgba(var(--color-foreground), 0.01) 81.5%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .main-404 h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    margin-top: -7rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .main-404 .text-404 {
+      font-size: 10rem;
+      letter-spacing: 1rem;
+    }
+
+    .main-404 h1 {
+      font-size: 2.4rem;
+    }
+  }
+</style>
+
+<div class="main-404 page-width text-align--center">
+  <div class="text-404">{{ 'templates.404.subtext' | t }}</div>
+  <h1>{{ 'templates.404.title' | t }}</h1>
+  <a href="{{ routes.all_products_collection_url }}" class="button button--pill button--hover-animate">
+    {{ 'general.continue_shopping' | t }}
+    {% render 'icon-sets', icon: 'arrow-right' %}
+  </a>
+</div>

@@ -1,0 +1,115 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "map_banner_Aahwqt": {
+      "type": "map-banner",
+      "settings": {
+        "enable_full_width": true,
+        "banner_height": "small",
+        "map_iframe": "",
+        "if_as_main_area": true,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "settings": {
+        "heading": "Contact us",
+        "description": "<p>We're here to help. Fill out the form below to reach us.<\/p>",
+        "show_form_phone": true,
+        "form_first": true,
+        "show_more_contact": true,
+        "color_scheme": "inverse",
+        "more_address": "Put your address here",
+        "more_phone": "(000)1234-5678",
+        "more_email": "support@example.com",
+        "more_business_hours": "<p>Monday to Friday<br\/>From 9 AM to 6 PM<\/p>",
+        "show_socials": true,
+        "social_icon_style": "wrapper",
+        "margin_top": 48,
+        "margin_bottom": 100
+      }
+    },
+    "team_ktrMyd": {
+      "type": "team",
+      "blocks": {
+        "member_DUkaip": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        },
+        "member_PTwF6y": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        },
+        "member_KyaJMQ": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        },
+        "member_GyDgcj": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        },
+        "member_m6VX3a": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        }
+      },
+      "block_order": [
+        "member_DUkaip",
+        "member_PTwF6y",
+        "member_KyaJMQ",
+        "member_GyDgcj",
+        "member_m6VX3a"
+      ],
+      "settings": {
+        "show_section_header": true,
+        "heading": "Our team",
+        "description": "",
+        "water_text": "",
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "map_banner_Aahwqt",
+    "form",
+    "team_ktrMyd"
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "color_scheme": "background-2",
+        "banner_height": "small",
+        "heading_size": "medium",
+        "heading_uppercase": false,
+        "heading_decorative": false,
+        "description": "",
+        "alignment": "center",
+        "texture_alpha": 80,
+        "texture_fixed": false,
+        "pagination_style": "paginator",
+        "collections_per_page": 6,
+        "sort": "alphabetical",
+        "card_color_scheme": "",
+        "card_size": "small",
+        "image_ratio": "portrait",
+        "show_count": true,
+        "background_alpha": 80,
+        "enable_background_blur": true,
+        "content_alignment": "center"
+      }
+    },
+    "logo_list_g7KWbg": {
+      "type": "logo-list",
+      "blocks": {
+        "logo_rnVUfi": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "logo_BeLwVf": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "logo_cbEYir": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "logo_9PhR96": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "logo_T74exn": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "logo_yqYTi3": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "logo_rWFkHT": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "logo_3B9etC": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_rnVUfi",
+        "logo_BeLwVf",
+        "logo_cbEYir",
+        "logo_9PhR96",
+        "logo_T74exn",
+        "logo_yqYTi3",
+        "logo_rWFkHT",
+        "logo_3B9etC"
+      ],
+      "settings": {
+        "show_section_header": true,
+        "heading": "Featured Brands",
+        "description": "",
+        "water_text": "",
+        "button_label": "",
+        "button_link": "",
+        "enable_gray": true,
+        "enable_chaser_light": true,
+        "interval": 1,
+        "new_tab_open": true,
+        "margin_top": 80,
+        "margin_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "logo_list_g7KWbg"
+  ]
+}

@@ -1,0 +1,155 @@
+.main-article .banner:before {
+  padding-bottom: 28rem;
+}
+.main-article .banner .banner-content .banner-content-main .text-content-heading {
+  line-height: 1;
+}
+.main-article .banner .banner-content .banner-content-main .article-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+.main-article .banner .banner-content .banner-content-main .article-tags a {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background: rgb(var(--color-foreground), 0.05);
+  font-size: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+}
+.main-article .banner .banner-content .banner-content-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.main-article .banner .banner-content .banner-content-bottom .article-author {
+  font-size: 0.875rem;
+}
+.main-article .banner .banner-content .banner-content-bottom .article-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.main-article .banner .banner-content .banner-content-bottom .article-share .list-social {
+  gap: 0.5rem;
+}
+.main-article .banner .banner-content .banner-content-bottom .article-share .list-social .social-item {
+  --icon-width: 1.5rem;
+}
+.main-article .article-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+.main-article .article-main .article-main-detail .article-template .article-image {
+  margin-bottom: 2rem;
+  border-radius: var(--medium-radius);
+}
+.main-article .article-main .article-main-detail .article-template-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3rem;
+}
+.main-article .article-main .article-comments {
+  margin-top: 2rem;
+}
+.main-article .article-main .article-comments .comments-form-wrapper {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(var(--color-foreground), 0.1);
+}
+.main-article .article-main .article-comments .comments-form-wrapper .comment-count {
+  padding: 0.5rem 1rem;
+  background: rgba(var(--color-foreground), 0.05);
+  border-radius: 9999px;
+}
+.main-article .article-main .article-comments .comments-list {
+  margin-top: 2rem;
+}
+.main-article .article-main .article-comments .comments-list .content-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.main-article .article-main .article-comments .comments-list .content-list li {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+.main-article .article-main .article-comments .comments-list .content-list li .avatar {
+  flex: 0 0 auto;
+  width: 4rem;
+  height: 4rem;
+  font-size: 2rem;
+  font-weight: var(--font-body-weight-bold);
+  background: rgba(var(--color-foreground), 0.05);
+  color: rgba(var(--color-foreground), 0.1);
+  text-transform: uppercase;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-article .article-main .article-comments .comments-list .content-list li .comment-detail {
+  flex: 1 1 auto;
+}
+.main-article .article-main .article-comments .comments-list .content-list li .comment-detail .comment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+.main-article .article-main .article-comments .comments-list .content-list li:not(:last-child) {
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+}
+.main-article .article-main aside > *:not(:last-child) {
+  margin-bottom: 2rem;
+}
+.main-article .article-main aside .related-list h3 {
+  font-size: 1.25rem;
+}
+.main-article .article-main aside .related-list li:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.main-article .article-main aside .advertisement {
+  border-radius: var(--medium-radius);
+}
+@media screen and (max-width: 749px) {
+  .main-article .banner .banner-content .banner-content-main .text-content-heading {
+    font-size: 2rem;
+  }
+  .main-article .banner .banner-content .banner-content-bottom {
+    flex-direction: column;
+  }
+  .main-article .article-main {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .main-article .article-main > * {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 750px) {
+  .main-article .article-main .article-main-detail {
+    max-width: 60rem;
+    width: 100%;
+  }
+  .main-article .article-main aside {
+    width: 30rem;
+  }
+  .main-article .article-main.article--has-aside {
+    justify-content: space-between;
+  }
+  .main-article .article-main.aside-position--left .article-main-detail {
+    order: 2;
+  }
+}

@@ -1,0 +1,48 @@
+{% comment %}
+    产品的 Color Swatches
+    Accept:
+        - swatch_type: {Enum} image|color
+        - swatch_values: {Array} Swatch 数组
+        - max: {Number} 限制显示数量
+        - show_tooltip: {Boolean} 显示提示
+
+    Usage:
+        {% render 'color-swatches' %}
+{% endcomment %}
+
+{% liquid
+    assign max = max | default: 5
+    assign exceed = swatch_values.values.size | minus: max
+%}
+<ul class="color-swatches swatch-type--{{ swatch_type | default: 'color' }}">
+    {%- for value in swatch_values.values limit: max -%}
+        <li class="color-swatch" data-index="{{ forloop.index0 }}">
+            <button class="button--clear color color-{{ value | strip | downcase | replace: ' ', '-' }}"
+                 aria-label="{{ 'color.value' | t: color: value }}"
+                 {% if value.swatch != blank and swatch_type == 'color' %}
+                    style="background: {{ value.swatch.color }};"
+                 {% endif %}
+                 {% if show_tooltip == true %}
+                    data-toggle="tooltip"
+                    data-title="{{ value }}"
+                 {% endif %}
+            >
+                {%- if swatch_type == 'image' -%}
+                    {%- if value.variant.image != blank -%}
+                        {{ value.variant.image | image_url: width: 100 | image_tag: loading: 'lazy' }}
+                    {%- else -%}
+                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                {%- elsif swatch_type == 'color' and value.swatch.image != blank and value.swatch != blank -%}
+                    {{ value.swatch.image | image_url: width: 100 | image_tag: loading: 'lazy' }}
+                {%- endif -%}
+            </button>
+        </li>
+    {%- endfor -%}
+    {%- if exceed > 0 -%}
+        <li>
+            <small class="light" aria-hidden="true">+ {{ exceed }}</small>
+            <span class="visually-hidden">{{ 'color.more' | t: count: exceed }}</span>
+        </li>
+    {%- endif -%}
+</ul>

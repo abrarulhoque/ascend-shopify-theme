@@ -1,0 +1,97 @@
+{{ 'section-search-drawer.css' | asset_url | stylesheet_tag }}
+<search-drawer
+  id="Search-Drawer"
+  class="drawer search-drawer modal"
+  data-section="{{ section.id }}"
+>
+  <div class="modal-overlay"> </div>
+  <div
+    class="modal-inner color-{{ section.settings.color_scheme }} gradient focus-none"
+    role="dialog"
+    data-trap
+    aria-modal="true"
+    aria-label="{{ 'templates.search.drawer' | t }}"
+    tabindex="-1"
+  >
+    <div class="drawer-header">
+      <button
+        class="drawer-close button button--icon button--ethereal"
+        onclick="this.closest('.modal').hide()"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        {% render 'icon-sets', icon: 'close' %}
+      </button>
+    </div>
+    <div class="drawer-content">
+      {% render 'search-form',
+        input_id: 'Search-Drawer-Input',
+        show_recommended_products: section.settings.show_recommended_products,
+        recommended_type: section.settings.recommended_type,
+        recommended_product_limit: section.settings.recommended_product_limit,
+        recommended_products: section.settings.product_list
+      %}
+    </div>
+  </div>
+</search-drawer>
+<script src="{{ 'search-drawer.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.search-drawer.name",
+  "tag": "div",
+  "class": "section-drawer",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_recommended_products",
+      "label": "t:sections.all.recommendation_products.show.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "recommended_type",
+      "label": "t:sections.all.recommendation_products.type.label",
+      "info": "t:sections.all.recommendation_products.type.info",
+      "options": [
+        {
+          "value": "auto",
+          "label": "t:sections.all.recommendation_products.type.options__1.label"
+        },
+        {
+          "value": "manual",
+          "label": "t:sections.all.recommendation_products.type.options__2.label"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.recommendation_products.header_auto.content"
+    },
+    {
+      "type": "range",
+      "id": "recommended_product_limit",
+      "label": "t:sections.all.recommendation_products.auto_limit.label",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.recommendation_products.header_manual.content"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "t:sections.all.product-list.label",
+      "limit": 5
+    }
+  ]
+}
+{% endschema %}

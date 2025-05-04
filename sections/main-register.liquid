@@ -1,0 +1,127 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+<div class="customer register page-width">
+  <div class="customer-register-wrapper">
+    <h1 class="mb-4">
+      {{ 'customer.login_page.signup' | t }}
+    </h1>
+    {%- form 'create_customer', novalidate: 'novalidate' -%}
+      {%- if form.errors -%}
+        <div class="alert-message alert-error mb-2" role="alert" autofocus tabindex="-1">
+          {{ 'customer.register.error' | t }}
+          <ul class="message-list">
+            {%- for field in form.errors -%}
+              {%- if field == 'form' -%}
+                <li id="Register-Form-Error">
+                  {{ form.errors.messages[field] | join: '; ' }}
+                </li>
+              {%- else -%}
+                <li id="Register-Form-{{ field | capitalize }}-Error">
+                  {{ form.errors.translated_fields[field] | capitalize }}-{{ form.errors.messages[field] | join: '; ' }}
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+      <div class="field-line-group mb-2">
+        <div class="field">
+          <input
+            id="Register-Form-FirstName"
+            class="field-input"
+            type="text"
+            name="customer[first_name]"
+            {% if form.first_name %}
+              value="{{ form.first_name }}"
+            {% endif %}
+            {% if form.errors contains 'first_name' %}
+              aria-invalid="true"
+              aria-describedby="Register-Form-first_name-Error"
+              autofocus
+            {% endif %}
+            autocomplete="given-name"
+            placeholder="{{ 'customer.register.first_name' | t }}"
+          >
+          <label for="Register-Form-FirstName" class="field-label">
+            {{ 'customer.register.first_name' | t }}
+          </label>
+        </div>
+        <div class="field">
+          <input
+            id="Register-Form-LastName"
+            class="field-input"
+            type="text"
+            name="customer[last_name]"
+            {% if form.last_name %}
+              value="{{ form.last_name }}"
+            {% endif %}
+            {% if form.errors contains 'last_name' %}
+              aria-invalid="true"
+              aria-describedby="Register-Form-last_name-Error"
+              autofocus
+            {% endif %}
+            autocomplete="family-name"
+            placeholder="{{ 'customer.register.last_name' | t }}"
+          >
+          <label for="Register-Form-LastName" class="field-label">
+            {{ 'customer.register.last_name' | t }}
+          </label>
+        </div>
+      </div>
+      <div class="field{% if form.errors contains 'email' %} field-error{% endif %} mb-2">
+        <input
+          id="Register-Form-Email"
+          class="field-input"
+          type="email"
+          name="customer[email]"
+          {% if form.email %}
+            value="{{ form.email }}"
+          {% endif %}
+          {% if form.errors contains 'email' %}
+            aria-invalid="true"
+            aria-describedby="Register-Form-email-Error"
+            autofocus
+          {% endif %}
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="email"
+          aria-required="true"
+          placeholder="{{ 'customer.register.email' | t }}"
+        >
+        <label for="Register-Form-Email" class="field-label">
+          {{ 'customer.register.email' | t }}
+        </label>
+      </div>
+      <div class="field{% if form.errors contains 'password' %} field-error{% endif %} mb-4">
+        <input
+          id="Register-Form-Password"
+          class="field-input"
+          type="password"
+          name="customer[password]"
+          aria-required="true"
+          {% if form.errors contains 'password' %}
+            aria-invalid="true"
+            aria-describedby="Register-Form-password-Error"
+          {% endif %}
+          placeholder="{{ 'customer.register.password' | t }}"
+        >
+        <label for="Register-Form-Password" class="field-label">
+          {{ 'customer.register.password' | t }}
+        </label>
+      </div>
+      <div class="button-group full-width">
+        <button class="button button--full-width">
+          {{ 'customer.register.submit' | t }}
+        </button>
+        <a class="button button--full-width button--secondary" href="{{ routes.account_login_url }}">
+          {{ 'customer.log_in' | t }}
+        </a>
+      </div>
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-register.name"
+}
+{% endschema %}

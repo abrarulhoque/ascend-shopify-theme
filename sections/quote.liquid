@@ -1,0 +1,123 @@
+{{ 'section-quote.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+      margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-margin {
+          margin-top: {{ section.settings.margin_top }}px;
+          margin-bottom: {{ section.settings.margin_bottom }}px;
+      }
+  }
+{%- endstyle -%}
+
+<div class="section-quote page-width isolate section-{{ section.id }}-margin">
+  <div class="section__wrapper section-quote_wrapper text-align--center color-{{ section.settings.color_scheme }} gradient lg-round">
+    <div
+      class="{% if settings.animations_reveal_on_scroll %}scroll-trigger animate--scale-in{% endif %}"
+      style="color: {{ section.settings.icon_color }};"
+    >
+      {% render 'icon-sets', icon: 'quote' %}
+    </div>
+    <div class="quote-content rte">
+      "
+      {{- section.settings.content -}}
+      "
+    </div>
+    <div class="quote-author hover-trigger">
+      {%- if section.settings.author_image != blank -%}
+        <div class="media media--square media--circle">
+          {{
+            section.settings.author_image
+            | image_url: width: 100
+            | image_tag: loading: 'lazy', class: 'animate-scale-up'
+          }}
+        </div>
+      {%- endif -%}
+      <div class="quote-author-info{% if section.settings.author_image != blank %} text-align--left{% endif %}">
+        <b>{{ section.settings.author_name | escape }}</b>
+        <div class="light">
+          <small>{{ section.settings.author_role | escape }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.quote.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-2"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "t:sections.quote.settings.icon_color.label",
+      "default": "#088b5a"
+    },
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "t:sections.quote.settings.content.label",
+      "default": "We believe in delivering not just products, but meaningful experiences that enrich your life. Every detail matters to us, and your trust inspires us to uphold the highest standards of quality, craftsmanship, and service in everything we do"
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "t:sections.quote.settings.author_name.label",
+      "default": "Author name"
+    },
+    {
+      "type": "text",
+      "id": "author_role",
+      "label": "t:sections.quote.settings.author_role.label",
+      "default": "CEO"
+    },
+    {
+      "type": "image_picker",
+      "id": "author_image",
+      "label": "t:sections.quote.settings.author_image.label",
+      "info": "t:sections.quote.settings.author_image.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.quote.presets.name"
+    }
+  ]
+}
+{% endschema %}

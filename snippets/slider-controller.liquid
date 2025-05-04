@@ -1,0 +1,52 @@
+{% comment %}
+    轮播控制器组件
+    Accepts:
+        - slider_id: {String} 控制的Slider Id
+        - show_dots: {Booelan}
+        - show_nav_buttons: {Boolean}
+        - button_style: {Enum} simple|primary|secondary|float
+        - slide_interval: {String} Slide interval if auto slide is enabled
+    Render:
+        {% render 'slider-controller' %}   
+
+{% endcomment %}
+
+{% liquid
+    unless button_style == 'primary'
+        assign button_style_class = 'button--ethereal'
+
+        if button_style == 'float'
+            assign button_style_class = 'button--float'
+        elsif button_style == 'secondary'
+            assign button_style_class = 'button--secondary'
+        endif
+    endunless
+%}
+
+{%- if show_dots or show_nav_buttons -%}
+    <div class="slider-controller{% if show_dots %} has-dots{% endif %}{% if show_nav_buttons %} has-nav{% endif %}">
+        {%- if show_dots -%}
+            <ul class="slider-page-dots" aria-label="{{ 'general.slider.slide_dots' | t }}" aria-controls="{{ slider_id }}" style="--slide-interval: {{ slide_interval }}ms;"></ul>
+        {%- endif -%}
+        {%- if show_nav_buttons -%}
+            <div class="slider-nav-buttons small-hide">
+                <button type="button"
+                        class="nav-button button button--icon nav-button--prev focus-inset {{ button_style_class }}"
+                        name="previous"
+                        aria-label="{{ 'general.slider.previous_slide' | t }}"
+                        aria-controls="{{ slider_id }}"
+                >
+                    {% render 'icon-sets', icon: 'caret-left' %}
+                </button>
+                <button type="button"
+                        class="nav-button button button--icon nav-button--next focus-inset {{ button_style_class }}"
+                        name="next"
+                        aria-label="{{ 'general.slider.next_slide' | t }}"
+                        aria-controls="{{ slider_id }}"
+                >
+                    {% render 'icon-sets', icon: 'caret-right' %}
+                </button>
+            </div>
+        {%- endif %}
+    </div>
+{%- endif -%}

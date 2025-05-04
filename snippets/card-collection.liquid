@@ -1,0 +1,175 @@
+{% comment %}
+  Renders a collection card
+
+  Accepts:
+    - card_collection: {Object} Collection Liquid object
+    - image: {Object} 自定义图片
+    - video: {Object} 自定义视频
+    - media_aspect_ratio: {Enum} square|portrait
+    - image_width: {String} 最佳宽度，用于计算最佳大小
+    - image_width_mobile: {String} 手机端最佳宽度，用于计算最佳大小
+    - heading: {String} 自定义标题
+    - heading_size: {Enum} 标题大小
+    - heading_uppercase: {Boolean} 标题大写
+    - content_alignment: {Enum} 内容对齐方式
+    - show_description: {Boolean} 是否显示描述
+    - description: {String} 自定义描述
+    - placeholder_image: {String} Placeholder image when collection is empty (optional)
+    - show_horizontal: {Boolean} 横置布局
+    - show_count: {Boolean} 显示产品数量
+    - color_scheme: {String} 颜色方案
+    - background_alpha: {Number} 背景透明度，当垂直布局时候生效
+    - enable_background_blur: {Boolean} 背景模糊，当垂直布局时候生效
+
+  Usage:
+  {% render 'card-collection' %}
+{% endcomment %}
+
+{%- liquid
+  if image
+    assign collection_image = image
+  elsif card_collection != blank
+    assign collection_image = card_collection.featured_image
+  endif
+
+  if placeholder_image == blank
+    assign placeholder_image = 'collection-1'
+  endif
+
+  if color_scheme == blank
+    assign color_scheme = settings.main_color_scheme
+  endif
+
+  assign collection_title = card_collection.title
+  if heading != blank
+    assign collection_title = heading
+  endif
+
+  assign collection_description = card_collection.description
+  if description != blank
+    assign collection_description = description
+  endif
+
+  assign product_count = card_collection.products_count | default: 0
+
+  assign ratio = 1
+  if media_aspect_ratio == 'portrait'
+    assign ratio = 0.8
+  endif
+-%}
+
+{% capture sizes %}(min-width: 750px) calc({{ image_width }} * 1.5), {{ image_width_mobile | default: '100vw' }}{% endcapture %}
+
+<div class="card-wrapper collection-card-wrapper hover-trigger">
+  <div class="card{% if show_horizontal %} card-layout--horizontal{% endif %}">
+    <div class="card-inner ratio" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+      <div class="card-media-wrapper">
+        {%- if video != blank -%}
+          {% liquid
+            assign video_cover = collection_image
+            if video_cover == blank
+              assign video_cover = video.preview_image
+            endif
+          %}
+
+          <deferred-media class="card-media video-model-media deferred-media media-fit--cover" data-load-when-visible>
+            <div class="media-poster media">
+              {% render 'lazy-image',
+                image_object: video_cover,
+                class: 'animate-scale-up',
+                sizes: sizes,
+                widths: '165, 360, 450, 660, 900, 1320'
+              %}
+            </div>
+            <template>
+              {{ video | video_tag: image_size: '400x', autoplay: true, loop: true, controls: false, muted: true }}
+            </template>
+          </deferred-media>
+        {%- else -%}
+          <div class="card-media media">
+            {% render 'lazy-image',
+              image_object: collection_image,
+              class: 'animate-scale-up',
+              sizes: sizes,
+              widths: '165, 360, 450, 660, 900, 1320, 1500',
+              placeholder: placeholder_image
+            %}
+          </div>
+        {%- endif -%}
+      </div>
+      <a
+        class="card-inner-content link"
+        {% if card_collection.url != blank %}
+          href="{{ card_collection.url }}"
+        {% else %}
+          aria-disabled="true"
+          role="link"
+        {% endif %}
+        tabindex="-1"
+      >
+        {%- unless show_horizontal -%}
+          <div class="card-badges"> </div>
+          <div
+            class="card-information color-{{ color_scheme }} gradient{% if enable_background_blur and show_horizontal != true %} background--blur{% endif %} text-align--{{ content_alignment }}"
+            style="--alpha-background: {{ background_alpha }}%;"
+          >
+            <h3 class="card-heading font-body heading-size--{{ heading_size | default: 'small' }}{% if heading_uppercase %} uppercase{% endif %}">
+              {%- if collection_title != blank -%}
+                {{- collection_title | escape -}}
+              {%- else -%}
+                {{ 'onboarding.collection_title' | t }}
+              {%- endif -%}
+            </h3>
+            {%- if collection_description != blank and show_description -%}
+              <div class="card-description rte light">
+                {{- collection_description | strip_html | truncate: 60 -}}
+              </div>
+            {%- endif -%}
+            {%- if show_count -%}
+              <div class="light">
+                <small>{{ 'collection.product_count' | t: count: product_count }}</small>
+              </div>
+            {%- endif -%}
+            <div class="card-buttons">
+              <button class="button button--small button--pill button--hover-animate">
+                {{ 'general.view_all' | t }}
+              </button>
+            </div>
+          </div>
+        {%- endunless -%}
+      </a>
+    </div>
+    <div class="card-content">
+      <h3 class="card-heading font-body">
+        <a
+          id="CardLink-{{ section.id }}-{{ card_collection.id }}"
+          class="link link-underline"
+          href="{{ card_collection.url }}"
+          aria-labelledby="CardLink-{{ section.id }}-{{ card_collection.id }} Badge-{{ section.id }}-{{ card_collection.id }}"
+        >
+          {%- if collection_title != blank -%}
+            {{- collection_title | escape -}}
+          {%- else -%}
+            {{ 'onboarding.collection_title' | t }}
+          {%- endif -%}
+        </a>
+      </h3>
+      <div class="card-buttons">
+        <a
+          class="button button--mini button--pill button--hover-animate"
+          {% if card_collection != blank %}
+            href="{{ card_collection.url }}"
+          {% else %}
+            aria-disabled="true"
+            role="link"
+          {% endif %}
+        >
+          {{ 'general.view_all' | t }}
+        </a>
+        {%- if show_count -%}
+          <small class="light">{{ 'collection.product_count' | t: count: product_count }}</small>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>

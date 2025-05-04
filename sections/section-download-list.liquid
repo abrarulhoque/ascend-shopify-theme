@@ -1,0 +1,240 @@
+{{ 'section-download-list.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+      margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-margin {
+          margin-top: {{ section.settings.margin_top }}px;
+          margin-bottom: {{ section.settings.margin_bottom }}px;
+      }
+  }
+{%- endstyle -%}
+<div class="section-download-list section-{{ section.id }}-margin">
+  <div class="section__wrapper download-list__wrapper page-width isolate">
+    {%- if section.settings.show_section_header -%}
+      {% render 'section-header',
+        heading: section.settings.heading,
+        description: section.settings.description,
+        water_text: section.settings.water_text,
+        button_label: section.settings.button_label,
+        button_link: section.settings.button_link,
+        button_style: 'secondary',
+        show_bottom_line: settings.section_show_title_bottom_line
+      %}
+    {%- endif -%}
+
+    <table class="main-table table-collapse">
+      <caption class="visually-hidden">
+        {{ 'sections.download_list.table' | t }}
+      </caption>
+      <thead class="uppercase">
+        <tr>
+          <th>{{ 'sections.download_list.file' | t }}</th>
+          <th class="small-hide">{{ 'sections.download_list.size' | t }}</th>
+          <th class="small-hide">{{ 'sections.download_list.update' | t }}</th>
+          <th>{{ 'general.download' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for block in section.blocks -%}
+          {% liquid
+            if block.settings.link != blank
+              assign file_name = block.settings.link | split: '/' | last | strip
+            endif
+          %}
+          <tr {{ block.shopify_attributes }}>
+            <td>
+              <div class="file-details">
+                {%- if block.settings.image != blank -%}
+                  <div class="media media--square sm-round hover-trigger">
+                    {{ block.settings.image | image_url: width: 100 | image_tag: class: 'animate-scale-up' }}
+                  </div>
+                {%- endif -%}
+                <div>
+                  <a
+                    class="d-block link link-underline"
+                    {% if block.settings.link != blank %}
+                      href="{{ block.settings.link }}"
+                      download=""
+                      target="_blank"
+                    {% else %}
+                      role="link"
+                      aria-disabled="true"
+                    {% endif %}
+                  >
+                    {{- block.settings.name | escape -}}
+                  </a>
+                  {%- unless block.settings.size == blank and block.settings.update == blank -%}
+                    <div class="mt-1 light medium-hide large-up-hide">
+                      <small>{{ block.settings.size | escape }}Mb</small>
+                      {%- if block.settings.size != blank and block.settings.update != blank -%}
+                        /
+                      {%- endif -%}
+                      <small>{{ block.settings.update | escape }}</small>
+                    </div>
+                  {%- endunless -%}
+                </div>
+              </div>
+            </td>
+            <td class="text-align--center small-hide">{{ block.settings.size | escape }}Mb</td>
+            <td class="text-align--center small-hide">{{ block.settings.update | escape }}</td>
+            <td class="text-align--center">
+              <a
+                class="button button--small button--hover-animate"
+                {% if block.settings.link != blank %}
+                  href="{{ block.settings.link }}"
+                  download="{{ file_name }}"
+                  target="_blank"
+                {% else %}
+                  role="link"
+                  aria-disabled="true"
+                {% endif %}
+              >
+                {% render 'icon-sets', icon: 'download' %}
+                {{ 'general.download' | t }}
+              </a>
+            </td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.download-list.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.custom-section-header.settings.header_header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_header",
+      "label": "t:sections.custom-section-header.settings.show_section_header.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.text-content.heading.label",
+      "default": "Download list"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.text-content.description.label"
+    },
+    {
+      "type": "text",
+      "id": "water_text",
+      "label": "t:sections.custom-section-header.settings.water_text.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.all.button.button_label.label",
+      "info": "t:sections.all.button.button_label.info"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.all.button.button_link.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "file",
+      "name": "t:sections.download-list.blocks.file.name",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.all.image.image_picker.label",
+          "info": "t:sections.download-list.blocks.file.settings.image.info"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "t:sections.download-list.blocks.file.settings.name.label",
+          "default": "Document file"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.all.url.label",
+          "info": "t:sections.download-list.blocks.file.settings.link.info"
+        },
+        {
+          "type": "text",
+          "id": "size",
+          "label": "t:sections.download-list.blocks.file.settings.size.label",
+          "info": "t:sections.download-list.blocks.file.settings.size.info",
+          "default": "3.5"
+        },
+        {
+          "type": "text",
+          "id": "update",
+          "label": "t:sections.download-list.blocks.file.settings.update.label",
+          "info": "t:sections.download-list.blocks.file.settings.update.info",
+          "default": "2024-05-01"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.download-list.presets.name",
+      "blocks": [
+        {
+          "type": "file"
+        },
+        {
+          "type": "file"
+        },
+        {
+          "type": "file"
+        },
+        {
+          "type": "file"
+        },
+        {
+          "type": "file"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

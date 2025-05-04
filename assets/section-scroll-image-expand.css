@@ -1,0 +1,60 @@
+.scroll-image-expand .scroll-image-expand__wrapper {
+  --image-original-size: 20%;
+}
+.scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll {
+  --change-ratio: 0;
+}
+.scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll .sticky-scroll-container .media {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: inset(calc(var(--image-original-size) * (1.4 - var(--change-ratio))));
+  transition: clip-path 300ms cubic-bezier(0, 0, 0.3, 1);
+}
+.scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll .sticky-scroll-container .media img, .scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll .sticky-scroll-container .media svg {
+  transition: transform 300ms cubic-bezier(0, 0, 0.3, 1);
+  transform: scale(calc(1.2 - 0.2 * var(--change-ratio)));
+}
+.scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll .sticky-scroll-container .content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  --alpha-background: 0.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+}
+.scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll .sticky-scroll-container .content .text-content {
+  max-width: 60rem;
+  text-align: center;
+}
+.scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll .sticky-scroll-container .content .text-content h2 {
+  font-size: 6rem;
+  line-height: 0.875;
+}
+@media screen and (max-width: 749px) {
+  .scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll .sticky-scroll-container .content .text-content h2 {
+    font-size: 4rem;
+  }
+}
+.scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll.sticky-scroll--end .sticky-scroll-container .media {
+  clip-path: inset(0);
+}
+.scroll-image-expand .scroll-image-expand__wrapper .sticky-scroll.sticky-scroll--end .sticky-scroll-container .content {
+  visibility: visible;
+  opacity: 1;
+  animation: slideIn 500ms cubic-bezier(0, 0, 0.3, 1);
+}
+.scroll-image-expand .scroll-image-expand__wrapper.image-original-size--small {
+  --image-original-size: 25%;
+}
+.scroll-image-expand .scroll-image-expand__wrapper.image-original-size--large {
+  --image-original-size: 15%;
+}

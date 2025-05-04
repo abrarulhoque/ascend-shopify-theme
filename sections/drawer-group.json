@@ -1,0 +1,46 @@
+{
+  "name": "t:sections.drawer.name",
+  "type": "custom.drawer",
+  "sections": {
+    "search-drawer": {
+      "type": "search-drawer",
+      "settings": {
+        "show_recommended_products": true,
+        "recommended_type": "auto",
+        "recommended_product_limit": 5,
+        "product_list": []
+      }
+    },
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "settings": {
+        "show_recommended_products": true,
+        "recommended_type": "auto",
+        "recommended_product_limit": 5,
+        "product_list": [],
+        "show_complementary_products": true,
+        "complementary_product_limit": 5
+      }
+    },
+    "localization-drawer": {
+      "type": "localization-drawer",
+      "settings": {
+        "show_filter": true,
+        "show_regions": true,
+        "show_languages": true
+      }
+    },
+    "quick-add-drawer": {
+      "type": "quick-add-drawer",
+      "settings": {
+        "product": ""
+      }
+    }
+  },
+  "order": [
+    "search-drawer",
+    "cart-drawer",
+    "localization-drawer",
+    "quick-add-drawer"
+  ]
+}

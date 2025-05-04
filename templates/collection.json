@@ -1,0 +1,149 @@
+{
+  "sections": {
+    "main-collection": {
+      "type": "main-collection",
+      "blocks": {
+        "advertisement_AnJk8r": {
+          "type": "advertisement",
+          "settings": {
+            "link": ""
+          }
+        },
+        "subcategory_efcMPC": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "subcategory_EmWn3D": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "subcategory_fEDPjP": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        }
+      },
+      "block_order": [
+        "advertisement_AnJk8r",
+        "subcategory_efcMPC",
+        "subcategory_EmWn3D",
+        "subcategory_fEDPjP"
+      ],
+      "settings": {
+        "color_scheme": "scheme-a3c52137-eb79-4728-8331-0706b8173c48",
+        "banner_height": "medium",
+        "heading_size": "medium",
+        "heading_uppercase": false,
+        "heading_decorative": false,
+        "show_collection_description": false,
+        "alignment": "center",
+        "show_background_image": false,
+        "background_image_alpha": 80,
+        "background_image_fixed": false,
+        "show_countdown": false,
+        "end_time": "2024-12-01 15:23",
+        "end_text": "Timer complete message",
+        "hide_when_end": false,
+        "simple_style": false,
+        "timer_background_color": "#ffffff",
+        "timer_foreground_color": "#000000",
+        "pagination_style": "paginator",
+        "products_per_page": 7,
+        "card_size": "small",
+        "image_ratio": "portrait",
+        "show_content_wrapper": false,
+        "card_color_scheme": "accent-1",
+        "text_alignment": "left",
+        "enable_sorting": true,
+        "enable_filtering": true,
+        "filter_type": "vertical",
+        "vertical_side": "left",
+        "default_expand_facets": "all"
+      }
+    },
+    "search_banner_MA6zGB": {
+      "type": "search-banner",
+      "settings": {
+        "enable_full_width": false,
+        "color_scheme": "background-2",
+        "texture_alpha": 90,
+        "heading": "Didn't find the product you were looking for?",
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "collection_thumbnails_UAB3TW": {
+      "type": "collection-thumbnails",
+      "blocks": {
+        "collection_xVNfC7": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_FwJqae": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_hk4RwT": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_8Az7eb": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_78qcVc": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        }
+      },
+      "block_order": [
+        "collection_xVNfC7",
+        "collection_FwJqae",
+        "collection_hk4RwT",
+        "collection_8Az7eb",
+        "collection_78qcVc"
+      ],
+      "settings": {
+        "show_section_header": true,
+        "heading": "Featured Categories",
+        "description": "",
+        "water_text": "",
+        "button_label": "",
+        "button_link": "",
+        "style": "vertical",
+        "adapt_transparent_image": true,
+        "show_nav_buttons": false,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main-collection",
+    "search_banner_MA6zGB",
+    "collection_thumbnails_UAB3TW"
+  ]
+}

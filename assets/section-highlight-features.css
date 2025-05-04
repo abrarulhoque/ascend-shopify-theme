@@ -1,0 +1,89 @@
+.section-highlight-features .media {
+  position: relative;
+}
+.section-highlight-features .media .highlight-spots .spot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  --color-pulse: var(--color-foreground);
+  animation: pulse 2000ms cubic-bezier(0, 0, 0.3, 1) infinite;
+}
+.section-highlight-features .media .highlight-spots .spot:hover, .section-highlight-features .media .highlight-spots .spot[aria-selected=true] {
+  animation-duration: 500ms;
+}
+@media screen and (max-width: 749px) {
+  .section-highlight-features .media {
+    margin-bottom: 2rem;
+  }
+  .section-highlight-features .highlight-features .feature {
+    padding: 1rem;
+    border-radius: var(--medium-radius);
+    background: rgba(var(--color-foreground), 0.05);
+  }
+  .section-highlight-features .highlight-features .feature:not(:last-of-type) {
+    margin-bottom: 1rem;
+  }
+  .section-highlight-features .highlight-features .feature.active {
+    --color-pulse: var(--color-foreground);
+    animation: pulse 1s ease infinite;
+  }
+}
+@media screen and (min-width: 750px) {
+  .section-highlight-features .media {
+    width: 40%;
+    margin: 0 auto;
+  }
+  .section-highlight-features .highlight-features {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .section-highlight-features .highlight-features .feature {
+    position: absolute;
+    transform: translateY(-100%);
+    max-width: 25rem;
+    padding-bottom: 0.5rem;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: auto;
+  }
+  .section-highlight-features .highlight-features .feature.synergy-position--2 {
+    visibility: visible;
+    animation: fadeIn 300ms cubic-bezier(0, 0, 0.3, 1) forwards;
+    animation-delay: 500ms;
+  }
+  .section-highlight-features .highlight-features .feature.synergy-position--2 + .line {
+    visibility: visible;
+  }
+  .section-highlight-features .highlight-features .feature.position--left {
+    left: 0;
+    right: auto;
+  }
+  .section-highlight-features .highlight-features .feature.position--left.synergy-position--2 + .line {
+    animation: growWidthFromRight 500ms cubic-bezier(0, 0, 0.3, 1) forwards;
+  }
+  .section-highlight-features .highlight-features .feature.position--right {
+    left: auto;
+    right: 0;
+    text-align: right;
+  }
+  .section-highlight-features .highlight-features .feature.position--right.synergy-position--2 + .line {
+    animation: growWidth 500ms cubic-bezier(0, 0, 0.3, 1) forwards;
+  }
+  .section-highlight-features .highlight-features .line {
+    position: absolute;
+    height: 1px;
+    background: rgb(var(--color-button));
+    visibility: hidden;
+  }
+  .section-highlight-features .highlight-features .line.position--left {
+    left: 0;
+    right: auto;
+  }
+  .section-highlight-features .highlight-features .line.position--right {
+    left: auto;
+    right: 0;
+  }
+}

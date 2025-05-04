@@ -1,0 +1,58 @@
+{% comment %}
+    按钮组，常在比如富文本模块，图文模块等地方使用
+    Accepts:
+        - button_icon: {String]
+        - button_label: {String} 
+        - button_label_uppercase {Boolean}
+        - button_link: {String}
+        - button_style: {Enmu} primary|secondary|tertiary
+        - button_arrow: {Boolean} 显示按钮箭头
+        - secondary_button_icon: {String}
+        - secondary_button_label: {String} 副按钮
+        - secondary_button_label_uppercase {Boolean}
+        - secondary_button_link: {String}
+        - secondary_button_style: {Enmu} primary|secondary|tertiary
+        - secondary_button_arrow: {Boolean} 显示按钮箭头
+    
+    Usage:
+        {% render 'group-buttons', button_label: 'button label', button_link: button_link, button_style: 'primary' %}
+{% endcomment %}
+
+{%- unless button_label == blank and secondary_button_label == blank -%}
+    <div class="button-group{% if button_label != blank and secondary_button_label != blank %} button--multiple{% endif %}">
+        {%- if button_label != blank -%}
+            <a class="button{% unless button_style == 'primary' %} button--{{ button_style }}{% endunless %} button--pill{% if button_label_uppercase %} uppercase{% endif %} button--hover-animate"
+               {% if button_link == blank %}
+                   role="link" aria-disabled="true"
+               {% else %}
+                   href="{{ button_link }}"
+               {% endif %}
+            >
+                {%- if button_icon != blank -%}
+                    {% render 'icon-sets', icon: button_icon %}
+                {%- endif -%}
+                {{- button_label | escape -}}
+                {%- if button_arrow -%}
+                    {% render 'icon-sets', icon: 'arrow-right' %}
+                {%- endif -%}
+            </a>
+        {%- endif -%}
+        {%- if secondary_button_label != blank -%}
+            <a class="button {% unless secondary_button_style == 'primary' %} button--{{ secondary_button_style }}{% endunless %} button--pill{% if secondary_button_label_uppercase %} uppercase{% endif %} button--hover-animate"
+               {% if secondary_button_link == blank %}
+                   role="link" aria-disabled="true"
+               {% else %}
+                   href="{{ secondary_button_link }}"
+               {% endif %}
+            >
+                {%- if secondary_button_icon != blank -%}
+                    {% render 'icon-sets', icon: secondary_button_icon %}
+                {%- endif -%}
+                {{- secondary_button_label | escape -}}
+                {%- if secondary_button_arrow -%}
+                    {% render 'icon-sets', icon: 'arrow-right' %}
+                {%- endif -%}
+            </a>
+        {%- endif -%}
+    </div>
+{%- endunless -%}

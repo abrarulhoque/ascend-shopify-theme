@@ -1,0 +1,98 @@
+.featured-collection-tabs .tab-panel .tab-panel-tabs .tab {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: var(--font-body-weight-bold);
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs .tab .media {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  transition: transform 300ms cubic-bezier(0, 0, 0.3, 1);
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs .tab .icon {
+  width: 1.5rem;
+  transition: transform 300ms cubic-bezier(0, 0, 0.3, 1);
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs .tab:hover .media, .featured-collection-tabs .tab-panel .tab-panel-tabs .tab:hover .icon {
+  transform: scale(1.2);
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--pill .tab {
+  padding: 0 2rem;
+  min-width: 8rem;
+  min-height: 3.25rem;
+  --alpha-background: 0.05;
+  background: rgba(var(--color-foreground), var(--alpha-background));
+  color: rgb(var(--color-foreground));
+  border-radius: 9999px;
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--pill .tab:hover {
+  --alpha-background: 0.1;
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--pill .tab[aria-selected=true] {
+  --color-outline: var(--color-background);
+  --alpha-background: 1;
+  color: rgb(var(--color-background));
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--underline {
+  gap: 2rem;
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--underline .tab {
+  position: relative;
+  padding: 0.5rem;
+  --alpha-line: 0;
+  --scale-line: 0;
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--underline .tab:after {
+  content: "";
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: scaleX(var(--scale-line));
+  background: rgba(var(--color-foreground), var(--alpha-line));
+  transition: transform 300ms cubic-bezier(0.4, 0, 1, 1);
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--underline .tab:hover {
+  --alpha-line: 0.2;
+  --scale-line: 1;
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--underline .tab[aria-selected=true] {
+  --alpha-line: 1;
+  --scale-line: 1;
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--fade {
+  gap: 2rem;
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--fade .tab {
+  padding: 0.5rem;
+  opacity: 0.2;
+}
+.featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--fade .tab:hover, .featured-collection-tabs .tab-panel .tab-panel-tabs.tab-style--fade .tab[aria-selected=true] {
+  opacity: 1;
+}
+.featured-collection-tabs .tab-panel .tab-panel-panels .panel .collection-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.featured-collection-tabs .tab-panel .tab-panel-panels .panel .collection-title h3 {
+  font-size: 2rem;
+}
+.featured-collection-tabs .tab-panel .tab-panel-panels .panel .collection-title a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.featured-collection-tabs .tab-panel .tab-panel-panels .panel .collection-title a .icon {
+  width: 1rem;
+}
+@media screen and (max-width: 749px) {
+  .featured-collection-tabs .tab-panel .tab-panel-panels .panel .collection-title {
+    flex-direction: column;
+  }
+}

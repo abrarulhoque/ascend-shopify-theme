@@ -1,0 +1,69 @@
+{% comment %}
+  五星评分
+  Accepts:
+  - rating_value: {Number} 评分
+  - scale_max: {Number} 评分上值
+  - total_count: {Number} 评论数量
+  - color: {HexString} 星星颜色
+  - size: {Enum} 星星大小; small|medium|large
+  - show_score: {Boolean} 显示评分
+  - show_total: {Boolean} 显示总评价数量
+
+  Usage:
+  {% render 'rating' %}
+{% endcomment %}
+
+{% liquid
+  assign rating_value = rating_value | default: 0
+  assign scale_max = scale_max | floor | default: 5
+
+  if scale_max <= 0
+    assign scale_max = 5
+  endif
+
+  assign rating_decimal = rating_value | modulo: 1
+  assign rating_int = rating_value | floor
+  if rating_decimal <= 0.3
+    assign rating_decimal = 0
+  elsif rating_decimal >= 0.7
+    assign rating_decimal = 1
+  endif
+%}
+<div class="rating-wrapper star-size--{{ size | default: 'medium' }}">
+  <span
+    class="rating"
+    role="img"
+    aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: rating_value, rating_max: scale_max }}"
+    {% if color != blank %}
+      style="color: {{ color }};"
+    {% endif %}
+  >
+    {%- for i in (1..rating_int) -%}
+      {%- render 'icon-sets', icon: 'star' -%}
+    {%- endfor -%}
+
+    {%- if rating_decimal > 0 -%}
+      {% if rating_decimal < 1 %}
+        {%- render 'icon-sets', icon: 'half-star' -%}
+      {% else %}
+        {%- render 'icon-sets', icon: 'star' -%}
+      {% endif %}
+      {%- assign rating_res = scale_max | minus: rating_int | minus: 1 -%}
+    {%- else -%}
+      {%- assign rating_res = scale_max | minus: rating_int -%}
+    {%- endif -%}
+
+    {%- for i in (1..rating_res) -%}
+      {% render 'icon-sets', icon: 'empty-star' %}
+    {%- endfor -%}
+  </span>
+  {%- if show_score -%}
+    <b>
+      {{- rating_value | round: 1 -}}
+      '
+    </b>
+  {%- endif -%}
+  {%- if show_total -%}
+    <span class="light">({{ 'accessibility.star_reviews_total' | t: total: total_count | default: 0 }})</span>
+  {%- endif -%}
+</div>

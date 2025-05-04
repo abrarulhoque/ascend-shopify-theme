@@ -1,0 +1,125 @@
+{{ 'section-map-banner.css' | asset_url | stylesheet_tag }}
+{% style %}
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="section-map-banner section-{{ section.id }}-margin">
+  <div class="section__wrapper map-banner__wrapper{% unless section.settings.enable_full_width %} page-width{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    <div class="banner banner--{{ section.settings.banner_height }}{% unless section.settings.enable_full_width %} lg-round{% endunless %}">
+      <deferred-media class="video-model-media deferred-media" data-load-when-visible>
+        <div class="media-poster media">
+          {% render 'lazy-image',
+            image_object: section.settings.map_image,
+            preload: section.settings.if_as_main_area,
+            placeholder: 'lifestyle-1'
+          %}
+        </div>
+
+        {%- if section.settings.map_iframe != blank -%}
+          <template>
+            {{ section.settings.map_iframe }}
+          </template>
+        {%- endif -%}
+      </deferred-media>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.map-banner.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_full_width",
+      "label": "t:sections.all.layout.enable_full_width.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "banner_height",
+      "label": "t:sections.all.banner.height.label",
+      "default": "small",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.all.banner.height.options__1.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.all.banner.height.options__2.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.all.banner.height.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "map_image",
+      "label": "t:sections.map-banner.settings.map_image.label",
+      "info": "t:sections.map-banner.settings.map_image.info"
+    },
+    {
+      "type": "html",
+      "id": "map_iframe",
+      "label": "t:sections.map-banner.settings.map_iframe.label",
+      "info": "t:sections.map-banner.settings.map_iframe.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.seo.header_content"
+    },
+    {
+      "type": "checkbox",
+      "id": "if_as_main_area",
+      "label": "t:sections.all.seo.if_as_main_area.label",
+      "default": false,
+      "info": "t:sections.all.seo.if_as_main_area.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.map-banner.presets.name"
+    }
+  ]
+}
+{% endschema %}

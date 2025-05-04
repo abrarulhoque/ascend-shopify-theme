@@ -1,0 +1,93 @@
+{% comment %}
+  面包屑导航
+  Accepts:
+      - page_type: {String} 页面类型
+
+  Usage:
+      {% render 'breadcrumb', page_type: 'product' %}
+{% endcomment %}
+<nav class="breadcrumb">
+  <ul class="breadcrumb-wrapper">
+    <li class="breadcrumb-item">
+      <a href="{{ routes.root_url }}" class="link link-text">{{ 'breadcrumb.home' | t }}</a>
+    </li>
+    {%- case page_type -%}
+      {%- when 'product' -%}
+        {% if collection != blank %}
+          <li class="breadcrumb-item">
+            <a href="{{ collection.url }}" class="link link-text">{{ collection.title }}</a>
+          </li>
+        {% endif %}
+        {% if product != blank %}
+          <li class="breadcrumb-item page-current">
+            <a href="#" class="link link-text">{{ product.title | truncate: 30 }}</a>
+          </li>
+        {%- endif -%}
+      {%- when 'collections' -%}
+        <li class="breadcrumb-item page-current">
+          <a href="#" class="link link-text capitalize">{{ 'breadcrumb.collections' | t }}</a>
+        </li>
+      {%- when 'collection' -%}
+        <li class="breadcrumb-item">
+          <a href="{{ routes.collections_url }}" class="link link-text">{{ 'breadcrumb.collections' | t }}</a>
+        </li>
+        {% if collection != blank %}
+          <li class="breadcrumb-item page-current">
+            <a href="#" class="link link-text">{{ collection.title | truncate: 30 }}</a>
+          </li>
+        {%- endif -%}
+      {%- when 'blog' -%}
+        {% if blog != blank %}
+          <li class="breadcrumb-item page-current">
+            <a href="#" class="link link-text">{{ blog.title | truncate: 30 }}</a>
+          </li>
+        {%- endif -%}
+      {%- when 'article' -%}
+        {%- if blog != blank -%}
+          <li class="breadcrumb-item">
+            <a href="{{ blog.url }}" class="link link-text">
+              {{- blog.title | truncate: 30 -}}
+            </a>
+          </li>
+        {%- endif -%}
+      {%- when 'customers/login' -%}
+        <li class="breadcrumb-item page-current">
+          <a href="#" class="link link-text">{{ 'breadcrumb.account.login' | t }}</a>
+        </li>
+      {%- when 'customers/register' -%}
+        <li class="breadcrumb-item page-current">
+          <a href="#" class="link link-text">{{ 'breadcrumb.account.register' | t }}</a>
+        </li>
+      {%- when 'customers/account' -%}
+        <li class="breadcrumb-item page-current">
+          <a href="#" class="link link-text">{{ 'breadcrumb.account.account' | t }}</a>
+        </li>
+      {%- when 'customers/order' -%}
+        <li class="breadcrumb-item">
+          <a href="{{ routes.account_url }}" class="link link-text">{{ 'breadcrumb.account.account' | t }}</a>
+        </li>
+        <li class="breadcrumb-item page-current">
+          <a href="#" class="link link-text">{{ 'breadcrumb.account.order' | t }}</a>
+        </li>
+      {%- when 'customers/address' -%}
+        <li class="breadcrumb-item">
+          <a href="{{ routes.account_url }}" class="link link-text">{{ 'breadcrumb.account.account' | t }}</a>
+        </li>
+        <li class="breadcrumb-item page-current">
+          <a href="#" class="link link-text">{{ 'breadcrumb.account.addresses' | t }}</a>
+        </li>
+      {%- when 'cart' -%}
+        <li class="breadcrumb-item page-current">
+          <a href="#" class="link link-text capitalize">{{ 'breadcrumb.cart' | t }}</a>
+        </li>
+      {%- when 'search' -%}
+        <li class="breadcrumb-item page-current">
+          <a href="#" class="link link-text capitalize">{{ 'breadcrumb.search' | t }}</a>
+        </li>
+      {%- else -%}
+        <li class="breadcrumb-item page-current">
+          <a href="#" class="link link-text capitalize">{{ page_type | truncate: 30 }}</a>
+        </li>
+    {% endcase %}
+  </ul>
+</nav>

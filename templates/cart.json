@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main-cart": {
+      "type": "main-cart",
+      "settings": {
+        "color_scheme": "background-2",
+        "alignment": "center",
+        "heading_size": "medium",
+        "heading_uppercase": false,
+        "heading_decorative": false
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main-cart",
+    "related-products"
+  ]
+}

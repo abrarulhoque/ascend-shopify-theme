@@ -1,0 +1,148 @@
+{% comment %}
+  搜索表单，支持预测搜索
+
+  Accepts:
+      - input_id: {String} 输入框 Id
+      - in_header: {Boolean} 是否header中
+      - show_recommended_products {Boolean} 是否显示推荐产品（抽屉中）
+      - recommended_type: {Enum} auto|manual 推荐类型（抽屉中）
+      - recommended_products: {Array} 推荐产品列表（手动推荐）
+      - recommended_product_limit: {Number} 显示的产品数量（智能推荐）
+  Usage:
+      {% render 'search-form', input_id: 'input-id' %}
+{% endcomment %}
+
+{% assign keywords = settings.search_popular_keywords | split: ',' %}
+
+{% capture search_form %}
+    <form action="{{ routes.search_url }}"
+          method="get"
+          role="search"
+          class="search search-form"
+    >
+        <div class="search-field field{% if in_header %} field--no-border{% endif %} field--pill">
+            <input id="{{ input_id }}"
+                   class="field-input"
+                   type="search"
+                   name="q"
+                   value="{{ search.terms | escape }}"
+                   placeholder="{{ 'templates.search.placeholder' | t }}"
+                   aria-label="{{ 'templates.search.input' | t }}"
+                    {% if settings.predictive_search_enabled or keywords.size > 0 and in_header %}
+                        role="combobox"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        aria-owns="Search-Container-{{ input_id }}"
+                        aria-controls="Search-Container-{{ input_id }}"
+                        aria-autocomplete="list"
+                        autocomplete="off"
+                    {% endif %}
+                    {% if settings.predictive_search_enabled %}
+                        autocorrect="off"
+                        autocomplete="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                    {% endif %}
+            >
+            <label class="field-label" for="{{ input_id }}">
+                <typing-words data-text="{{ 'templates.search.placeholder' | t }}" data-interval="10"></typing-words>
+            </label>
+            <input type="hidden" name="options[prefix]" value="last">
+            <div class="field-button-group">
+                <button type="reset" class="field-button reset-button{% if search.terms == blank %} hidden{% endif %} focus-inset">
+                    {{ 'templates.search.clear' | t }}
+                </button>
+                <button class="field-button search-button focus-inset">
+                    {% render "icon-sets", icon: "search" %}
+                    <span class="visually-hidden">{{ 'templates.search.search' | t }}</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="Search-Container-{{ input_id }}" class="search-container{% if in_header %} color-{{ settings.main_color_scheme }} gradient{% endif %}">
+            <div class="search-trending-main">
+                <div class="popular-searches">
+                    {%- if keywords.size > 0 -%}
+                        <h3 class="font-body h6">{{ 'templates.search.popular_searches' | t }}</h3>
+                        <div class="keyword-list">
+                            {%- for keyword in keywords -%}
+                                {% assign striped_keyword = keyword | strip %}
+                                {%- if striped_keyword != '' -%}
+                                    <a href="{{ routes.search_url }}?q={{ striped_keyword }}" class="link link-text focus-inset{% if forloop.index0 < 3 %} hot{% endif %}" data-keyword="{{ striped_keyword }}" aria-label="{{ 'templates.search.search_for' | t: keyword: striped_keyword }}">
+                                        <span aria-hidden="true">{{ striped_keyword }}</span>
+                                    </a>
+                                {%- endif -%}
+                            {%- endfor -%}
+                        </div>
+                    {%- elsif in_header -%}
+                        <div class="search-tips">
+                            {{ 'templates.search.search_tip' | t }}
+                        </div>
+                    {%- endif -%}
+                </div>
+                {%- if show_recommended_products -%}
+                    {% assign title = 'products.recommendation.title' | t %}
+                    {%- if recommended_type == 'auto' -%}
+                        {% render 'recommendation-by-history', title: title, intent: 'related', show_quick_add: settings.card_enable_quick_add, number: recommended_product_limit %}
+                    {%- else -%}
+                        {% render 'featured-products-card', products: recommended_products, title: title, show_quick_add: settings.card_enable_quick_add %}
+                    {%- endif -%}
+                {%- endif -%}
+            </div>
+            {%- if settings.predictive_search_enabled -%}
+                <div class="predictive-search-main">
+                    <div class="search-results-wrapper">
+                    </div>
+                    <button type="submit" class="predictive-search-button button button--full-width button--hover-animate focus-inset">
+                        {{ 'templates.search.page' | t }}
+                        {% render 'icon-sets', icon: 'arrow-right' %}
+                    </button>
+                    <template id="Placeholder-Search-Form-{{ section.id }}">
+                        <div class="search-loading-placeholder">
+                            <ul class="tab-panel-tabs">
+                                <li class="tab placeholder"></li>
+                                <li class="tab placeholder"></li>
+                                <li class="tab placeholder"></li>
+                            </ul>
+                            <div class="tab-panel-panels">
+                                <div class="panel">
+                                    <div class="placeholder"></div>
+                                    <div class="placeholder"></div>
+                                    <div class="placeholder"></div>
+                                    <div class="placeholder"></div>
+                                    <div class="placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+            {%- endif -%}
+        </div>
+    </form>
+{% endcapture %}
+
+{%- if settings.predictive_search_enabled -%}
+  <predictive-search
+    id="Predictive-Search-{{ input_id }}"
+    class="search-wrapper predictive-search-wrapper"
+    data-loading-text="{{ 'accessibility.loading' | t }}"
+    {% if in_header %}
+      data-pop-panel="true" {% comment %} 弹出容器模式 {% endcomment %} tabindex="0"
+      {% comment %} 防止弹出容器失去焦点而意外关闭 {% endcomment %}
+    {% endif %}
+    data-section="{{ section.id }}"
+  >
+    {{ search_form }}
+  </predictive-search>
+{%- else -%}
+  <search-form
+    class="search-wrapper"
+    {% if keywords.size > 0 and in_header %}
+      data-pop-panel="true" {% comment %} 弹出容器模式 {% endcomment %} tabindex="0"
+      {% comment %} 防止弹出容器失去焦点而意外关闭 {% endcomment %}
+    {% endif %}
+  >
+    {{ search_form }}
+  </search-form>
+{%- endif -%}

@@ -1,0 +1,32 @@
+{% comment %}
+  折扣标签，可显示折扣金额，比例
+
+  Accepts:
+      - target: {Product} 可以能Product 或者 Variant
+      - type: {Enum}  显示类型，normal|amount|percentage
+
+  Usage:
+      {% render 'sale-badge', target: product %}
+{% endcomment %}
+
+{%- if target != blank -%}
+  {% assign difference = target.compare_at_price | minus: target.price %}
+{%- endif -%}
+<span class="badge sale-badge">
+  {%- if type == 'amount' -%}
+    {%- if difference == blank -%}
+      {% assign difference = 2000 %}
+    {%- endif -%}
+    {% assign difference_money = difference | money | strip_html %}
+    {{ 'products.product.sale_amount' | t: amount: difference_money }}
+  {%- elsif type == 'percentage' -%}
+    {% if difference != blank %}
+      {% assign percentage = difference | times: 100.0 | divided_by: target.compare_at_price | round: 0 %}
+    {% else %}
+      {% assign percentage = 20 %}
+    {% endif %}
+    {{ 'products.product.sale_percentage' | t: percentage: percentage }}
+  {%- else -%}
+    {{ 'products.product.on_sale' | t }}
+  {%- endif -%}
+</span>

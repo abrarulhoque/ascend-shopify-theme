@@ -1,0 +1,85 @@
+{% comment %}
+    图文多列的列单元
+    Accepts
+        - color_scheme {ColorScheme} 配色方案
+        - show_content_wrapper {Booelan} 显示内容容器
+        - content_alignment: {Enum} 内容对齐方式 Left|Center|Right
+        - image: {ImageObject}
+        - media_aspect_ratio: {Enum} 设置文章图片的宽高比例（如果显示), square|portrait|adapt
+        - placeholder_image: {String} 占位图片名
+        - perfect_width: {String} 最佳宽度
+        - perfect_width_mobile: {String} 手机端最佳宽度
+        - title: {String} 标题
+        - description: {String} 描述
+        - button_label: {String}
+        - button_link: {Url}
+        - button_style: {Enum} Primary|Secondary|Tertiary
+
+    Render
+    {% render 'card-image-text' %}
+{% endcomment %}
+{%- liquid
+    assign ratio = 1
+    if media_aspect_ratio == 'portrait'
+        assign ratio = 0.8
+    elsif media_aspect_ratio == 'landscape'
+        assign ratio = 1.6
+    elsif media_aspect_ratio == 'adapt' and image != blank
+        assign ratio = image.aspect_ratio
+    endif
+
+    if color_scheme == blank
+        assign color_scheme = settings.main_color_scheme
+    endif
+
+    assign placeholder_image = placeholder_image | default: 'collection-1'
+-%}
+{% capture sizes %}(min-width: 750px) {{ perfect_width }}, {{ perfect_width_mobile | default: '100vw' }}{% endcapture %}
+<div class="image-text-card-wrapper card-wrapper hover-trigger">
+    <div class="card{% if show_content_wrapper %} card-content--wrapper{% endif %}">
+        <div class="card-inner ratio" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+            <div class="card-media-wrapper">
+                <div class="card-media media">
+                    {% render 'lazy-image',
+                            image_object: image,
+                            class: 'animate-scale-up',
+                            sizes: sizes,
+                            widths: '165, 360, 450, 660, 900, 1320, 1500',
+                            placeholder: placeholder_image
+                    %}
+                </div>
+            </div>
+            {%- if button_link != blank -%}
+                <a class="link link-full" href="{{ button_link }}" aria-label="{{ 'Column ' | append: forloop.index }}"> </a>
+            {%- endif -%}
+        </div>
+        {%- unless title == blank and description == blank and  button_label == blank -%}
+            <div class="card-content text-align--{{ content_alignment }}{% if show_content_wrapper %} color-{{ color_scheme }} gradient{% endif %}">
+                {%- if title != blank -%}
+                    <h3 class="card-heading font-body">
+                        {{ title | truncate: 50 | escape }}
+                    </h3>
+                {%- endif -%}
+                {%- if description != blank -%}
+                    <div class="card-description rte light">
+                        {{ description }}
+                    </div>
+                {%- endif -%}
+                {%- if button_label != blank -%}
+                    <div class="card-buttons mt-2">
+                        <a class="button button--small button--pill button--hover-animate"
+                           {% if button_link != blank %}
+                               href="{{ button_link }}"
+                           {% else %}
+                               role="link"
+                               aria-disabled="true"
+                           {% endif %}
+                        >
+                            {{ button_label | escape }}
+                        </a>
+                    </div>
+                {%- endif -%}
+            </div>
+        {%- endunless -%}
+    </div>
+</div>

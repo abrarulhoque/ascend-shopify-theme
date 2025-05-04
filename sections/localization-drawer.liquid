@@ -1,0 +1,165 @@
+<link
+  rel="stylesheet"
+  href="{{ 'section-localization-drawer.css' | asset_url }}"
+  media="print"
+  onload="this.media='all';"
+>
+
+<localization-drawer
+  id="Localization-Drawer"
+  class="localization-drawer drawer modal"
+  data-section="{{ section.id }}"
+>
+  <div class="modal-overlay"> </div>
+  <div
+    class="modal-inner color-{{ section.settings.color_scheme }} gradient focus-none"
+    role="dialog"
+    data-trap
+    aria-modal="true"
+    aria-label="{{ 'localization.drawer' | t }}"
+    tabindex="-1"
+  >
+    <div class="drawer-header">
+      <button
+        class="drawer-close button button--icon button--ethereal"
+        type="button"
+        onclick="this.closest('.modal').hide()"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        {% render 'icon-sets', icon: 'close' %}
+      </button>
+    </div>
+    <div class="drawer-content">
+      {%- if section.settings.show_filter -%}
+        <div class="localization-filter field">
+          <input
+            id="Localization-Search"
+            class="field-input"
+            type="search"
+            name="keyword"
+            placeholder="{{ 'localization.search' | t }}"
+            autocorrect="off"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+          <label class="field-label" for="Localization-Search">
+            <typing-words data-text="{{ 'localization.search' | t }}" data-interval="10"></typing-words>
+          </label>
+          <button type="reset" class="field-button reset-button hidden focus-inset">
+            {{ 'templates.search.clear' | t }}
+          </button>
+        </div>
+      {%- endif -%}
+
+      {%- if localization.available_countries.size > 1 and section.settings.show_regions -%}
+        <div class="localization-content-country">
+          <div class="localization-content-header">
+            <h5 class="mb-0">{{ 'localization.country_label' | t }}</h5>
+            <small class="light">
+              {{- localization.country.name }} |
+              {{ localization.country.currency.iso_code }}
+              {{ localization.country.currency.symbol -}}
+            </small>
+          </div>
+          <link-form class="d-block">
+            {%- form 'localization', id: 'Country-Localization-Form', class: 'localization-form' -%}
+              <ul class="country-list list-unstyled">
+                {%- for country in localization.available_countries -%}
+                  <li>
+                    <a
+                      class="link{% if country.iso_code == localization.country.iso_code %} active{% endif %} focus-inset"
+                      href="#"
+                      {% if country.iso_code == localization.country.iso_code %}
+                        aria-current="true"
+                      {% endif %}
+                      data-value="{{ country.iso_code }}"
+                    >
+                      <span class="media media--square media--circle">
+                        {{ country | image_url: width: 60 | image_tag: loading: 'lazy' }}
+                      </span>
+                      <span class="country">{{ country.name }}</span>({{ country.currency.iso_code }}
+                      {{ country.currency.symbol }})
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+
+              <input class="link-value" type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+            {% endform %}
+          </link-form>
+          <div id="Region-Country-Filter-Results" class="visually-hidden" aria-live="polite"></div>
+        </div>
+      {%- endif -%}
+      {%- if localization.available_languages.size > 1 and section.settings.show_languages -%}
+        <div class="localization-content-language">
+          <div class="localization-content-header">
+            <h5 class="mb-0">{{ 'localization.language_label' | t }}</h5>
+            <small class="light">
+              {{ localization.language.endonym_name | capitalize }}
+            </small>
+          </div>
+          <link-form class="d-block">
+            {%- form 'localization', id: 'Language-Localization-Form', class: 'localization-form' -%}
+              <ul class="language-list list-unstyled">
+                {%- for language in localization.available_languages -%}
+                  <li>
+                    <a
+                      class="language link{% if language.iso_code == localization.language.iso_code %} active{% endif %} focus-inset"
+                      href="#"
+                      hreflang="{{ language.iso_code }}"
+                      lang="{{ language.iso_code }}"
+                      {% if language.iso_code == localization.language.iso_code %}
+                        aria-current="true"
+                      {% endif %}
+                      data-value="{{ language.iso_code }}"
+                    >
+                      {{ language.endonym_name | capitalize }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+              <input class="link-value" type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
+            {% endform %}
+          </link-form>
+          <div id="Region-Language-Filter-Results" class="visually-hidden" aria-live="polite"></div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</localization-drawer>
+
+<script src="{{ 'localization-drawer.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.localization-drawer.name",
+  "tag": "div",
+  "class": "section-drawer",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter",
+      "label": "t:sections.localization-drawer.settings.show_filter.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_regions",
+      "label": "t:sections.localization-drawer.settings.show_regions.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_languages",
+      "label": "t:sections.localization-drawer.settings.show_languages.label",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

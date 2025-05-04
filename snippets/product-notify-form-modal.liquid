@@ -1,0 +1,105 @@
+{% comment %}
+    渲染到货通知订阅表单弹窗
+    Accepts:
+     - product: {Product}
+
+    Usage:
+       {% render 'product-notify-form-modal', product: product %}
+{% endcomment %}
+<modal-dialog id="Notify-Email-{{ section.id }}" class="modal">
+    <div class="modal-overlay"> </div>
+    <div class="modal-inner notify-email-inner gradient focus-none"
+         role="dialog"
+         data-trap
+         aria-modal="true"
+         aria-label="{{ 'products.product.notify_me' | t }}"
+         tabindex="-1"
+    >
+        <button type="button"
+                class="modal-close button button--icon button--ethereal focus-inset"
+                aria-label="{{ 'accessibility.close' | t }}"
+                onclick="this.closest('modal-dialog').hide()"
+        >
+            {% render 'icon-sets', icon: 'close' %}
+        </button>
+        <div class="modal-main modal-content">
+            <div class="variant-info mb-2 hover-trigger">
+                <div class="media media--square">
+                    {% liquid
+                        assign variant_image = product.selected_or_first_available_variant.image
+                        if variant_image == blank
+                            assign variant_image = product.featured_media
+                        endif
+                    %}
+                    {%- if variant_image != blank -%}
+                        {{ variant_image | image_url: width: 200 | image_tag: class: 'animate-scale-up' }}
+                    {%- else -%}
+                        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg animate-scale-up' }}
+                    {%- endif -%}
+                </div>
+                <div>
+                    <h3 class="h4 mb-1">{{ product.title | truncate: 30 }}</h3>
+                    {%- unless product.has_only_default_variant -%}
+                        <small class="light">{{ product.selected_or_first_available_variant.title }}</small>
+                    {%- endunless -%}
+                </div>
+            </div>
+
+            <h2>{{ 'products.product.notify_me_title' | t }}</h2>
+            {% assign notify_form_id = 'Notify-Form-' | append: section.id %}
+            {%- form 'contact', id: notify_form_id -%}
+            {%- if form.errors -%}
+                <div id="Notify-Form-Error-{{ section.id }}" class="alert-message alert-error mb-2" role="alert" autofocus tabindex="-1">
+                    {{ form.errors.messages.email }}
+                </div>
+            {% endif %}
+            {%- if form.posted_successfully? -%}
+                <div class="alert-message alert-success mb-2" role="alert" autofocus tabindex="-1">
+                    {{ 'products.product.notify_me_submit_success' | t }}
+                </div>
+            {%- endif -%}
+                <div class="field{% if form.errors %} field-error{% endif %} mb-2">
+                    <input id="Notify-Form-Email-{{ section.id }}"
+                           type="email"
+                           class="field-input"
+                           name="contact[email]"
+                           autocomplete="email"
+                           spellcheck="false"
+                           autocapitalize="off"
+                           value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                           aria-required="true"
+                            {% if form.errors %}
+                                aria-invalid="true"
+                                aria-describedby="Notify-Form-Error-{{ section.id }}"
+                            {% endif %}
+                           placeholder="{{ 'templates.contact.form.email' | t }}"
+                           required
+                    >
+                    <label class="field-label" for="Notify-Form-Email-{{ section.id }}">
+                        {{- 'templates.contact.form.email' | t }}
+                        <span aria-hidden="true">*</span>
+                    </label>
+                </div>
+            {%- if customer and customer.name != blank -%}
+            <input type="hidden" name="contact[name]" value="{{ customer.name }}">
+            {%- endif -%}
+                <input type="hidden" name="contact[handle]" value="{{product.handle}}">
+                <input type="hidden" name="contact[title]" value="{{product.title}}({{ product.selected_or_first_available_variant.title }})">
+                <input type="hidden" name="contact[body]" value="Email me when available">
+
+                <button type="submit" class="button button--hover-animate">
+                    {{ 'products.product.notify_me' | t }}
+                </button>
+
+            {%- if form.errors or form.posted_successfully? -%}
+                <script type="text/javascript">
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const modal = document.getElementById('Notify-Email-{{ section.id }}');
+                        if(modal) modal.show();
+                    });
+                </script>
+            {%- endif -%}
+            {%- endform -%}
+        </div>
+    </div>
+</modal-dialog>

@@ -1,0 +1,216 @@
+{{ 'section-announcement-bar.css' | asset_url | stylesheet_tag }}
+
+<div class="announcement-bar color-{{ section.settings.color_scheme }} gradient">
+  <div class="section__wrapper announcement-bar__wrapper page-width isolate">
+    <div class="social-list">
+      {% if section.settings.show_social -%}
+        {% render 'social-icons', style: section.settings.social_style %}
+      {%- endif %}
+    </div>
+    <slider-component
+      class="announcement-slider slider"
+      data-slide-desktop
+      data-slide-mobile
+      data-slide-smooth
+      data-draggable
+      data-looping-infinite
+      {% if section.settings.auto_rotate %}
+        data-autoplay
+        data-interval="{{ section.settings.change_slides_speed | times: 1000.00 }}"
+      {% endif %}
+      aria-label="{{ 'general.slider.name' | t }}"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <button
+        type="button"
+        class="nav-button nav-button--prev button button--icon button--small button--ethereal"
+        name="previous"
+        aria-label="{{ 'general.slider.previous_slide' | t }}"
+        aria-controls="Slider-{{ section.id }}"
+      >
+        {% render 'icon-sets', icon: 'caret-left' %}
+      </button>
+      <div class="slider-container">
+        <ul id="Slider-{{ section.id }}" class="slider-wrapper">
+          {% assign announcement_blocks = section.blocks | where: 'type', 'announcement' %}
+          {%- for block in announcement_blocks -%}
+            <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="slider-slide" {{ block.shopify_attributes }}>
+              <a
+                class="link link-text"
+                href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}"
+              >
+                {{ block.settings.content }}
+                {%- if block.settings.link != blank -%}
+                  {% render 'icon-sets', icon: 'arrow-right' %}
+                {%- endif -%}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+      <button
+        type="button"
+        class="nav-button nav-button--next button button--icon button--small button--ethereal"
+        name="next"
+        aria-label="{{ 'general.slider.next_slide' | t }}"
+        aria-controls="Slider-{{ section.id }}"
+      >
+        {% render 'icon-sets', icon: 'caret-right' %}
+      </button>
+    </slider-component>
+    <div class="utility-links">
+      {% assign link_blocks = section.blocks | where: 'type', 'link' %}
+      {%- for block in link_blocks -%}
+        {%- if block.settings.text != blank -%}
+          <a
+            class="link link-text"
+            {% if block.settings.link != blank %}
+              href="{{ block.settings.link }}"
+            {% else %}
+              aria-disabled="true"
+              role="link"
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.text | escape }}
+          </a>
+        {%- endif -%}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.announcement-bar.name",
+  "tag": "section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "inverse"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "t:sections.all.slider.auto_rotate.label",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "change_slides_speed",
+      "min": 3,
+      "max": 9,
+      "step": 2,
+      "unit": "s",
+      "label": "t:sections.all.slider.change_slides_speed.label",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.social_media.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "t:sections.all.social-list.show_social.label",
+      "info": "t:sections.all.desktop.effect.info",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "social_style",
+      "label": "t:sections.all.social-list.social_style.label",
+      "options": [
+        {
+          "value": "icon",
+          "label": "t:sections.all.social-list.social_style.options__1.label"
+        },
+        {
+          "value": "border",
+          "label": "t:sections.all.social-list.social_style.options__2.label"
+        },
+        {
+          "value": "wrapper",
+          "label": "t:sections.all.social-list.social_style.options__3.label"
+        }
+      ],
+      "default": "border"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement-bar.blocks.announcement.name",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "content",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.content.label",
+          "default": "Welcome to our store"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.all.url.label"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "t:sections.announcement-bar.blocks.link.name",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.all.desktop.effect.info"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:sections.announcement-bar.blocks.link.settings.text.label",
+          "default": "Quick link"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.all.url.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.announcement-bar.presets.name",
+      "blocks": [
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "link",
+          "settings": {
+            "text": "Faqs"
+          }
+        },
+        {
+          "type": "link",
+          "settings": {
+            "text": "Contact us"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

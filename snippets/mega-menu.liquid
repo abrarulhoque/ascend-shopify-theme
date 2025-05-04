@@ -1,0 +1,244 @@
+{% comment %}
+  Mega菜单内容
+  Accepts:
+    - link: {Object} 链接对象
+    - mega_ids: {String} mega 菜单block id列表
+
+  Usage:
+  {% render 'mega-menu', link, mega_ids %}
+{% endcomment %}
+
+<div id="Menu-{{ link.handle | capitalize }}"
+     class="header-submenu list-menu list-menu--mega color-{{ settings.main_color_scheme }} gradient"
+     aria-label="Submenu for {{ link.title | escape }}"
+     tabindex="-1" {% comment %} tabindex="-1" 是为了打开菜单后，防止菜单容器因为失去焦点而关闭 {% endcomment %}
+>
+    <div class="page-width">
+        <ul class="mega-menu-list">
+            {%- for childlink in link.links -%}
+                <li class="mega-menu-item list-menu-item header-menu-second-level{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                   {% if settings.animations_reveal_on_scroll %}
+                       data-cascade
+                       style="--animation-order: {{ forloop.index0 }}"
+                   {% endif %}
+                >
+                    <h3 class="h5 mb-1">
+                        <a class="link{% if childlink.url != blank and childlink.url != '/' %} link-text{% endif %}"
+                           {% if childlink.url != blank and childlink.url != '/' %}
+                           href="{{ childlink.url }}"
+                           {% else %}
+                           role="link"
+                           aria-disabled="true"
+                           {% endif %}
+                           {% if childlink.current %}aria-current="page"{% endif %}
+                        >
+                            {{- childlink.title | escape -}}
+                        </a>
+                    </h3>
+
+                    {%- if childlink.links != blank -%}
+                        <ul class="list-menu"
+                            aria-label="Submenu for {{ childlink.title | escape }}"
+                        >
+                            {%- for grandchildlink in childlink.links -%}
+                                <li class="list-menu-item header-menu-third-level">
+                                    <a href="{{ grandchildlink.url }}"
+                                       class="link link-text"
+                                       {% if grandchildlink.current %}aria-current="page"{% endif %}
+                                    >
+                                        {{- grandchildlink.title | escape -}}
+                                    </a>
+                                </li>
+                            {%- endfor -%}
+                        </ul>
+                    {%- endif -%}
+                </li>
+            {%- endfor -%}
+
+            {%- for id in mega_ids -%}
+                {% liquid
+                    assign id_int = id | plus: 0
+                    for item in section.blocks
+                        if forloop.index == id_int
+                            assign mega = item
+                            break
+                        endif
+                    endfor
+
+                    if mega == blank
+                        continue
+                    endif
+
+                    assign order = forloop.index0 | plus: link.links.size
+                %}
+                <li class="mega-menu-item list-menu-item header-menu-second-level{% if mega.settings.column != blank %} column-{{ mega.settings.column }}{% endif %}{% if mega.settings.alignment != blank %} text-align--{{ mega.settings.alignment }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if settings.animations_reveal_on_scroll %}
+                        data-cascade
+                        style="--animation-order: {{ order }}"
+                    {% endif %}
+                    {{ mega.shopify_attributes }}
+                >
+                    {%- if mega.type == "mega_image" -%}
+                        {%- render 'mega-menu-image-item',
+                                image: mega.settings.image,
+                                column: mega.settings.column,
+                                heading: mega.settings.heading,
+                                heading_size: mega.settings.heading_size,
+                                heading_position: mega.settings.heading_position,
+                                heading_effect: mega.settings.heading_effect,
+                                url: mega.settings.url
+                        -%}
+                    {%- elsif mega.type == "mega_image_title_below" -%}
+                        {%- render 'mega-menu-image-item',
+                                type: "below",
+                                image: mega.settings.image,
+                                column: mega.settings.column,
+                                heading: mega.settings.heading,
+                                heading_size: mega.settings.heading_size,
+                                heading_alignment: mega.settings.heading_alignment,
+                                url: mega.settings.url
+                        -%}
+                    {%- elsif mega.type == "mega_links" -%}
+                        {% assign menu_heading = mega.settings.heading | escape | default: mega.settings.menu.title %}
+                        {%- if mega.settings.image != blank -%}
+                            <div class="media media--{{ mega.settings.image_ratio }} hover-trigger md-round mb-1">
+                                {% capture sizes %}(min-width: {{ settings.page_width }}px) {{ settings.page_width | divided_by: 4 }}, (min-width: 750px) 25vw, 100vw{% endcapture %}
+                                {% render 'lazy-image',
+                                        image_object: mega.settings.image,
+                                        class: 'animate-scale-up',
+                                        sizes: sizes,
+                                        widths: '165, 360, 450, 660, 900, 1320, 1500'
+                                %}
+                                {% if mega.settings.link != blank %}<a href="{{ mega.settings.link }}" aria-hidden="true"> </a>{% endif %}
+                            </div>
+                        {%- endif -%}
+                        <h3 class="h5 mb-1">
+                            <a class="link{% if mega.settings.link != blank %} link-text{% endif %}"
+                               {% if mega.settings.link != blank %}
+                               href="{{ mega.settings.link }}"
+                               {% else %}
+                               role="link"
+                               aria-disabled="true"
+                               {% endif %}
+                            >
+                                {{ menu_heading }}
+                            </a>
+                        </h3>
+                        {%- unless mega.settings.menu == blank -%}
+                            <ul class="list-menu"
+                                aria-label="Menu for {{ menu_heading }}"
+                            >
+                                {%- for child_link in mega.settings.menu.links -%}
+                                    <li class="list-menu-item header-menu-third-level">
+                                        <a class="link link-text"
+                                           {% if child_link.url != blank %}
+                                               href="{{ child_link.url }}"
+                                           {% else %}
+                                               aria-disabled="true"
+                                           {% endif %}
+                                           {% if child_link.current %}aria-current="page"{% endif %}
+                                        >
+                                            {{- child_link.title | escape -}}
+                                        </a>
+                                    </li>
+                                {%- endfor -%}
+                            </ul>
+                        {%- endunless -%}
+                    {%- elsif mega.type == "mega_product_list" -%}
+                        {% liquid
+                            assign products = mega.settings.product_list
+                            if mega.settings.collection != blank
+                                assign products = mega.settings.collection.products
+                            endif
+                        %}
+                        {%- if mega.settings.heading != blank -%}
+                            <h3 class="mb-2">{{ mega.settings.heading | escape }}</h3>
+                        {%- endif -%}
+                        <slider-component class="slider"
+                                          {% if mega.settings.enable_slide -%}
+                                            data-slide-desktop
+                                            data-slide-smooth
+                                            data-draggable
+                                          {%- endif -%}
+                        >
+                            {% assign slider_id = 'Slider-' | append: section.id | append: '-' | append: mega.id %}
+                            <div class="slider-container" role="group" aria-label="{{ 'accessibility.featured_product_list' | t }}">
+                                <ul id="{{ slider_id }}"
+                                    class="slider-wrapper auto-grid"
+                                    style="--item-min-size: 15rem; --item-perfect-size: 15rem;"
+                                >
+                                    {%- for product in products limit: mega.settings.show_number -%}
+                                        <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="slider-slide grid-item" tabindex="0">
+                                            {%- render 'card-product',
+                                                    card_product: product,
+                                                    perfect_width: "20rem",
+                                                    show_badge: true
+                                            -%}
+                                        </li>
+                                    {%- else -%}
+                                        {%- for i in (1..mega.settings.show_number) -%}
+                                            {% assign index = forloop.index0 | modulo: 6 | plus: 1 %}
+                                            {%- assign placeholder_image = 'product-' | append: index -%}
+                                            <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="slider-slide grid-item" tabindex="0">
+                                                {%- render 'card-product', placeholder_image: placeholder_image -%}
+                                            </li>
+                                        {%- endfor -%}
+                                    {%- endfor -%}
+                                </ul>
+                            </div>
+                            {%- if mega.settings.enable_slide and mega.settings.show_dots -%}
+                                {% render 'slider-controller', slider_id: slider_id, show_dots: true %}
+                            {%- endif -%}
+                        </slider-component>
+                    {%- elsif mega.type == "mega_article_list" -%}
+                        {%- if mega.settings.heading != blank -%}
+                            <h3 class="mb-2">{{ mega.settings.heading | escape }}</h3>
+                        {%- endif -%}
+
+                        <slider-component class="slider"
+                                        {% if mega.settings.enable_slide -%}
+                                            data-slide-desktop
+                                            data-slide-smooth
+                                            data-draggable
+                                        {%- endif -%}
+                        >
+                            {% assign slider_id = 'Slider-' | append: section.id | append: '-' | append: mega.id %}
+                            <div class="slider-container" role="group" aria-label="{{ 'accessibility.featured_article_list' | t }}">
+                                <ul id="{{ slider_id }}"
+                                    class="slider-wrapper auto-grid"
+                                    style="--item-min-size: 15rem; --item-perfect-size: 15rem;"
+                                >
+                                    {%- for article in mega.settings.blog.articles limit: mega.settings.show_number -%}
+                                        <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="slider-slide grid-item" tabindex="0">
+                                            {%- render 'card-article',
+                                                    card_article: article,
+                                                    perfect_width: "20rem",
+                                                    show_date: true,
+                                                    show_author: true
+                                            -%}
+                                        </li>
+                                    {%- else -%}
+                                        {%- for i in (1..mega.settings.show_number) -%}
+                                            {% assign index = forloop.index0 | modulo: 6 | plus: 1 %}
+                                            {%- assign placeholder_image = 'product-' | append: index -%}
+                                            <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="slider-slide grid-item" tabindex="0">
+                                                {%- render 'card-article',
+                                                        show_date: true,
+                                                        show_author: true,
+                                                        placeholder_image: placeholder_image
+                                                -%}
+                                            </li>
+                                        {%- endfor -%}
+                                    {%- endfor -%}
+                                </ul>
+                            </div>
+                            {%- if mega.settings.enable_slide and mega.settings.show_dots -%}
+                                {% render 'slider-controller', slider_id: slider_id, show_dots: true %}
+                            {%- endif -%}
+                        </slider-component>
+                    {%- endif -%}
+                </li>
+            {%- endfor -%}
+        </ul>
+    </div>
+</div>

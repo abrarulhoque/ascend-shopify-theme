@@ -1,0 +1,289 @@
+{{ 'section-team.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-team isolate section-{{ section.id }}-margin">
+  <div class="section__wrapper section-team__wrapper page-width">
+    {%- if section.settings.show_section_header -%}
+      {% render 'section-header',
+        heading: section.settings.heading,
+        description: section.settings.description,
+        water_text: section.settings.water_text,
+        show_bottom_line: settings.section_show_title_bottom_line
+      %}
+    {%- endif -%}
+    <scrollable-content-viewer class="scrollable-content" data-draggable>
+      <ul class="member-list scrollable-content-wrapper{% unless section.settings.enable_desktop_slider %} grid-desktop--important columns-desktop--{{ section.settings.columns_on_desktop }} gap-desktop-8--important{% endunless %}{% unless section.settings.enable_mobile_slider %} grid-mobile--important columns-mobile--{{ section.settings.columns_on_mobile }} gap-mobile-8--important{% endunless %} list-unstyled">
+        {%- for block in section.blocks -%}
+          <li
+            class="member-item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index0 }};"
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <div class="media media--square media--circle hover-trigger">
+              {% render 'lazy-image',
+                image_object: block.settings.member_image,
+                class: 'animate-scale-up',
+                sizes: '400px',
+                widths: '165, 360, 450',
+                placeholder: 'image'
+              %}
+            </div>
+            <h3 class="h5 mb-0 mt-2">{{ block.settings.member_name | escape }}</h3>
+            <div class="light">
+              <small>{{ block.settings.member_role | escape }}</small>
+            </div>
+            {%- unless block.settings.member_facebook == blank
+              and block.settings.member_instagram == blank
+              and block.settings.member_linkedin == blank
+            -%}
+              <ul class="list-social social-style--wrapper mt-2">
+                {%- if block.settings.member_facebook != blank -%}
+                  <li class="social-item">
+                    <a href="{{ block.settings.member_facebook }}" class="link focus-inset">
+                      {%- render 'icon-sets', icon: 'meta' -%}
+                      <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+                    </a>
+                  </li>
+                {% endif %}
+                {%- if block.settings.member_instagram != blank -%}
+                  <li class="social-item">
+                    <a href="{{ block.settings.member_instagram }}" class="link focus-inset">
+                      {%- render 'icon-sets', icon: 'instagram' -%}
+                      <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
+                    </a>
+                  </li>
+                {%- endif -%}
+                {%- if block.settings.member_linkedin != blank -%}
+                  <li class="social-item">
+                    <a href="{{ block.settings.member_linkedin }}" class="link focus-inset">
+                      {%- render 'icon-sets', icon: 'linkedin' -%}
+                      <span class="visually-hidden">{{ 'general.social.links.linkedin' | t }}</span>
+                    </a>
+                  </li>
+                {%- endif -%}
+              </ul>
+            {%- endunless -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- if section.settings.show_nav_buttons -%}
+        <div class="scrollable-buttons">
+          <button
+            type="button"
+            class="nav-button nav-button--prev button button--icon button--ethereal focus-inset"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+            aria-controls="Scrollable-Content-{{ section.id }}"
+          >
+            {% render 'icon-sets', icon: 'caret-left' %}
+          </button>
+          <button
+            type="button"
+            class="nav-button nav-button--next button button--icon button--ethereal focus-inset"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+            aria-controls="Scrollable-Content-{{ section.id }}"
+          >
+            {% render 'icon-sets', icon: 'caret-right' %}
+          </button>
+        </div>
+      {%- endif -%}
+    </scrollable-content-viewer>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.team.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.custom-section-header.settings.header_header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_header",
+      "label": "t:sections.custom-section-header.settings.show_section_header.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.text-content.heading.label",
+      "default": "Our team"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.text-content.description.label"
+    },
+    {
+      "type": "text",
+      "id": "water_text",
+      "label": "t:sections.custom-section-header.settings.water_text.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.content.header_content"
+    },
+    {
+      "type": "range",
+      "id": "columns_on_desktop",
+      "label": "t:sections.all.columns.label",
+      "info": "t:sections.all.desktop.effect.info",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_desktop_slider",
+      "label": "t:sections.all.slider.enable_desktop_slider.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav_buttons",
+      "label": "t:sections.all.slider.show_nav_buttons.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.mobile.header_content"
+    },
+    {
+      "type": "select",
+      "id": "columns_on_mobile",
+      "label": "t:sections.all.columns.label",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mobile_slider",
+      "label": "t:sections.all.slider.enable_mobile_slider.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "member",
+      "name": "t:sections.team.blocks.member.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "member_image",
+          "label": "t:sections.team.blocks.member.settings.member_image.label",
+          "info": "t:sections.team.blocks.member.settings.member_image.info"
+        },
+        {
+          "type": "text",
+          "id": "member_name",
+          "label": "t:sections.team.blocks.member.settings.member_name.label",
+          "default": "Member name"
+        },
+        {
+          "type": "text",
+          "id": "member_role",
+          "label": "t:sections.team.blocks.member.settings.member_role.label",
+          "default": "Member role"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.team.blocks.member.settings.header_social.content"
+        },
+        {
+          "type": "text",
+          "id": "member_facebook",
+          "label": "t:sections.team.blocks.member.settings.member_facebook.label"
+        },
+        {
+          "type": "text",
+          "id": "member_instagram",
+          "label": "t:sections.team.blocks.member.settings.member_instagram.label"
+        },
+        {
+          "type": "text",
+          "id": "member_linkedin",
+          "label": "t:sections.team.blocks.member.settings.member_linkedin.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.team.presets.name",
+      "blocks": [
+        {
+          "type": "member"
+        },
+        {
+          "type": "member"
+        },
+        {
+          "type": "member"
+        },
+        {
+          "type": "member"
+        },
+        {
+          "type": "member"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

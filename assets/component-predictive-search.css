@@ -1,0 +1,129 @@
+.predictive-search-wrapper .search-container {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+  overflow: hidden;
+}
+.predictive-search-wrapper .search-container .predictive-search-main {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  overflow-y: hidden;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper {
+  overflow-y: hidden;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .tab-panel {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+  overflow-y: hidden;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .tab-panel .tab-panel-tabs {
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-body-weight-bold);
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .tab-panel .tab-panel-tabs .tab {
+  flex: 0 0 auto;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  --alpha-background: 0.05;
+  background: rgba(var(--color-foreground), var(--alpha-background));
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  --color-badge-background: var(--color-foreground);
+  --color-badge-foreground: var(--color-background);
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .tab-panel .tab-panel-tabs .tab span {
+  background: rgb(var(--color-badge-background));
+  color: rgb(var(--color-badge-foreground));
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  line-height: normal;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .tab-panel .tab-panel-tabs .tab:hover span {
+  animation: scaleUp 100ms cubic-bezier(0, 0, 0.3, 1);
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .tab-panel .tab-panel-tabs .tab[aria-selected=true] {
+  --color-outline: var(--color-background);
+  --alpha-background: 1;
+  --color-badge-background: var(--color-background);
+  --color-badge-foreground: var(--color-foreground);
+  color: rgb(var(--color-background));
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .tab-panel .tab-panel-panels {
+  overflow-y: auto;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .tab-panel .tab-panel-panels .panel > * {
+  margin-bottom: 0.5rem;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .suggestion-searches {
+  padding: 1rem;
+  background: rgba(var(--color-success), 0.1);
+  border-radius: var(--small-radius);
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .suggestion-searches .suggestion-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  row-gap: 0.25rem;
+  font-size: 0.875rem;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .suggestion-searches .suggestion-list a mark {
+  font-weight: bolder;
+  background-color: transparent;
+  color: inherit;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .suggestion-searches .suggestion-list a span {
+  opacity: 0.75;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .card-wrapper .card-heading {
+  font-size: 0.875rem;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .predictive-search-results .card-wrapper .rating-star {
+  --star-size: 0.75rem;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .search-loading-placeholder .tab-panel-tabs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .search-loading-placeholder .tab-panel-tabs .tab {
+  height: 2.5rem;
+  width: 8rem;
+  flex: 0 0 auto;
+  border-radius: 9999px;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .search-loading-placeholder .tab-panel-panels {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .search-results-wrapper .search-loading-placeholder .tab-panel-panels .panel .placeholder {
+  height: 8rem;
+  margin-bottom: 0.5rem;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .predictive-search-button {
+  margin-top: 1rem;
+}
+.predictive-search-wrapper .search-container .predictive-search-main .predictive-search-button .icon {
+  width: 1.5rem;
+}
+.predictive-search-wrapper[results=true] .search-container, .predictive-search-wrapper[loading] .search-container {
+  grid-template-rows: 1fr;
+}
+.predictive-search-wrapper[results=true] .search-container .search-trending-main, .predictive-search-wrapper[loading] .search-container .search-trending-main {
+  display: none !important;
+}

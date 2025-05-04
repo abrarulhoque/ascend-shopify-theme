@@ -1,0 +1,32 @@
+{% comment %}
+    渲染卡片占位样式
+    Accepts
+        - media_aspect_ratio: {Enum} 图片长宽比例，Portrait|Landscape|Square, default: Square
+        - show_horizontal: {Boolean} 横置布局
+
+    Usages
+         {% render 'card-placeholder', show_horizontal: true %}
+{% endcomment %}
+{% liquid
+    assign ratio = 1
+    if media_aspect_ratio == 'portrait'
+        assign ratio = 0.8
+    elsif media_aspect_ratio == 'landscape'
+        assign ratio = 1.6
+    endif
+%}
+
+<div class="card-wrapper placeholder-card-wrapper">
+    <div class="card{% if show_horizontal %} card-layout--horizontal{% endif %}">
+        <div class="card-inner ratio placeholder" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+            <div class="card-media-wrapper">
+                <div class="card-media media"></div>
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="card-subheading placeholder"></div>
+            <div class="card-heading placeholder"></div>
+            <div class="card-information placeholder"></div>
+        </div>
+    </div>
+</div>

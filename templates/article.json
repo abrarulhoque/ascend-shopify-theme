@@ -1,0 +1,52 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "924784f1-1b2f-4091-b573-4de1dacd131c": {
+          "type": "related_articles",
+          "settings": {
+            "limit": 5,
+            "show_date": true,
+            "show_author": true,
+            "mobile_hide": true
+          }
+        },
+        "e973880e-9972-457e-a7db-d19067bf8748": {
+          "type": "related_products",
+          "settings": {
+            "enable_auto_related": true,
+            "limit": 5,
+            "products": [],
+            "mobile_hide": true
+          }
+        },
+        "advertisement_m78B8N": {
+          "type": "advertisement",
+          "settings": {
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "924784f1-1b2f-4091-b573-4de1dacd131c",
+        "e973880e-9972-457e-a7db-d19067bf8748",
+        "advertisement_m78B8N"
+      ],
+      "settings": {
+        "color_scheme": "background-2",
+        "heading_size": "medium",
+        "heading_decorative": false,
+        "show_tags": true,
+        "show_date": true,
+        "show_author": true,
+        "enable_share": true,
+        "comments_per_page": 10,
+        "aside_position": "right"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

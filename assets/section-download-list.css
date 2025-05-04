@@ -1,0 +1,27 @@
+.download-list__wrapper .main-table {
+  width: 100%;
+}
+.download-list__wrapper .main-table thead {
+  border-bottom: 1px solid rgba(var(--color-foreground), 1);
+}
+.download-list__wrapper .main-table thead th {
+  padding: 0.5rem 0;
+}
+.download-list__wrapper .main-table tbody tr {
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+}
+.download-list__wrapper .main-table tbody tr td {
+  padding: 0.5rem 1rem;
+}
+.download-list__wrapper .main-table tbody tr:hover {
+  background: rgba(var(--color-foreground), 0.05);
+}
+.download-list__wrapper .main-table tbody .file-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.download-list__wrapper .main-table tbody .file-details .media {
+  flex: 0 0 auto;
+  width: 3rem;
+}

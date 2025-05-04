@@ -1,0 +1,35 @@
+{% comment %}
+    产品相关的分类列表
+    Accepts:
+        - product: {Product}
+        - max_to_show: {Number}
+
+    Render:
+        {{ render 'product-related-categories', product: product, max_to_show: 10 }}
+{% endcomment %}
+{%- unless product == blank -%}
+    {% assign max_to_show = max_to_show | default: 5 %}
+    <scrollable-content-viewer class="scrollable-content" data-draggable>
+        <ul class="scrollable-content-wrapper list-unstyled">
+            {%- for collection in product.collections limit: max_to_show -%}
+                <li class="hover-trigger">
+                    <a href="{{ collection.url }}" class="link">
+                        <div class="media media--square media--circle animate-scale-up">
+                            {% liquid
+                                assign index = forloop.index0 | modulo: 6 | plus: 1
+                                assign placeholder_image = 'product-' | append: index
+                            %}
+                            {% render 'lazy-image',
+                                    image_object: collection.products.first.featured_image,
+                                    sizes: '200px',
+                                    widths: '165, 360, 450, 660, 900',
+                                    placeholder: placeholder_image
+                            %}
+                        </div>
+                        <b aria-label="{{ collection.title }}"><small>{{ collection.title | truncate: 20 }}</small></b>
+                    </a>
+                </li>
+            {%- endfor -%}
+        </ul>
+    </scrollable-content-viewer>
+{%- endunless -%}

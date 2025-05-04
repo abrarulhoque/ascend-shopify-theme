@@ -1,0 +1,58 @@
+.countdown .countdown-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.countdown .countdown-inner .countdown-item {
+  min-width: 4.5rem;
+  text-align: center;
+  padding: 0.5rem;
+  background: var(--color-timer-background);
+  color: var(--color-timer-foreground);
+  position: relative;
+  border-radius: var(--small-radius);
+}
+.countdown .countdown-inner .countdown-item h3 {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+.countdown .countdown-inner .countdown-item div {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+.countdown .countdown-inner .countdown-item:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: inset 0 0 0 1px rgba(var(--color-background), 0.05);
+  border-radius: var(--small-radius);
+  pointer-events: none;
+  z-index: 1;
+}
+.countdown .countdown-inner > span {
+  font-size: 2rem;
+  animation: blink 1s infinite;
+}
+.countdown .countdown-message {
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  font-weight: var(--font-body-weight-bold);
+}
+.countdown.style--simple .countdown-inner {
+  gap: 0.5rem;
+}
+.countdown.style--simple .countdown-inner .countdown-item {
+  min-width: 2.5rem;
+  position: relative;
+}
+.countdown.style--simple .countdown-inner .countdown-item h3 {
+  font-size: 0.875rem;
+  margin-bottom: 0;
+}
+.countdown.style--simple .countdown-inner > span {
+  font-size: 1rem;
+}

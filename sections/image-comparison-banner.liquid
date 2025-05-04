@@ -1,0 +1,232 @@
+{{ 'section-image-comparison-banner.css' | asset_url | stylesheet_tag }}
+{% style %}
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="image-comparison-banner section-{{ section.id }}-margin">
+  <div class="section__wrapper image-comparison-banner__wrapper{% unless section.settings.enable_full_width %} page-width{% endunless %}">
+    <image-comparison
+      class="image-comparison-banner-inner image-height--{{ section.settings.image_height }}{% unless section.settings.enable_full_width %} lg-round{% endunless %}"
+      {% if section.settings.comparison_direction == 'vertical' %}
+        data-vertical
+      {% endif %}
+      style="--change-ratio: 20%;"
+    >
+      <div class="after-item">
+        <h3 class="after-heading mb-0" style="color: {{ section.settings.after_heading_color }}">
+          {{ section.settings.after_heading | escape }}
+        </h3>
+        <div class="media">
+          {% render 'lazy-image',
+            has_mobile: section.settings.after_image_mobile,
+            image_object: section.settings.after_image,
+            preload: section.settings.if_as_main_area,
+            placeholder: 'lifestyle-1'
+          %}
+
+          {% render 'lazy-image',
+            is_mobile: true,
+            image_object: section.settings.after_image_mobile,
+            widths: '450, 660, 900',
+            preload: section.settings.if_as_main_area
+          %}
+        </div>
+      </div>
+      <div class="before-item">
+        <h3 class="before-heading mb-0" style="color: {{ section.settings.before_heading_color }}">
+          {{ section.settings.before_heading | escape }}
+        </h3>
+        <div class="media">
+          {% render 'lazy-image',
+            has_mobile: section.settings.before_image_mobile,
+            image_object: section.settings.before_image,
+            preload: section.settings.if_as_main_area,
+            placeholder: 'lifestyle-1'
+          %}
+
+          {% render 'lazy-image',
+            is_mobile: true,
+            image_object: section.settings.before_image_mobile,
+            widths: '450, 660, 900',
+            preload: section.settings.if_as_main_area
+          %}
+        </div>
+      </div>
+      <button
+        class="button button--icon button--pill button--small button--ambient"
+        aria-label="{{ 'accessibility.drag_button' | t }}"
+      >
+        {%- if section.settings.comparison_direction == 'vertical' -%}
+          {% render 'icon-sets', icon: 'hamburger' %}
+        {%- else -%}
+          {% render 'icon-sets', icon: 'hamburger-vertical' %}
+        {%- endif -%}
+      </button>
+    </image-comparison>
+  </div>
+</div>
+
+<script src="{{ 'image-comparison.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.image-comparison-banner.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_full_width",
+      "label": "t:sections.all.layout.enable_full_width.label",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.all.banner.height.options__1.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.all.banner.height.options__2.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.all.banner.height.options__3.label"
+        }
+      ],
+      "default": "medium",
+      "label": "t:sections.all.banner.height.label"
+    },
+    {
+      "type": "select",
+      "id": "comparison_direction",
+      "label": "t:sections.image-comparison-banner.settings.comparison_direction.label",
+      "options": [
+        {
+          "label": "t:sections.image-comparison-banner.settings.comparison_direction.options__1.label",
+          "value": "horizontal"
+        },
+        {
+          "label": "t:sections.image-comparison-banner.settings.comparison_direction.options__2.label",
+          "value": "vertical"
+        }
+      ],
+      "default": "horizontal"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.image-comparison-banner.settings.header_before.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "t:sections.image-comparison-banner.settings.before_image.label",
+      "info": "t:sections.all.banner.height.options__2.info"
+    },
+    {
+      "type": "text",
+      "id": "before_heading",
+      "label": "t:sections.image-comparison-banner.settings.before_heading.label",
+      "default": "Before heading"
+    },
+    {
+      "type": "color",
+      "id": "before_heading_color",
+      "label": "t:sections.image-comparison-banner.settings.before_heading_color.label",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.image-comparison-banner.settings.header_after.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "t:sections.image-comparison-banner.settings.after_image.label",
+      "info": "t:sections.all.banner.height.options__2.info"
+    },
+    {
+      "type": "text",
+      "id": "after_heading",
+      "label": "t:sections.image-comparison-banner.settings.after_heading.label",
+      "default": "After heading"
+    },
+    {
+      "type": "color",
+      "id": "after_heading_color",
+      "label": "t:sections.image-comparison-banner.settings.after_heading_color.label",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.mobile.header_content"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image_mobile",
+      "label": "t:sections.image-comparison-banner.settings.before_image.label",
+      "info": "t:sections.all.banner.height_mobile.info"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image_mobile",
+      "label": "t:sections.image-comparison-banner.settings.after_image.label",
+      "info": "t:sections.all.banner.height_mobile.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.seo.header_content"
+    },
+    {
+      "type": "checkbox",
+      "id": "if_as_main_area",
+      "label": "t:sections.all.seo.if_as_main_area.label",
+      "default": false,
+      "info": "t:sections.all.seo.if_as_main_area.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.image-comparison-banner.presets.name"
+    }
+  ]
+}
+{% endschema %}

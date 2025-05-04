@@ -1,0 +1,136 @@
+{%- if request.design_mode or settings.cart_type == 'drawer' -%}
+  <link rel="stylesheet" href="{{ 'component-cart-details.css' | asset_url }}" media="print" onload="this.media='all';">
+
+  {% comment %} 如果是main-cart页面，让抽屉购物车静默状态 (不弹出，不更新) {% endcomment %}
+  <cart-drawer
+    id="Cart-Drawer"
+    class="drawer cart-drawer modal"
+    data-section="{{ section.id }}"
+    {% if request.page_type == 'cart' or settings.cart_type == 'page' %}
+      data-status-silence
+    {% endif %}
+  >
+    <div class="modal-overlay"> </div>
+    <div
+      class="modal-inner color-{{ section.settings.color_scheme }} gradient focus-none"
+      role="dialog"
+      data-trap
+      aria-label="{{ 'templates.cart.drawer' | t }}"
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <div class="drawer-header">
+        <button
+          class="drawer-close button button--icon button--ethereal"
+          onclick="this.closest('.modal').hide()"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          {% render 'icon-sets', icon: 'close' %}
+        </button>
+        <a class="link link-text show-underline" href="{{ routes.cart_url }}">{{ 'sections.cart.view' | t }}</a>
+      </div>
+      <div id="Cart-Drawer-Details" class="drawer-content">
+        {%- render 'cart-details',
+          in_drawer: true,
+          show_recommended_products: section.settings.show_recommended_products,
+          recommended_type: section.settings.recommended_type,
+          recommended_product_limit: section.settings.recommended_product_limit,
+          recommended_products: section.settings.product_list,
+          show_complementary_products: section.settings.show_complementary_products,
+          complementary_product_limit: section.settings.complementary_product_limit
+        -%}
+      </div>
+    </div>
+  </cart-drawer>
+  <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% schema %}
+{
+  "name": "t:sections.cart-drawer.name",
+  "tag": "div",
+  "class": "section-drawer",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.cart-drawer.settings.paragraph.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.cart-drawer.settings.header_empty.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_recommended_products",
+      "label": "t:sections.all.recommendation_products.show.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "recommended_type",
+      "label": "t:sections.all.recommendation_products.type.label",
+      "info": "t:sections.all.recommendation_products.type.info",
+      "options": [
+        {
+          "value": "auto",
+          "label": "t:sections.all.recommendation_products.type.options__1.label"
+        },
+        {
+          "value": "manual",
+          "label": "t:sections.all.recommendation_products.type.options__2.label"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:sections.all.recommendation_products.paragraph_auto.content"
+    },
+    {
+      "type": "range",
+      "id": "recommended_product_limit",
+      "label": "t:sections.all.recommendation_products.auto_limit.label",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "paragraph",
+      "content": "t:sections.all.recommendation_products.paragraph_manual.content"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "t:sections.all.product-list.label",
+      "limit": 5
+    },
+    {
+      "type": "header",
+      "content": "t:sections.cart-drawer.settings.header_not_empty.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_complementary_products",
+      "label": "t:sections.cart-drawer.settings.show_complementary_products.label",
+      "info": "t:sections.cart-drawer.settings.show_complementary_products.info",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "complementary_product_limit",
+      "label": "t:sections.all.recommendation_products.auto_limit.label",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 5
+    }
+  ]
+}
+{% endschema %}

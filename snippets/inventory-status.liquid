@@ -1,0 +1,58 @@
+{% comment %}
+    库存状态
+    
+    Accepts:
+        - variant: {ProductVariant}
+        - threshold: {Number} 状态阈值
+        - low_alert_message: {String} 低库存提示
+        - full_alert_message: {String} 库存充足提示
+        - low_bar_color: {Color}
+        - full_bar_color: {Color}
+        - show_bar: {Boolean} 显示状态条
+    Usages:
+        {% render 'inventory-status', product: product, show_bar:true  %}    
+{% endcomment %}
+
+<p class="inventory-text" role="status">
+    {%- if variant.inventory_quantity > 0 -%}
+        {% comment %} 低库存 {% endcomment %}
+        {%- if variant.inventory_quantity < threshold -%}
+            {{ low_alert_message | escape | replace: '[stock]', variant.inventory_quantity }}
+        {%- else -%}
+            {% comment %} 正常库存 {% endcomment %}
+            {{ full_alert_message | escape | replace: '[stock]', variant.inventory_quantity }}
+        {%- endif -%}
+    {%- else -%}
+        {%- if variant.inventory_policy == 'continue' -%}
+            {{ full_alert_message | escape | replace: '[stock]', variant.inventory_quantity }}
+        {%- else -%}
+            {{- 'products.product.inventory_out_of_stock' | t -}}
+        {%- endif -%}
+    {%- endif -%}
+</p>
+
+{%- if show_bar -%}
+    {% liquid
+        if variant.inventory_quantity > 0
+            if variant.inventory_quantity >= threshold
+                assign percentage = 100
+            else
+                assign percentage = variant.inventory_quantity | times: 100 | divided_by: threshold
+            endif
+        else
+            if variant.inventory_policy == 'continue'
+                assign percentage = 100
+            else
+                assign percentage = 0
+            endif
+        endif
+
+
+        if percentage < 100
+            assign bar_color = low_bar_color
+        else
+            assign bar_color = full_bar_color
+        endif
+    %}
+    <div class="inventory-bar" style="--inventory-percentage: {{ percentage }}%; --color-bar: {{ bar_color.red }}, {{ bar_color.green }}, {{ bar_color.blue }};"></div>
+{%- endif -%}

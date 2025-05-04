@@ -1,0 +1,86 @@
+{{ 'section-confetti-trigger.css' | asset_url | stylesheet_tag }}
+
+<div class="section-confetti-trigger{% if request.design_mode %} design-mode{% endif %}">
+  <custom-confetti
+    class="no-js-hidden"
+    aria-hidden="true"
+    data-trigger-position="{{ section.settings.trigger_position }}"
+    data-effect="{{ section.settings.effect }}"
+    {% if section.settings.trigger_once %}
+      data-trigger-once
+    {% endif %}
+  >
+    {% if request.design_mode -%}
+      {{ 'sections.confetti_trigger.remove_on_live' | t }}
+    {%- endif %}
+  </custom-confetti>
+</div>
+
+<script src="{{ 'custom-confetti.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.confetti-trigger.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "trigger_position",
+      "label": "t:sections.confetti-trigger.settings.trigger_position.label",
+      "options": [
+        {
+          "label": "t:sections.confetti-trigger.settings.trigger_position.options__1.label",
+          "value": "top"
+        },
+        {
+          "label": "t:sections.confetti-trigger.settings.trigger_position.options__2.label",
+          "value": "center"
+        },
+        {
+          "label": "t:sections.confetti-trigger.settings.trigger_position.options__3.label",
+          "value": "bottom"
+        }
+      ],
+      "default": "center",
+      "info": "t:sections.confetti-trigger.settings.trigger_position.info"
+    },
+    {
+      "type": "select",
+      "id": "effect",
+      "label": "t:sections.confetti-trigger.settings.effect.label",
+      "options": [
+        {
+          "label": "t:sections.confetti-trigger.settings.effect.options__1.label",
+          "value": "cannon"
+        },
+        {
+          "label": "t:sections.confetti-trigger.settings.effect.options__2.label",
+          "value": "firework"
+        },
+        {
+          "label": "t:sections.confetti-trigger.settings.effect.options__3.label",
+          "value": "school-pride"
+        },
+        {
+          "label": "t:sections.confetti-trigger.settings.effect.options__4.label",
+          "value": "falling-ribbons"
+        }
+      ],
+      "default": "cannon"
+    },
+    {
+      "type": "checkbox",
+      "id": "trigger_once",
+      "label": "t:sections.confetti-trigger.settings.trigger_once.label",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.confetti-trigger.presets.name"
+    }
+  ]
+}
+{% endschema %}

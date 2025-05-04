@@ -1,0 +1,342 @@
+{{ 'section-testimonial.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+      margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-margin {
+          margin-top: {{ section.settings.margin_top }}px;
+          margin-bottom: {{ section.settings.margin_bottom }}px;
+      }
+  }
+{%- endstyle -%}
+
+<div class="section-testimonial section-{{ section.id }}-margin">
+  <div class="section__wrapper testimonial__wrapper page-width isolate">
+    {%- if section.settings.show_section_header -%}
+      {% render 'section-header',
+        heading: section.settings.heading,
+        description: section.settings.description,
+        water_text: section.settings.water_text,
+        show_bottom_line: settings.section_show_title_bottom_line
+      %}
+    {%- endif -%}
+    <div class="testimonial-main{% if section.settings.image == blank %} testimonial-only{% endif %}">
+      {%- if section.settings.image != blank -%}
+        <div class="testimonial-media media hover-trigger{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--left-in{% endif %}">
+          {% capture sizes %}(min-width: {{ settings.page_width }}px) {{ settings.page_width | divided_by: 2 }}px, (min-width: 750px) calc(100vw / 2), 100vw{% endcapture %}
+          {% render 'lazy-image',
+            image_object: section.settings.image,
+            class: 'animate-scale-up',
+            sizes: sizes,
+            widths: '165, 360, 450, 660, 900, 1320'
+          %}
+        </div>
+      {%- endif -%}
+      <masonry-layout
+        class="testimonial-masonry{% if section.settings.enlarge_first_letter %} first-letter-enlarge{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+        data-column="2"
+        data-column-mobile="{{ section.settings.columns_mobile }}"
+        data-speed="{{ section.settings.speed }}"
+      >
+        <ul class="testimonial-list list-unstyled">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'review' -%}
+              <li class="testimonial-item review-item" {{ block.shopify_attributes }}>
+                <div class="review-rating">
+                  {% render 'rating',
+                    rating_value: block.settings.rating,
+                    scale_max: 5,
+                    color: section.settings.star_color,
+                    show_score: false
+                  %}
+                </div>
+                <div class="review-content rte">
+                  {{ block.settings.content | truncatewords: 50 }}
+                  {% render 'lazy-image', image_object: block.settings.image, sizes: '300px', widths: '165, 360, 450' %}
+                </div>
+                {%- unless block.settings.author_avatar == blank and block.settings.author_name == blank -%}
+                  <div class="review-author">
+                    {%- if block.settings.author_avatar != blank -%}
+                      <div class="author-avatar media media--square media--circle">
+                        {{
+                          block.settings.author_avatar
+                          | image_url: width: 150
+                          | image_tag: loading: 'lazy', class: 'animate-scale-up'
+                        }}
+                      </div>
+                    {%- endif -%}
+                    {%- if block.settings.author_name != blank -%}
+                      <b class="light"
+                        ><small>{{ block.settings.author_name | escape }}</small></b
+                      >
+                    {%- endif -%}
+                    {%- if block.settings.show_verified -%}
+                      {% render 'icon-sets', icon: 'verified' %}
+                    {%- endif -%}
+                  </div>
+                {%- endunless -%}
+              </li>
+            {%- else -%}
+              <li
+                class="testimonial-item image-item media media--{{ block.settings.image_ratio }} hover-trigger"
+                {% if block.settings.image_ratio == 'adapt' %}
+                  {% liquid
+                    if block.settings.image != blank
+                      assign ratio = block.settings.image.aspect_ratio
+                    else
+                      assign ratio = 1.6
+                    endif
+                  %}
+                  style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
+                {% endif %}
+                {{ block.shopify_attributes }}
+              >
+                {% render 'lazy-image',
+                  image_object: block.settings.image,
+                  class: 'animate-scale-up',
+                  sizes: '300px',
+                  widths: '165, 360, 450',
+                  placeholder: 'image'
+                %}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </masonry-layout>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'masonry.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.testimonial.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.custom-section-header.settings.header_header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_header",
+      "label": "t:sections.custom-section-header.settings.show_section_header.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.text-content.heading.label",
+      "default": "Customer Testimonials"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.text-content.description.label"
+    },
+    {
+      "type": "text",
+      "id": "water_text",
+      "label": "t:sections.custom-section-header.settings.water_text.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.content.header_content"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:sections.testimonial.settings.paragraph.content"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:sections.testimonial.settings.speed.label",
+      "info": "t:sections.testimonial.settings.speed.info",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.all.image.image_picker.label",
+      "info": "t:sections.testimonial.settings.image.info"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "t:sections.testimonial.settings.star_color.label",
+      "default": "#FFD600"
+    },
+    {
+      "type": "checkbox",
+      "id": "enlarge_first_letter",
+      "label": "t:sections.testimonial.settings.enlarge_first_letter.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.mobile.header_content"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "t:sections.all.columns.label",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.all.columns.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.all.columns.options__2.label"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "t:sections.testimonial.blocks.review.name",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "t:sections.testimonial.blocks.review.settings.rating.label",
+          "min": 3,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:sections.testimonial.blocks.review.settings.content.label",
+          "default": "<p>Please share your thoughts about our service here.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.all.image.image_picker.label",
+          "info": "t:sections.testimonial.blocks.image.settings.image.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.all.author.header_content"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "t:sections.all.author.name.label",
+          "default": "Author name"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_avatar",
+          "label": "t:sections.all.author.avatar.label",
+          "info": "t:sections.testimonial.blocks.review.settings.author_avatar.info"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_verified",
+          "label": "t:sections.all.author.show_verified.label",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "t:sections.testimonial.blocks.image.name",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.all.image.image_picker.label",
+          "info": "t:sections.testimonial.blocks.image.settings.image.info"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "label": "t:sections.all.image.image_ratio.label",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "t:sections.all.image.image_height.options__4.label"
+            },
+            {
+              "value": "square",
+              "label": "t:sections.all.image.image_ratio.options__1.label"
+            },
+            {
+              "value": "portrait",
+              "label": "t:sections.all.image.image_ratio.options__2.label"
+            },
+            {
+              "value": "landscape",
+              "label": "t:sections.all.image.image_ratio.options__3.label"
+            }
+          ],
+          "default": "landscape"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.testimonial.presets.name",
+      "blocks": [
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "review"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

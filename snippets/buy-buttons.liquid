@@ -1,0 +1,249 @@
+{% comment %}
+  渲染产品购买按钮。
+  接受参数：
+  - product: {Object} 产品对象。
+  - product_form_id: {String} 产品表单ID。
+  - show_quantity_selector: {Boolean} 显示数量选择器。
+  - is_quantity_selector_standalone: {Boolean} 数量选择器是否单独显示。
+  - show_gift_card_recipient: {Boolean} 显示礼品卡收件人表单。
+  - show_dynamic_checkout: {Boolean} 显示动态结账按钮。
+  - show_mini_checkout: {Boolean} 显示迷你结账按钮。
+  - mini_checkout_position: {Enum} 迷你结账显示位置 top|bottom
+  - show_notify_form: {Boolean} 显示补货通知邮件
+  - is_pre_order: {Boolean} 是否是预购
+
+  使用方法：
+  {% render 'buy-buttons', product: product, product_form_id: product_form_id %}
+{% endcomment %}
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- if product != blank -%}
+  {%- liquid
+    assign gift_card_recipient_feature_active = false
+    if show_gift_card_recipient and product.gift_card?
+      assign gift_card_recipient_feature_active = true
+    endif
+
+    if gift_card_recipient_feature_active
+      assign show_dynamic_checkout = false
+    endif
+
+    assign check_against_inventory = true
+    if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+      assign check_against_inventory = false
+    endif
+
+    assign quantity_rule_soldout = false
+    if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+      assign quantity_rule_soldout = true
+    endif
+
+    assign cant_sell = false
+    if product.selected_or_first_available_variant.available == false or quantity_rule_soldout or product.selected_or_first_available_variant == null
+      assign cant_sell = true
+    endif
+  -%}
+
+  <product-form
+    class="product-form"
+    data-hide-errors="{{ gift_card_recipient_feature_active }}"
+    data-section="{{ section.id }}"
+  >
+    {% comment %} 错误消息提示 {% endcomment %}
+    <div
+      id="Product-Form-Error-Message-{{ section.id }}"
+      class="alert-message alert-error mb-2"
+      role="alert"
+      aria-live="assertive"
+      tabindex="-1"
+      autofocus
+      hidden
+    ></div>
+
+    {%- form 'product',
+      product,
+      id: product_form_id,
+      class: 'form',
+      novalidate: 'novalidate',
+      data-type: 'add-to-cart-form'
+    -%}
+      <input
+        class="product-variant-id"
+        type="hidden"
+        name="id"
+        value="{{ product.selected_or_first_available_variant.id }}"
+        {% if cant_sell %}
+          disabled
+        {% endif %}
+      >
+
+      {% comment %} 礼品卡 {% endcomment %}
+      {%- if gift_card_recipient_feature_active -%}
+        {{ 'component-recipient-form.css' | asset_url | stylesheet_tag }}
+        {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+        <script src="{{ 'recipient-form.js' | asset_url }}" defer="defer"></script>
+      {%- endif -%}
+
+      <div class="product-form-buttons">
+        {%- capture add_cart_button -%}
+            <button id="Product-Submit-Button-{{ section.id }}"
+                    class="add-cart-button button{% unless is_quantity_selector_standalone != true and show_quantity_selector %} button--full-width{% endunless %}{% if show_dynamic_checkout %} button--secondary{% else %} button--primary{% endif %} has-loading"
+                    type="submit"
+                    name="add"
+                    {% if cant_sell %}
+                      disabled
+                    {% endif %}
+            >
+                  <span class="button-text loading-hidden">
+                    {%- if cant_sell -%}
+                      {{ 'products.product.sold_out' | t }}
+                    {%- elsif is_pre_order -%}
+                      {{ 'products.product.preorder' | t }}
+                    {%- else -%}
+                      {{ 'products.product.add_to_cart' | t }}
+                    {%- endif -%}
+                  </span>
+                  {% render 'loading-overlay' %}
+            </button>
+          {%- endcapture -%}
+
+        {%- if show_quantity_selector -%}
+          <div id="Quantity-Selector-{{ section.id }}" class="quantity-selector">
+            {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
+            <label class="quantity-label" for="Quantity-{{ section.id }}">
+              {{ 'products.product.quantity.label' | t }}:
+              <span class="quantity-in-cart{% if cart_qty == 0 %} hidden{% endif %}">
+                {{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}}
+              </span>
+            </label>
+            <div class="quantity-input-wrapper">
+              <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section.id }}">
+                <button
+                  class="quantity-button no-js-hidden"
+                  name="minus"
+                  type="button"
+                  aria-label="{{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}"
+                >
+                  -
+                </button>
+                <input
+                  id="Quantity-{{ section.id }}"
+                  class="quantity-input"
+                  type="number"
+                  name="quantity"
+                  data-cart-quantity="{{ cart_qty }}"
+                  data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                  min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                  {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
+                    data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                    max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                  {% endif %}
+                  step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+                  value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                >
+                <button
+                  class="quantity-button no-js-hidden"
+                  name="plus"
+                  type="button"
+                  aria-label="{{- 'products.product.quantity.increase' | t: product: product.title | escape -}}"
+                >
+                  +
+                </button>
+              </quantity-input>
+              {{ add_cart_button }}
+            </div>
+          </div>
+        {%- else -%}
+          {{ add_cart_button }}
+        {%- endif -%}
+        {%- if show_dynamic_checkout -%}
+          <div class="dynamic-checkout{% if cant_sell %} hidden{% endif %}">
+            {{ form | payment_button }}
+          </div>
+        {%- endif -%}
+
+        {%- if show_notify_form -%}
+          <modal-opener
+            id="Notify-Email-Button-{{ section.id }}"
+            class="notify-email-button button button--full-width{% unless cant_sell %} hidden{% endunless %}"
+            role="button"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="Notify-Email-{{ section.id }}"
+            tabindex="0"
+          >
+            {% render 'icon-sets', icon: 'email' %}
+            {{ 'products.product.notify_me' | t }}
+          </modal-opener>
+        {%- endif -%}
+      </div>
+
+      {%- if show_mini_checkout -%}
+        {{ 'component-mini-check.css' | asset_url | stylesheet_tag }}
+        {% assign featured_image = product.selected_or_first_available_variant.featured_image
+          | default: product.featured_image
+        %}
+        <div
+          id="Product-Mini-Checkout-{{ section.id }}"
+          class="product-mini-checkout hover-trigger quick-add-remove position--{{ mini_checkout_position | default: 'top' }}"
+          role="region"
+          aria-label="{{ 'products.product.mini_check' | t }}"
+        >
+          <div class="product-image" style="--alpha-background: {{ settings.card_media_background_alpha }}%;">
+            <div class="media media--square">
+              {% render 'lazy-image',
+                image_object: featured_image,
+                class: 'animate-scale-up',
+                sizes: '300px',
+                widths: '150, 250, 450',
+                placeholder: 'product-2'
+              %}
+            </div>
+          </div>
+          <div class="product-content">
+            <div class="price">
+              {%- if settings.currency_code_enabled -%}
+                {{ product.selected_or_first_available_variant.price | money_with_currency }}
+              {%- else -%}
+                {{ product.selected_or_first_available_variant.price | money }}
+              {%- endif -%}
+            </div>
+            {%- unless product.has_only_default_variant -%}
+              <div>
+                <small class="light">{{ product.selected_or_first_available_variant.title | truncate: 20 }}</small>
+              </div>
+            {%- endunless -%}
+          </div>
+          <button
+            class="button button--icon button--small button--pill has-loading button--hover-animate"
+            type="submit"
+            name="add"
+            {% if cant_sell %}
+              disabled
+            {% endif %}
+            aria-label="{{ 'products.product.add_to_cart' | t }}"
+          >
+            <span class="loading-hidden">
+              {% render 'icon-sets', icon: 'plus' %}
+            </span>
+            {% render 'loading-overlay' %}
+          </button>
+        </div>
+      {%- endif -%}
+    {%- endform -%}
+  </product-form>
+{%- else -%}
+  <div class="product-form">
+    <div class="product-form-buttons">
+      <button
+        class="add-cart-button button button--full-width button--primary"
+        type="submit"
+        name="add"
+        disabled
+      >
+        {{ 'products.product.sold_out' | t }}
+      </button>
+    </div>
+  </div>
+{%- endif -%}

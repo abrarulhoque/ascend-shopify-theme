@@ -1,0 +1,99 @@
+{% comment %}
+  Renders a list of product's price (regular, sale)
+
+  Accepts:
+  - product_object: {Object} Product Liquid object (optional)
+  - use_variant: {Boolean} Renders selected or first variant price instead of overall product pricing (optional)
+  - show_badges: {Boolean} Renders 'Sale' and 'Sold Out' tags if the product matches the condition (optional)
+  - badge_type: {Enum} normal|amount|percentage
+  - class: {String} Adds a price class to the price element (optional)
+
+  Usage:
+  {% render 'price', product_object: product %}
+{% endcomment %}
+{%- liquid
+  if use_variant
+    assign target = product_object.selected_or_first_available_variant
+  else
+    assign target = product_object
+  endif
+
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price
+
+  assign available = target.available | default: false
+  assign money_price = price | money
+  if settings.currency_code_enabled
+    assign money_price = price | money_with_currency
+  endif
+
+  if target == product_object and product_object.price_varies
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_price
+  endif
+-%}
+
+{%- unless target == blank -%}
+  <div class="price{% if compare_at_price > price %} price--on-sale{% endif %}{% if class %} {{ class }}{% endif %}">
+    <div class="price-container">
+      {%- if compare_at_price > price -%}
+        <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+        <b class="price-item price-item--sale">
+          {{ money_price }}
+        </b>
+        {% comment %} “相同的售价，但是原价不同”，为了防止用户困扰，不显示这种情况 {% endcomment %}
+        {%- unless product_object.price_varies == false and product_object.compare_at_price_varies %}
+          <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+          <s class="price-item price-item--regular">
+            {%- if settings.currency_code_enabled -%}
+              {{ compare_at_price | money_with_currency }}
+            {%- else -%}
+              {{ compare_at_price | money }}
+            {%- endif -%}
+          </s>
+        {%- endunless -%}
+      {%- else -%}
+        <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+        <b class="price-item price-item--regular">
+          {{ money_price }}
+        </b>
+      {%- endif -%}
+      {% comment %} 按照单位价格计算方式 {% endcomment %}
+      {%- unless product_object.selected_or_first_available_variant.unit_price_measurement == blank -%}
+        <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
+        <span class="unit-price price-item">
+          <span>{{- product_object.selected_or_first_available_variant.unit_price | money -}}</span>
+          <span aria-hidden="true">/</span>
+          <span class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
+          <span>
+            {%- if product_object.selected_or_first_available_variant.unit_price_measurement.reference_value != 1 -%}
+              {{- product_object.selected_or_first_available_variant.unit_price_measurement.reference_value -}}
+            {%- endif -%}
+            {{ product_object.selected_or_first_available_variant.unit_price_measurement.reference_unit }}
+          </span>
+        </span>
+      {%- endunless -%}
+    </div>
+
+    {%- if show_badges -%}
+      {%- if available == false -%}
+        <span class="badge sold-out-badge">{{ 'products.product.sold_out' | t }}</span>
+      {%- elsif compare_at_price > price and settings.enable_sale_badge -%}
+        {% assign badge_type = badge_type | default: 'percentage' %}
+        {% render 'sale-badge', target: target, type: badge_type %}
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+{%- else -%}
+  <div class="price{% if class %} {{ class }}{% endif %}">
+    <div class="price-container">
+      <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+      <b class="price-item price-item--regular">
+        {%- if settings.currency_code_enabled -%}
+          {{ '1999' | money_with_currency }}
+        {%- else -%}
+          {{ '1999' | money }}
+        {%- endif -%}
+      </b>
+    </div>
+  </div>
+{%- endunless -%}

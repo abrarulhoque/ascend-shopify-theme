@@ -1,0 +1,109 @@
+{% comment %}
+  Renders a product media modal. Also see 'product-media-gallery'
+
+  Accepts:
+  - product: {Object} Product liquid object
+  - variant_images: {Array} Product images associated with a variant
+
+  Usage:
+  {% render 'product-media-modal' %}
+{% endcomment %}
+
+{{ 'component-product-media-modal.css' | asset_url | stylesheet_tag }}
+
+<product-gallery-modal id="ProductModal-{{ section.id }}" class="product-media-modal gradient">
+  <div role="dialog"
+       data-trap
+       aria-label="{{ 'products.modal.label' | t }}"
+       aria-modal="true"
+       tabindex="-1"
+  >
+    <button type="button"
+            class="modal-close-button button button--icon button--ethereal focus-inset"
+            aria-label="{{ 'accessibility.close' | t }}"
+            onclick="this.closest('product-gallery-modal').hide()"
+    >
+      {% render 'icon-sets', icon: 'close' %}
+    </button>
+    <div class="modal-content"
+      role="document"
+      aria-label="{{ 'products.modal.label' | t }}"
+      tabindex="0"
+    >
+      <slider-component class="slider"
+                        data-slide-desktop
+                        data-slide-mobile
+                        data-slide-smooth
+      >
+        <div class="slider-container">
+          <ul id="MediaModalSlider-{{ section.id }}" class="modal-media-wrapper slider-wrapper">
+            {%- if product.selected_or_first_available_variant.featured_media != null -%}
+              {%- assign media = product.selected_or_first_available_variant.featured_media -%}
+              <li id="Slide-ProductModal-0" class="slider-slide grid-item" data-media-id="{{ media.id }}">
+                <div class="modal-media">
+                  {% render 'product-media',
+                          media: media,
+                          loop: section.settings.enable_video_looping,
+                          variant_image: section.settings.hide_variants
+                  %}
+                </div>
+              </li>
+            {%- endif -%}
+            {%- for media in product.media -%}
+              {%- liquid
+                if section.settings.hide_variants and variant_images contains media.src or variant_images contains media.id
+                  assign variant_image = true
+                else
+                  assign variant_image = false
+                endif
+              %}
+              {%- unless media.id == product.selected_or_first_available_variant.featured_media.id -%}
+                <li id="Slide-ProductModal-{{ forloop.index }}" class="slider-slide grid-item" data-media-id="{{ media.id }}">
+                  <div class="modal-media">
+                    {% render 'product-media',
+                            media: media,
+                            loop: section.settings.enable_video_looping,
+                            variant_image: variant_image
+                    %}
+                  </div>
+                </li>
+              {%- endunless -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+        <div class="slider-controller">
+          <div class="slider-nav-buttons">
+            <button
+                    type="button"
+                    class="nav-button nav-button--prev button button--icon button--ethereal"
+                    name="previous"
+                    aria-label="{{ 'general.slider.previous_slide' | t }}"
+                    aria-controls="Slider-{{ section.id }}"
+            >
+              {% render 'icon-sets', icon: 'caret-left' %}
+            </button>
+            <button
+                    type="button"
+                    class="nav-button nav-button--next button button--icon button--ethereal"
+                    name="next"
+                    aria-label="{{ 'general.slider.next_slide' | t }}"
+                    aria-controls="Slider-{{ section.id }}"
+            >
+
+              {% render 'icon-sets', icon: 'caret-right' %}
+            </button>
+          </div>
+          <div class="slider-counter">
+            <span class="current-page">1</span> / <span class="total-page">1</span>
+          </div>
+        </div>
+      </slider-component>
+    </div>
+    <div class="modal-tip">
+      {% render 'icon-sets', icon: 'mouse' %}
+      {{ 'general.press_and_drag_to_view' | t }}
+    </div>
+  </div>
+</product-gallery-modal>
+
+<script src="{{ 'image-magnify.js' | asset_url }}" defer></script>

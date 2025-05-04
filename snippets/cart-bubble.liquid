@@ -1,0 +1,42 @@
+{% comment %}
+    购物车图标
+
+    Accepts:
+     - style: {Enum} cart|bag|frame|text
+
+    Usage:
+     {% render 'cart-bubble', style: 'frame' %}
+{% endcomment %}
+<span class="cart-count-bubble bubble-style--{{ style }}">
+    {%- if style == 'cart' or style == 'bag' -%}
+        {% liquid
+            assign cart_count = cart.item_count
+            if cart_count >= 100
+                   assign cart_count = '99+'
+            endif
+        %}
+
+        {%- if style == 'cart' -%}
+            {% render 'icon-sets', icon: 'bubble-cart' %}
+        {%- else -%}
+            {% render 'icon-sets', icon: 'bag' %}
+        {%- endif -%}
+
+        <span aria-hidden="true">{{ cart.item_count }}</span>
+        <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart_count }}</span>
+    {%- else -%}
+        {% liquid
+            if cart == empty
+                assign cart_amount = 0 | money
+            elsif cart.total_price < 99999
+                assign cart_amount = cart.total_price | money
+            else
+                assign cart_amount = 99999 | money | append: "+"
+            endif
+
+            assign cart_amount_without_html = cart_amount | strip_html
+        %}
+        <span aria-hidden="true">{{ cart_amount }}</span>
+        <span class="visually-hidden">{{ 'sections.header.cart_amount' | t: amount: cart_amount_without_html }}</span>
+    {%- endif -%}
+</span>

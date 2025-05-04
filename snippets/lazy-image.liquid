@@ -1,0 +1,119 @@
+{% comment %}
+  懒加载图片
+  Accepts:
+      - image_object: {Image Object}
+      - is_mobile: {Boolean} 手机端
+      - has_mobile: {Boolean} 有手机端
+      - id: {String}
+      - class: {String} 自定义class
+      - widths: {String}
+      - sizes: {String}
+      - alt: {String}
+      - data-index: {String}
+      - preload: {Boolean} 是否提前加载
+      - placeholder: {String} 占位svg名
+  Usage:
+      {% render 'lazy-image' %}
+{% endcomment %}
+{%- if image_object != blank -%}
+  {% capture default_sizes %}(min-width: {{ settings.page_width }}px) {{ settings.page_width }}px, 100vw{% endcapture %}
+  {% liquid
+    assign widths = widths | default: '165, 360, 450, 660, 900, 1320, 1800, 2136, 2400, 3600'
+    assign widths_arr = widths | replace: ' ', '' | split: ','
+    assign width_last = widths_arr | last
+    assign sizes = sizes | default: default_sizes
+    assign alt = alt | default: image_object.alt
+
+    if is_mobile
+      assign class = class | append: ' medium-hide large-up-hide' | strip
+    elsif has_mobile
+      assign class = class | append: ' small-hide' | strip
+    endif
+  %}
+
+  {%- capture srcset -%}
+        {%- for width in widths_arr -%}
+            {% assign width_inter = width | plus: 0 %}
+            {%- if image_object.width >= width_inter -%}
+                {{ image_object | image_url: width: width }} {{ width }}w,
+            {%- endif -%}
+        {%- endfor -%}
+        {{ image_object | image_url }} {{ image_object.width | default: 1500 }}w
+  {%- endcapture -%}
+
+  {%- if preload -%}
+    {%- if has_mobile or is_mobile -%}
+      <picture>
+        <source
+          srcset="{{ srcset }}"
+          sizes="{{ sizes }}"
+          media="{% if is_mobile %}(max-width: 749px){% else %}(min-width: 750px){% endif %}"
+        >
+        <img
+          {% if id != blank %}
+            id="{{ id }}"
+          {% endif %}
+          {% if class != blank %}
+            class="{{ class }}"
+          {% endif %}
+          {% if data-index != blank %}
+            data-index="{{ data-index }}"
+          {% endif %}
+          src="{{ image_object | image_url: width: 100 }}"
+          loading="eager"
+          fetchpriority="high"
+          alt="{{ alt }}"
+          width="{{ image_object.width }}"
+          height="{{ image_object.height }}"
+          style="object-position: {{ image_object.presentation.focal_point | default: 'center center' }}"
+        >
+      </picture>
+    {%- else -%}
+      {{
+        image_object
+        | image_url: width: width_last
+        | image_tag:
+          id: id,
+          data-index: data-index,
+          class: class,
+          sizes: sizes,
+          widths: widths,
+          alt: alt,
+          fetchpriority: 'high',
+          preload: true
+      }}
+    {%- endif -%}
+  {%- elsif settings.animations_enable_image_lazy_loading -%}
+    <img
+      class="image-lazy-loading loading-animation--{{ settings.lazy_loading_animation }}{% if class != blank %} {{ class }}{% endif %}"
+      {% if id != blank %}
+        id="{{ id }}"
+      {% endif %}
+      {% if data-index != blank %}
+        data-index="{{ data-index }}"
+      {% endif %}
+      src="{% if settings.lazy_loading_animation == 'pixel' %}{{ image_object | image_url: width: 10 }}{% else %}{{ 'transparent.png' | asset_url }}{% endif %}"
+      data-srcset="{{ srcset }}"
+      sizes="{{ sizes }}"
+      alt="{{ alt }}"
+      width="{{ image_object.width }}"
+      height="{{ image_object.height }}"
+      loading="lazy"
+      style="object-position: {{ image_object.presentation.focal_point | default: 'center center' }}"
+    >
+  {%- else -%}
+    {{
+      image_object
+      | image_url: width: width_last
+      | image_tag: id: id, data-index: data-index, class: class, sizes: sizes, widths: widths, loading: 'lazy', alt: alt
+    }}
+  {%- endif -%}
+{%- elsif placeholder != blank -%}
+  {% liquid
+    assign placeholder_class = 'placeholder-svg'
+    if class != blank
+      assign placeholder_class = placeholder_class | append: ' ' | append: class
+    endif
+  %}
+  {{ placeholder | placeholder_svg_tag: placeholder_class }}
+{%- endif -%}

@@ -1,0 +1,104 @@
+{% comment %}
+  此代码片段用于渲染带有模态窗口激活器的产品缩略图。
+
+  接受的参数：
+  - media: {Object} 产品媒体对象
+  - position: {String} 媒体位置，用于辅助读屏软件标签。
+  - media_width: {String} 图片占页面总宽度的比例，如 0.65
+  - media_ratio: {Enum} 图片比例，square|portrait
+  - loop: {Boolean} 启用视频循环（可选）
+  - modal_id: {String} 点击缩略图后将显示的产品模态窗口 ID
+  - media_fit: {String} 图像适配容器的方法（"contain" 或 "cover"）
+  - enable_scale_image: {Boolean} 是否允许图片放大查看
+  - lazy: {Boolean} 是否懒加载
+
+  使用方式：
+  {% render 'product-thumbnail',
+    media: media,
+    position: forloop.index,
+    loop: section.settings.enable_video_looping,
+    modal_id: section.id
+  %}
+{% endcomment %}
+{% capture sizes %}(min-width: {{ settings.page_width }}px) {{ settings.page_width | times: media_width | round }}px, (min-width: 750px) calc(100vw * {{ media_width }}), 100vw{% endcapture %}
+
+{%- capture preview_image -%}
+    {% liquid
+        if lazy
+            assign preload = false
+        else
+            assign preload = true
+        endif
+    %}
+
+    {% render 'lazy-image',
+            image_object: media.preview_image,
+            class: 'product-preview-image',
+            sizes: sizes,
+            widths: '246, 493, 600, 713, 823, 990, 1100, 1206',
+            preload: preload
+    %}
+{%- endcapture -%}
+
+<div class="product-media-container media-fit-{{ media_fit }}">
+  {%- if media.media_type == 'image' -%}
+    <div class="product-media media media--{{ media_ratio | default: 'square' }}">
+      {{ preview_image }}
+      {%- if enable_scale_image -%}
+        <modal-opener
+          class="product-modal-opener button button--icon button--small button--ambient quick-add-hidden animate--fade-in no-js-hidden"
+          data-media-id="{{ media.id }}"
+          role="button"
+          aria-haspopup="dialog"
+          aria-label="{{ 'products.product.media.open_media' | t: index: position }}"
+          aria-controls="ProductModal-{{ modal_id }}"
+          tabindex="0"
+        >
+          {%- render 'icon-sets', icon: 'zoom' -%}
+        </modal-opener>
+      {%- endif -%}
+    </div>
+  {%- elsif media.media_type == 'model' -%}
+    <div class="product-media media media--{{ media_ratio | default: 'square' }}">
+      {{ preview_image }}
+      <modal-opener
+        class="media-play-button button button--icon button--ambient no-js-hidden"
+        data-media-id="{{ media.id }}"
+        role="button"
+        aria-haspopup="dialog"
+        aria-label="{{ 'products.product.media.play_model' | t }}"
+        aria-controls="ProductModal-{{ modal_id }}"
+        tabindex="0"
+      >
+        {%- render 'icon-sets', icon: '3d' -%}
+      </modal-opener>
+    </div>
+  {%- else -%}
+    <deferred-media class="product-media video-model-media deferred-media no-js-hidden"{% if section.settings.enable_video_autoplay %} data-load-when-visible{% endif %}>
+      <div class="media-poster media media--{{ media_ratio | default: 'square' }}">
+        {{ preview_image }}
+        <button
+          class="media-play-button button button--icon button--ambient"
+          aria-label="{{ 'products.product.media.play_video' | t }}"
+        >
+          {%- render 'icon-sets', icon: 'play' -%}
+        </button>
+      </div>
+      <template>
+        {%- liquid
+          case media.media_type
+            when 'external_video'
+              assign video_class = 'js-' | append: media.host
+              if media.host == 'youtube'
+                echo media | external_video_url: autoplay: true, loop: loop, playlist: media.external_id | external_video_tag: class: video_class, loading: 'lazy'
+              else
+                echo media | external_video_url: autoplay: true, loop: loop | external_video_tag: class: video_class, loading: 'lazy'
+              endif
+            when 'video'
+              echo media | media_tag: image_size: '2048x', autoplay: true, loop: loop, controls: true, preload: 'none'
+          endcase
+        -%}
+      </template>
+    </deferred-media>
+  {%- endif -%}
+</div>

@@ -1,0 +1,116 @@
+{%- assign pick_up_availabilities = product_variant.store_availabilities | where: 'pick_up_enabled', true -%}
+
+{%- if product_variant.available and pick_up_availabilities.size > 0 -%}
+  {% liquid
+      assign first_store = pick_up_availabilities | where: 'available', true | first
+
+      if first_store == blank
+          assign first_store = pick_up_availabilities.first
+      endif
+  %}
+
+  <div class="pickup-availability-preview{% if first_store.available %} pickup-local-available{% else %} pickup-local-unavailable{% endif %}">
+    <div class="pickup-availability-info">
+      {%- if first_store.available -%}
+        <div class="pickup-title local-available">
+            {{ 'products.product.pickup_availability.pick_up_available_at' | t: location_name: first_store.location.name }}
+        </div>
+        <div class="pickup-time">{{ first_store.pick_up_time }}</div>
+      {%- else -%}
+          <div class="pickup-title">
+              {{ 'products.product.pickup_availability.pick_up_unavailable_at' | t: location_name: first_store.location.name }}
+          </div>
+      {%- endif -%}
+    </div>
+    <modal-opener class="button button--mini button--pill button--hover-animate"
+                  role="button"
+                  aria-haspopup="dialog"
+                  aria-expanded="false"
+                  aria-controls="Pickup-Availability-Drawer"
+                  tabindex="0"
+    >
+        {{ 'general.view_all' | t }}
+    </modal-opener>
+  </div>
+
+  <modal-dialog id="Pickup-Availability-Drawer" class="drawer modal">
+        <div class="modal-overlay"> </div>
+        <div class="modal-inner gradient focus-none"
+             role="dialog"
+             data-trap
+             aria-modal="true"
+             aria-label="{{ 'products.product.pickup_availability.drawer' | t }}"
+             tabindex="-1"
+        >
+            <div class="drawer-header">
+                <button class="drawer-close button button--icon button--ethereal"
+                        type="button"
+                        onclick="this.closest('.modal').hide()"
+                        aria-label="{{ 'accessibility.close' | t }}"
+                >
+                    {% render 'icon-sets', icon: 'close' %}
+                </button>
+            </div>
+            <div class="drawer-content pickup-availability-content">
+                <div class="variant-info hover-trigger">
+                    <div class="media media--square">
+                        {% liquid
+                            assign variant_image = product_variant.image
+                            if variant_image == blank
+                                assign variant_image = product_variant.product.featured_media
+                            endif
+                        %}
+                        {%- if variant_image != blank -%}
+                            {{ variant_image | image_url: width: 200 | image_tag: class: 'animate-scale-up' }}
+                        {%- else -%}
+                            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg animate-scale-up' }}
+                        {%- endif -%}
+                    </div>
+                    <div>
+                        <h3 class="h4 mb-1">{{ product_variant.product.title | truncate: 30 }}</h3>
+                        {%- unless product_variant.product.has_only_default_variant -%}
+                            <small class="light">{{ product_variant.title }}</small>
+                        {%- endunless -%}
+                    </div>
+                </div>
+                <ul class="pickup-availability-list list-unstyled">
+                    {%- for store in pick_up_availabilities -%}
+                        <li class="store-item {% if store.available %}local-available{% endif %}">
+                            <h4 class="location-name font-body">{{ store.location.name | escape }}</h4>
+                            {%- if store.available -%}
+                                <div class="location-description">
+                                    {{ 'products.product.pickup_availability.pick_up_available' | t }}, {{ store.pick_up_time | downcase }}
+                                </div>
+                            {%- else -%}
+                                <div class="location-description">
+                                    {{ 'products.product.pickup_availability.pick_up_unavailable' | t }}
+                                </div>
+                            {%- endif -%}
+
+                            {%- assign address = store.location.address -%}
+                            <div class="location-address">
+                                <div class="address-info light">
+                                    {{ address | format_address }}
+                                    {%- if address.phone.size > 0 -%}
+                                        {{ address.phone }}
+                                    {%- endif -%}
+                                </div>
+                                {%- if store.available -%}
+                                    {% liquid
+                                        assign base_url = 'https://www.google.com/maps/dir/?api=1&destination='
+                                        assign encoded_address = address.summary | url_encode
+                                        assign map_url = base_url | append: encoded_address
+                                    %}
+                                    <a class="button button--mini button--pill button--hover-animate" href="{{ map_url }}" target="_blank" rel="noopener noreferrer">
+                                        {% render 'icon-sets', icon: 'map' %}
+                                        {{ 'products.product.pickup_availability.navigate' | t }}
+                                    </a>
+                                {%- endif -%}
+                            </div>
+                        </li>
+                    {%- endfor -%}
+                </ul>
+            </div>
+        </div>
+    </modal-dialog>
+{%- endif -%}

@@ -1,0 +1,28 @@
+.section-team .member-list {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4rem;
+}
+.section-team .member-list .member-item {
+  flex: 0 0 auto;
+  text-align: center;
+}
+.section-team .member-list .member-item .media {
+  display: inline-block;
+  width: 10rem;
+}
+.section-team .member-list .member-item .list-social {
+  gap: 0.5rem;
+}
+.section-team .member-list .member-item .list-social .social-item {
+  --icon-width: 1.25rem;
+}
+@media screen and (max-width: 749px) {
+  .section-team .member-list {
+    gap: 2rem;
+  }
+  .section-team .member-list .member-item .media {
+    width: 6rem;
+  }
+}

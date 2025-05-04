@@ -1,0 +1,18 @@
+.section-newsletter .newsletter__wrapper {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.section-newsletter .newsletter__wrapper .newsletter-main {
+  display: inline-block;
+}
+@media screen and (min-width: 750px) {
+  .section-newsletter .newsletter__wrapper .newsletter-main {
+    max-width: 35rem;
+  }
+}
+.section-newsletter .newsletter__wrapper .newsletter-main .social-list .social-item {
+  --icon-width: 1.5rem;
+}
+.section-newsletter .newsletter__wrapper .newsletter-main .email-form:not(:first-child) {
+  margin-top: 2rem;
+}

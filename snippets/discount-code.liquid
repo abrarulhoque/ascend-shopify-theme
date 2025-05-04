@@ -1,0 +1,15 @@
+{% comment %}
+    可复制的折扣码
+
+    Accepts:
+        - code: {String}
+
+    Usage：
+        {% render 'discount-code', code: code %}
+{% endcomment %}
+
+<div class="discount-code">
+    <b>{{ code | escape }}</b>
+    <span>|</span>
+    <custom-copy-text class="light" role="button" data-text="{{ code | escape }}" data-message="{{ 'general.has_copied' | t }}" tabindex="0">{{ 'general.copy' | t }}</custom-copy-text>
+</div>

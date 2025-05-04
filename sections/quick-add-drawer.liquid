@@ -1,0 +1,84 @@
+{%- if request.design_mode or settings.card_enable_quick_add -%}
+  <link rel="stylesheet" href="{{ 'component-quick-add.css' | asset_url }}" media="print" onload="this.media='all';">
+  <link rel="stylesheet" href="{{ 'section-main-product.css' | asset_url }}" media="print" onload="this.media='all';">
+
+  <product-side-drawer
+    id="Product-QuickView-Drawer"
+    class="quickview-drawer drawer modal"
+    data-section="{{ section.id }}"
+    data-product-url="{{ section.settings.product.url }}"
+  >
+    <div class="modal-overlay"> </div>
+    <div
+      class="modal-inner color-{{ section.settings.color_scheme }} gradient focus-none"
+      role="dialog"
+      data-trap
+      aria-modal="true"
+      aria-label="{{ 'products.card.quick_shop' | t }}"
+      tabindex="-1"
+      style="width: 50rem;"
+    >
+      <div class="drawer-header">
+        <button
+          class="drawer-close button button--icon button--ethereal"
+          type="button"
+          onclick="this.closest('.modal').hide()"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          {% render 'icon-sets', icon: 'close' %}
+        </button>
+        <a id="Product-Details-Link" href="{{ section.settings.product.url }}" class="link link-text show-underline">
+          {{- 'general.view_details' | t -}}
+        </a>
+      </div>
+      <div id="Product-QuickView-Details" class="drawer-content quickview-content"></div>
+    </div>
+    <template>
+      <div class="loading-placeholder">
+        <div class="media-placeholder small-hide">
+          <div class="placeholder"></div>
+          <div class="placeholder"></div>
+          <div class="placeholder"></div>
+          <div class="placeholder"></div>
+        </div>
+        <div class="info-placeholder">
+          <div class="vendor-placeholder placeholder"></div>
+          <div class="title-placeholder placeholder"></div>
+          <div class="price-placeholder placeholder"></div>
+          <div class="shipping-placeholder placeholder"></div>
+          <div class="variants-wrapper-placeholder">
+            <div class="variant-selector-placeholder placeholder"></div>
+            <div class="variant-selector-placeholder placeholder"></div>
+          </div>
+          <div class="quantity-selector-placeholder placeholder"></div>
+          <div class="button-placeholder placeholder"></div>
+          <div class="button-placeholder placeholder"></div>
+        </div>
+      </div>
+    </template>
+  </product-side-drawer>
+
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.quick-add-drawer.name",
+  "tag": "div",
+  "class": "section-drawer",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-1"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:sections.quick-add-drawer.settings.product.label",
+      "info": "t:sections.quick-add-drawer.settings.product.info"
+    }
+  ]
+}
+{% endschema %}

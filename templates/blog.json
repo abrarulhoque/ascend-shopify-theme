@@ -1,0 +1,88 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "color_scheme": "inverse",
+        "banner_height": "medium",
+        "heading_size": "medium",
+        "heading_uppercase": false,
+        "heading_decorative": false,
+        "texture_alpha": 67,
+        "texture_fixed": false,
+        "pagination_style": "paginator",
+        "articles_per_page": 10,
+        "image_ratio": "portrait",
+        "show_tags": true,
+        "show_date": true,
+        "show_author": true,
+        "show_excerpt": false,
+        "badge_background_color": "#c90404",
+        "badge_foreground_color": "#ffffff"
+      }
+    },
+    "collection_thumbnails_W8TcfU": {
+      "type": "collection-thumbnails",
+      "blocks": {
+        "collection_xnWitd": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_fmTmYi": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_hERVEj": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_qRi6qD": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_8QUEe9": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        }
+      },
+      "block_order": [
+        "collection_xnWitd",
+        "collection_fmTmYi",
+        "collection_hERVEj",
+        "collection_qRi6qD",
+        "collection_8QUEe9"
+      ],
+      "settings": {
+        "show_section_header": true,
+        "heading": "Featured Categories",
+        "description": "",
+        "water_text": "",
+        "button_label": "",
+        "button_link": "",
+        "style": "vertical",
+        "adapt_transparent_image": true,
+        "margin_top": 80,
+        "margin_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collection_thumbnails_W8TcfU"
+  ]
+}

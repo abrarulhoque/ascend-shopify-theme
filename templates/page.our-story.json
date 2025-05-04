@@ -1,0 +1,242 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "rich_text_MyMpp9": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_hLddgW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Talk about your brand",
+            "heading_size": "medium",
+            "heading_decorative": false
+          }
+        },
+        "text_ihzhRP": {
+          "type": "text",
+          "settings": {
+            "description": "<p>Share information about your brand with your customers<\/p>"
+          }
+        },
+        "highlight_stats_A83zn7": {
+          "type": "highlight_stats",
+          "settings": {
+            "heading_size": "medium",
+            "color_scheme": "",
+            "stats_1": "10K+",
+            "description_1": "Users served",
+            "stats_2": "24\/7",
+            "description_2": "Support availability",
+            "stats_3": "1000+",
+            "description_3": "Projects completed",
+            "stats_4": "250B",
+            "description_4": "Business volume"
+          }
+        }
+      },
+      "block_order": [
+        "heading_hLddgW",
+        "text_ihzhRP",
+        "highlight_stats_A83zn7"
+      ],
+      "settings": {
+        "enable_full_width": true,
+        "color_scheme": "",
+        "texture_alpha": 90,
+        "texture_fixed": false,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "image_with_text_qibDHk": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_HkDfAm": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text",
+            "heading_size": "medium",
+            "heading_decorative": false
+          }
+        },
+        "text_DqxPPa": {
+          "type": "text",
+          "settings": {
+            "description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post<\/p>"
+          }
+        },
+        "button_cqNDfV": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary",
+            "button_arrow": false,
+            "secondary_button_label": "Button label",
+            "secondary_button_link": "",
+            "secondary_button_style": "secondary",
+            "secondary_button_arrow": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_HkDfAm",
+        "text_DqxPPa",
+        "button_cqNDfV"
+      ],
+      "settings": {
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "image_first": true,
+        "color_scheme": "",
+        "content_alignment": "center",
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "quote_cfmBMc": {
+      "type": "quote",
+      "settings": {
+        "color_scheme": "",
+        "icon_color": "#088b5a",
+        "content": "We believe in delivering not just products, but meaningful experiences that enrich your life. Every detail matters to us, and your trust inspires us to uphold the highest standards of quality, craftsmanship, and service in everything we do",
+        "author_name": "Author name",
+        "author_role": "CEO",
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "milestones_w89rCg": {
+      "type": "milestones",
+      "blocks": {
+        "step_GAwckz": {
+          "type": "step",
+          "settings": {
+            "year": "2021",
+            "content": "<p>An important step in our journey that marked significant growth and progress.<\/p>"
+          }
+        },
+        "step_Ui9KeG": {
+          "type": "step",
+          "settings": {
+            "year": "2022",
+            "content": "<p>An important step in our journey that marked significant growth and progress.<\/p>"
+          }
+        },
+        "step_CKEcUr": {
+          "type": "step",
+          "settings": {
+            "year": "2023",
+            "content": "<p>An important step in our journey that marked significant growth and progress.<\/p>"
+          }
+        },
+        "step_NE4cCH": {
+          "type": "step",
+          "settings": {
+            "year": "2024",
+            "content": "<p>An important step in our journey that marked significant growth and progress.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "step_GAwckz",
+        "step_Ui9KeG",
+        "step_CKEcUr",
+        "step_NE4cCH"
+      ],
+      "settings": {
+        "show_section_header": true,
+        "heading": "Our Milestones",
+        "description": "",
+        "water_text": "",
+        "spot_color": "#0CB771",
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "team_B3nKfX": {
+      "type": "team",
+      "blocks": {
+        "member_pEQiH4": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        },
+        "member_gF9qH6": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        },
+        "member_AA4r9C": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        },
+        "member_KVU8xF": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        },
+        "member_pdwqh4": {
+          "type": "member",
+          "settings": {
+            "member_name": "Member name",
+            "member_role": "Member role",
+            "member_facebook": "",
+            "member_instagram": "",
+            "member_linkedin": ""
+          }
+        }
+      },
+      "block_order": [
+        "member_pEQiH4",
+        "member_gF9qH6",
+        "member_AA4r9C",
+        "member_KVU8xF",
+        "member_pdwqh4"
+      ],
+      "settings": {
+        "show_section_header": true,
+        "heading": "Our team",
+        "description": "",
+        "water_text": "",
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_MyMpp9",
+    "image_with_text_qibDHk",
+    "quote_cfmBMc",
+    "milestones_w89rCg",
+    "team_B3nKfX"
+  ]
+}

@@ -1,0 +1,301 @@
+{{ 'section-highlight-features.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+      margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+    }
+    @media screen and (min-width: 750px) {
+        .section-{{ section.id }}-padding {
+          padding-top: {{ section.settings.padding_top }}px;
+          padding-bottom: {{ section.settings.padding_bottom }}px;
+        }
+        .section-{{ section.id }}-margin {
+          margin-top: {{ section.settings.margin_top }}px;
+          margin-bottom: {{ section.settings.margin_bottom }}px;
+        }
+    }
+{%- endstyle -%}
+
+<div class="section-highlight-features color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-margin">
+    <div class="section__wrapper section-highlight-features__wrapper page-width section-{{ section.id }}-padding">
+      {%- if section.settings.show_section_header -%}
+        {% render 'section-header',
+                heading: section.settings.heading,
+                description: section.settings.description,
+                water_text: section.settings.water_text,
+                show_bottom_line: settings.section_show_title_bottom_line
+        %}
+      {%- endif -%}
+      <highlight-features class="highlight-container d-block isolate">
+        <div class="media media--square lg-round">
+          {% capture sizes %}(min-width: {{ settings.page_width }}px) {{ settings.page_width | divided_by: 2 }}px, (min-width: 750px) 50vw, 100vw{% endcapture %}
+          {% render 'lazy-image',
+                  image_object: section.settings.image,
+                  sizes: sizes,
+                  widths: '450, 660, 900, 1320, 1800',
+                  placeholder: 'product-1'
+          %}
+
+          <div class="highlight-spots">
+            {%- for block in section.blocks -%}
+              <span class="spot button button--icon button--pill button--small" role="button" aria-describedby="Highlight-Feature-{{ section.id }}-{{ forloop.index }}" style="left: {{ block.settings.horizontal_position }}%; top: {{ block.settings.vertical_position }}%;" tabindex="0" {{ block.shopify_attributes }}>
+                {{ forloop.index }}
+              </span>
+            {%- endfor -%}
+          </div>
+        </div>
+        <div class="highlight-features">
+          {%- for block in section.blocks -%}
+            {% liquid
+              if block.settings.position == 'left'
+                assign percentage = block.settings.horizontal_position | times: 40 | divided_by: 100
+              else
+                assign percentage = 100 | minus: block.settings.horizontal_position | times: 40 | divided_by: 100
+              endif
+
+              assign linewidth = 30 | plus: percentage | minus: 2
+            %}
+            <div id="Highlight-Feature-{{ section.id }}-{{ forloop.index }}" class="feature position--{{ block.settings.position }} scroll-synergy" style="top: {{ block.settings.vertical_position }}%;">
+              <h3 class="h4 mb-1"><span class="medium-hide large-up-hide">{{ forloop.index }}. </span>{{ block.settings.heading | escape }}</h3>
+              <div class="rte light">{{ block.settings.description }}</div>
+              {%- if block.settings.button_label != blank -%}
+                <a
+                  class="button button--mini button--pill button--hover-animate mt-1"
+                  {% if block.settings.button_link != blank %}
+                    href="{{ block.settings.button_link }}"
+                  {% else %}
+                    role="link"
+                    aria-disabled="true"
+                  {% endif %}
+                >{{ block.settings.button_label | escape }}</a>
+              {%- endif -%}
+            </div>
+            <span class="line small-hide position--{{ block.settings.position }}" style="top: {{ block.settings.vertical_position }}%; width: {{ linewidth }}%;"> </span>
+          {%- endfor -%}
+        </div>
+      </highlight-features>
+      {%- if section.settings.product != blank -%}
+        <div class="text-align--center mt-4">
+          <a href="{{ section.settings.product.url }}" class="button button--pill button--hover-animate">
+            {{ 'general.view_details' | t }}
+            {% render 'icon-sets', icon: 'arrow-right' %}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+</div>
+<script src="{{ 'highlight-features.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.highlight-features.name",
+  "tag": "section",
+  "max_blocks": 5,
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.custom-section-header.settings.header_header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_header",
+      "label": "t:sections.custom-section-header.settings.show_section_header.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.text-content.heading.label",
+      "default": "Highlight features"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.text-content.description.label"
+    },
+    {
+      "type": "text",
+      "id": "water_text",
+      "label": "t:sections.custom-section-header.settings.water_text.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.content.header_content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.all.image.image_picker.label",
+      "info": "t:sections.highlight-features.settings.image.info"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:sections.all.product.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.header_content"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top.label",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom.label",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "highlight",
+      "name": "t:sections.highlight-features.blocks.highlight.name",
+      "settings": [
+        {
+          "type": "range",
+          "id": "vertical_position",
+          "label": "t:sections.highlight-features.blocks.highlight.settings.vertical_position.label",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 20
+        },
+        {
+          "type": "range",
+          "id": "horizontal_position",
+          "label": "t:sections.highlight-features.blocks.highlight.settings.horizontal_position.label",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "header",
+          "content": "t:sections.all.content.header_content"
+        },
+        {
+          "type": "select",
+          "id": "position",
+          "label": "t:sections.highlight-features.blocks.highlight.settings.position.label",
+          "info": "t:sections.all.desktop.effect.info",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.highlight-features.blocks.highlight.settings.position.options__1.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.highlight-features.blocks.highlight.settings.position.options__2.label"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.all.text-content.heading.label",
+          "default": "Feature title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.all.text-content.description.label",
+          "default": "<p>Feature description<\/p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.all.button.button_label.label",
+          "info": "t:sections.all.button.button_label.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.button.button_link.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.highlight-features.presets.name",
+      "blocks": [
+        {
+          "type": "highlight",
+          "settings": {
+            "vertical_position": 20,
+            "horizontal_position": 30,
+            "position": "left"
+          }
+        },
+        {
+          "type": "highlight",
+          "settings": {
+            "vertical_position": 45,
+            "horizontal_position": 70,
+            "position": "right"
+          }
+        },
+        {
+          "type": "highlight",
+          "settings": {
+            "vertical_position": 80,
+            "horizontal_position": 30,
+            "position": "left"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

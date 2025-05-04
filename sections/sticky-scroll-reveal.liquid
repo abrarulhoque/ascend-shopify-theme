@@ -1,0 +1,199 @@
+{{ 'section-scroll-image-expand.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="scroll-image-expand section-{{ section.id }}-margin">
+  <div class="section__wrapper scroll-image-expand__wrapper isolate image-original-size--{{ section.settings.image_original_size }}">
+    <sticky-scroll
+      class="sticky-scroll"
+      data-sticky-distance="1200"
+      data-bottom-halt="800"
+      data-trigger-position="bottom"
+    >
+      <div class="sticky-scroll-container">
+        <div class="media">
+          {%
+            render 'lazy-image',
+            has_mobile: section.settings.image_mobile,
+            image_object: section.settings.image,
+            class: 'banner-image',
+            placeholder: 'lifestyle-1'
+          %}
+
+          {% render 'lazy-image',
+            is_mobile: true,
+            image_object: section.settings.image_mobile,
+            class: 'banner-image-mobile',
+            widths: '450, 660, 900, 1320'
+          %}
+        </div>
+        <div class="content color-{{ section.settings.color_scheme }} gradient">
+          <div class="text-content">
+            {%- if section.settings.heading != blank -%}
+              <h2
+                {% if section.settings.heading_decorative %}
+                  class="font-decorative"
+                {% endif %}
+              >
+                {{ section.settings.heading | escape }}
+              </h2>
+            {%- endif -%}
+            {%- if section.settings.description != blank -%}
+              <div class="rte">{{ section.settings.description }}</div>
+            {%- endif -%}
+            {%- if section.settings.button_label != blank -%}
+              <a
+                class="button button--pill button--hover-animate"
+                {% if section.settings.button_link != blank %}
+                  href="{{ section.settings.button_link }}"
+                {% else %}
+                  aria-disabled="true"
+                  role="link"
+                {% endif %}
+              >
+                {{ section.settings.button_label | escape }}
+                {%- if section.settings.button_arrow -%}
+                  {% render 'icon-sets', icon: 'arrow-right' %}
+                {%- endif -%}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </sticky-scroll>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.scroll-image-expand.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.all.image.image_picker.label",
+      "info": "t:sections.all.banner.height.options__3.info"
+    },
+    {
+      "type": "select",
+      "id": "image_original_size",
+      "label": "t:sections.scroll-image-expand.settings.image_original_size.label",
+      "default": "medium",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.scroll-image-expand.settings.image_original_size.options__1.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.scroll-image-expand.settings.image_original_size.options__2.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.scroll-image-expand.settings.image_original_size.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.content.header_content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "inverse"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.scroll-image-expand.settings.heading.label",
+      "default": "Your slogan"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_decorative",
+      "label": "t:sections.all.text-content.heading.decorative.label",
+      "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.scroll-image-expand.settings.description.label",
+      "default": "<p>Crafting Your Unique Identity<\/p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.all.button.button_label.label",
+      "info": "t:sections.all.button.button_label.info",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.all.button.button_link.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_arrow",
+      "label": "t:sections.all.button.button_arrow.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.mobile.header_content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "t:sections.all.image.image_picker.label",
+      "info": "t:sections.all.banner.height_mobile.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.scroll-image-expand.presets.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,59 @@
+{% comment %}
+    倒计时
+    Accepts:
+        - end_time: {String} 格式 2024-05-01 12:00
+        - end_text: {String} 倒计时结束后的说明
+        - hide_when_end: {Boolean} 结束后关闭Timer
+        - simple: {Boolean} 简化
+        - timer_background: {Color} 计时器背景色
+        - timer_foreground: {Color} 计时器文字色
+
+    Usage:
+        {% render 'countdown', endtime: '2024-05-01 12:00' %}
+{% endcomment %}
+{{ 'component-countdown.css' | asset_url | stylesheet_tag }}
+<countdown-timer class="countdown{% if simple %} style--simple{% endif %}"
+                 data-endtime="{{ end_time }}"
+                 data-shop-timezone="{{ 'now' | date: '%z' }}"
+                {% if hide_when_end %}
+                    data-hide-when-end
+                {% endif %}
+                role="timer"
+                aria-live="off"
+                aria-label="{{ 'countdown.activity_countdown' | t: end_time: end_time }}"
+>
+    <div class="countdown-inner aria-hidden" style="--color-timer-background: {{ timer_background }}; --color-timer-foreground: {{ timer_foreground }};">
+        <div class="countdown-item">
+            <h3 class="font-body">
+                <b class="day">00</b>
+                {% if simple %}d{% endif %}
+            </h3>
+            {%- unless simple -%}
+                <div>{{ 'countdown.days' | t }}</div>
+            {%- endunless -%}
+        </div>
+        <span>:</span>
+        <div class="countdown-item">
+            <h3 class="font-body">
+                <b class="hour">00</b>
+                {% if simple %}h{% endif %}
+            </h3>
+            {%- unless simple -%}
+                <div>{{ 'countdown.hours' | t }}</div>
+            {%- endunless -%}
+        </div>
+        <span>:</span>
+        <div class="countdown-item">
+            <h3 class="font-body">
+                <b class="minute">00</b>
+                {% if simple %}m{% endif %}
+            </h3>
+            {%- unless simple -%}
+                <div>{{ 'countdown.minutes' | t }}</div>
+            {%- endunless -%}
+        </div>
+    </div>
+    <div class="countdown-message hidden">{{ end_text }}</div>
+</countdown-timer>
+
+<script src="{{ 'countdown.js' | asset_url }}" defer="defer"></script>

@@ -1,0 +1,15 @@
+.narrow-banner-image .media {
+  height: var(--height, 100px);
+}
+.narrow-banner-image.image-fixed .narrow-banner-image__wrapper .media {
+  clip-path: inset(-1px);
+}
+.narrow-banner-image.image-fixed .narrow-banner-image__wrapper .media img, .narrow-banner-image.image-fixed .narrow-banner-image__wrapper .media svg {
+  position: fixed;
+  height: 100vh;
+}
+@media screen and (max-width: 749px) {
+  .narrow-banner-image .media {
+    height: var(--height-mobile, 75px);
+  }
+}

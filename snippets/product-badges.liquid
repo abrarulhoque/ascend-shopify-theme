@@ -1,0 +1,93 @@
+{% comment %}
+  渲染产品卡片标签，如促销，新品等
+
+  Accepts:
+      - id: {String}
+      - product: {Obejct}
+      - position: {Enum} left|right
+      - small: {Boolean} 小尺寸
+
+  Usages:
+      {% render 'product-badges', product: product %}
+{% endcomment %}
+<div
+  {% if id != blank %}
+    id="{{ id }}"
+  {% endif %}
+  class="card-badges position--{{ position | default: 'left' }}{% if small %} badges--small{% endif %}"
+>
+  {%- if product.available == false -%}
+    <span class="badge sold-out-badge">
+      {{ 'products.product.sold_out' | t }}
+    </span>
+  {%- else -%}
+    {%- if product.tags contains settings.limit_edition_badge_tag
+      and settings.limit_edition_badge_tag != blank
+      and settings.enable_limit_edition_badge
+    -%}
+      <span class="badge limit-edition-badge"> Limited Edition </span>
+    {%- endif -%}
+
+    {%- if product.variants.first.inventory_quantity <= 0
+      and product.variants.first.inventory_policy == 'continue'
+      and product.variants.first.requires_shipping
+      and product.variants.first.inventory_management == 'shopify'
+      and settings.enable_preorder_badge
+    -%}
+      <span class="badge preorder-badge">
+        {{ 'products.product.preorder' | t }}
+      </span>
+    {%- endif -%}
+
+    {%- if product.compare_at_price > product.price and product.available and settings.enable_sale_badge -%}
+      {% render 'sale-badge', target: product, type: settings.sale_badge_type %}
+    {%- endif -%}
+
+    {% liquid
+      assign if_new = false
+
+      if settings.enable_new_badge
+        if settings.new_label_basis == 'tag'
+          if product.tags contains settings.new_badge_tag and settings.new_badge_tag != blank
+            assign if_new = true
+          endif
+        else
+          assign current_date = 'now' | date: '%s'
+          assign product_published_at = product.published_at | date: '%s'
+          assign product_age_in_days = current_date | minus: product_published_at | divided_by: 86400
+
+          assign diff_days = product_age_in_days | minus: settings.new_product_days
+          if diff_days <= 0
+            assign if_new = true
+          endif
+        endif
+      endif
+    %}
+    {%- if if_new -%}
+      <span class="badge new-badge">
+        {{ 'products.product.new' | t }}
+      </span>
+    {%- endif -%}
+
+    {%- if settings.enable_gift_badge
+      and product.metafields.custom.product_gift.value != blank
+      or product.variants.first.metafields.custom.variant_gift.value != blank
+    -%}
+      <span class="badge gift-badge" data-toggle="tooltip" data-title="{{ 'products.product.gift_available' | t }}">
+        <span class="visually-hidden">{{ 'products.product.gift_available' | t }}</span>
+        {% render 'icon-sets', icon: 'gift' %}
+      </span>
+    {%- endif -%}
+
+    {% comment %} 自定义徽章 {% endcomment %}
+    {%- if product.tags != blank and settings.enable_custom_badge -%}
+      {%- for tag in product.tags -%}
+        {% assign first_char = tag | slice: 0 %}
+        {%- if first_char == '_' and tag != '_' -%}
+          {% assign badge_name = tag | replace: '_', ' ' | strip %}
+          <span class="badge custom-badge">{{ badge_name }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endif -%}
+</div>

@@ -1,0 +1,18 @@
+.gift-card-form .recipient-form .checkbox:has(input:checked) ~ .recipient-fields-wrapper {
+  margin-top: 1rem;
+  display: block;
+}
+.gift-card-form .recipient-form .recipient-fields-wrapper {
+  display: none;
+}
+.gift-card-form .recipient-form .recipient-fields-wrapper .recipient-email-label {
+  display: none;
+}
+
+.js .recipient-email-label.required {
+  display: inline !important;
+}
+
+.no-js .recipient-email-label.optional {
+  display: inline !important;
+}

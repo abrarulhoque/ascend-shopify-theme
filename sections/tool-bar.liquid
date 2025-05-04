@@ -1,0 +1,194 @@
+{{ 'section-tool-bar.css' | asset_url | stylesheet_tag }}
+
+<tool-bar
+  id="Tool-Bar"
+  class="tool-bar color-{{ section.settings.color_scheme }} tool-bar-position--{{ section.settings.position }}{% if section.blocks.size> 0  %} has-tool{% endif %}{% if section.settings.hide_mobile %} small-hide{% endif %}"
+>
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'newsletter' -%}
+        <modal-opener
+          class="tool-bar-item"
+          role="button"
+          aria-label="{{ 'sections.popup_newsletter.modal' | t }}"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls="AutoPopup-Newsletter"
+          style="--animation-order: {{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+          tabindex="0"
+        >
+          {% render 'icon-sets', icon: block.settings.icon %}
+        </modal-opener>
+      {%- when 'search' -%}
+        <modal-opener
+          class="tool-bar-item"
+          role="button"
+          aria-label="{{ 'templates.search.drawer' | t }}"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls="Search-Drawer"
+          style="--animation-order: {{ forloop.index0 }}"
+          tabindex="0"
+          {{ block.shopify_attributes }}
+        >
+          <a href="{{ routes.search_url }}" class="link lh-0" aria-label="{{ 'templates.search.search' | t }}">
+            {% render 'icon-sets', icon: 'search' %}
+          </a>
+        </modal-opener>
+      {%- when 'global' -%}
+        <modal-opener
+          class="tool-bar-item"
+          role="button"
+          aria-label="{{ 'localization.title' | t }}"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls="Localization-Drawer"
+          style="--animation-order: {{ forloop.index0 }}"
+          tabindex="0"
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.show_localization_flag -%}
+            <span class="icon media media--square media--circle">
+              {{ localization.country | image_url: width: 60 | image_tag: loading: 'lazy' }}
+            </span>
+          {%- else -%}
+            {% render 'icon-sets', icon: 'global' %}
+          {%- endif -%}
+        </modal-opener>
+      {%- when 'phone' -%}
+        <a
+          class="tool-bar-item"
+          href="tel:{{ block.settings.phone }}"
+          aria-label="{{ 'accessibility.call_us' | t: phone_number: block.settings.phone }}"
+          style="--animation-order: {{ forloop.index0 }}"
+        >
+          {% render 'icon-sets', icon: 'phone' %}
+        </a>
+      {%- when 'email' -%}
+        <a
+          class="tool-bar-item"
+          href="mailto:{{ block.settings.email }}"
+          aria-label="{{ 'accessibility.email_us' | t: email: block.settings.email }}"
+          style="--animation-order: {{ forloop.index0 }}"
+        >
+          {% render 'icon-sets', icon: 'at' %}
+        </a>
+    {%- endcase -%}
+  {%- endfor -%}
+
+  <a href="#Top" class="tool-bar-item to-top link" aria-label="{{ 'accessibility.to_top' | t }}">
+    {% render 'icon-sets', icon: 'to-top' %}
+    <span>TOP</span>
+    {% render 'border-progress-svg' %}
+  </a>
+</tool-bar>
+
+<script src="{{ 'tool-bar.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "t:sections.tool-bar.name",
+  "class": "section-tool-bar",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "inverse"
+    },
+    {
+      "type": "select",
+      "id": "position",
+      "label": "t:sections.tool-bar.settings.position.label",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.tool-bar.settings.position.options__1.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.tool-bar.settings.position.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_mobile",
+      "label": "t:sections.all.mobile.hide.label",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "search",
+      "name": "t:sections.tool-bar.blocks.search.name",
+      "limit": 1
+    },
+    {
+      "type": "global",
+      "name": "t:sections.tool-bar.blocks.global.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_localization_flag",
+          "label": "t:sections.header.settings.show_localization_flag.label",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "phone",
+      "name": "t:sections.tool-bar.blocks.phone.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "t:sections.tool-bar.blocks.phone.settings.phone.label",
+          "default": "(000) 123-4567"
+        }
+      ]
+    },
+    {
+      "type": "email",
+      "name": "t:sections.tool-bar.blocks.email.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "email",
+          "label": "t:sections.tool-bar.blocks.email.settings.email.label",
+          "default": "support@example.com"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "t:sections.tool-bar.blocks.newsletter.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.tool-bar.blocks.newsletter.settings.icon.label",
+          "default": "gift",
+          "options": [
+            {
+              "value": "email",
+              "label": "t:sections.tool-bar.blocks.newsletter.settings.icon.options__1.label"
+            },
+            {
+              "value": "gift",
+              "label": "t:sections.tool-bar.blocks.newsletter.settings.icon.options__2.label"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,94 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "color_scheme": "inverse",
+        "banner_height": "medium",
+        "heading_size": "medium",
+        "heading_uppercase": false,
+        "heading_decorative": false,
+        "texture_alpha": 80,
+        "texture_fixed": false,
+        "pagination_style": "paginator",
+        "results_per_page": 15,
+        "card_size": "small",
+        "image_ratio": "square",
+        "show_content_wrapper": false,
+        "card_color_scheme": "",
+        "article_show_tags": true,
+        "article_show_date": true,
+        "article_show_author": true,
+        "enable_sorting": true,
+        "enable_filtering": true,
+        "filter_type": "vertical",
+        "vertical_side": "left",
+        "default_expand_facets": "none"
+      }
+    },
+    "collection_thumbnails_D34nAn": {
+      "type": "collection-thumbnails",
+      "blocks": {
+        "collection_RMpDqx": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_jH77f3": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_m6GJbd": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_VzjXqC": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        },
+        "collection_VrtYBd": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "heading": "Collection title"
+          }
+        }
+      },
+      "block_order": [
+        "collection_RMpDqx",
+        "collection_jH77f3",
+        "collection_m6GJbd",
+        "collection_VzjXqC",
+        "collection_VrtYBd"
+      ],
+      "settings": {
+        "show_section_header": true,
+        "heading": "Featured Categories",
+        "description": "",
+        "water_text": "",
+        "button_label": "",
+        "button_link": "",
+        "style": "vertical",
+        "adapt_transparent_image": true,
+        "show_nav_buttons": false,
+        "margin_top": 80,
+        "margin_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collection_thumbnails_D34nAn"
+  ]
+}

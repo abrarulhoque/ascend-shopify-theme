@@ -1,0 +1,271 @@
+@charset "UTF-8";
+.card-wrapper {
+  height: 100%;
+}
+.card-wrapper .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--medium-radius);
+}
+.card-wrapper .card .card-inner {
+  width: 100%;
+}
+.card-wrapper .card .card-inner .card-media-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--medium-radius);
+  overflow: hidden;
+  --alpha-background: 0.02;
+  background: rgb(var(--color-foreground), var(--alpha-background)); /* 给透明图片添加底色 */
+}
+.card-wrapper .card .card-inner .card-media-wrapper .card-media {
+  width: 100%;
+  height: 100%;
+}
+.card-wrapper .card .card-inner .card-inner-content {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr max-content;
+}
+.card-wrapper .card .card-inner .card-inner-content .card-meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.card-wrapper .card .card-inner .card-inner-content .card-meta .add-wish-button .icon {
+  width: 1rem;
+}
+.card-wrapper .card .card-inner .card-inner-content .card-meta .card-badges {
+  margin-left: auto;
+}
+.card-wrapper .card .card-inner .card-inner-content .card-information {
+  padding: 0.5rem;
+}
+.card-wrapper .card .card-inner .card-inner-content .card-information > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.card-wrapper .card .card-inner .card-inner-content .card-information > *:not(:first-child) {
+  margin-top: 0.5rem;
+}
+.card-wrapper .card .card-content {
+  padding: 1rem 0;
+  flex: 1 1 auto;
+}
+.card-wrapper .card .card-content > * {
+  margin-bottom: 0;
+}
+.card-wrapper .card .card-content > *:not(:first-child) {
+  margin-top: 0.5rem;
+}
+.card-wrapper .card .card-content .card-heading {
+  font-size: 1rem;
+}
+.card-wrapper .card .card-badges {
+  padding: 0.5rem;
+}
+.card-wrapper .card.card-layout--horizontal {
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 30rem;
+}
+.card-wrapper .card.card-layout--horizontal .card-inner {
+  /* 水平布局情况的 card inner */
+  flex: 0 0 auto;
+  width: 5.5rem;
+  min-height: 5.5rem;
+}
+.card-wrapper .card.card-layout--horizontal .card-inner .card-content {
+  display: none;
+}
+.card-wrapper .card.card-layout--horizontal .card-content {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.card-wrapper .card.card-layout--horizontal .card-badges {
+  padding: 0;
+}
+.card-wrapper .card.card-content--wrapper {
+  /* 底部容器显示 */
+  border-radius: var(--medium-radius);
+  overflow: hidden;
+}
+.card-wrapper .card.card-content--wrapper .card-inner .card-media-wrapper {
+  --alpha-background: 0;
+  border-radius: 0;
+}
+.card-wrapper .card.card-content--wrapper .card-content {
+  padding: 1rem;
+}
+.card-wrapper .card:not(.card-content--wrapper) {
+  background: transparent;
+}
+.card-wrapper.product-card-wrapper .card .card-inner .card-media-wrapper {
+  padding: var(--card-media-padding);
+}
+.card-wrapper.product-card-wrapper .card .card-inner .card-inner-content .card-quick-add .button {
+  box-shadow: 0 0 0.5rem 0 rgba(var(--color-shadow), 0.2);
+}
+.card-wrapper.product-card-wrapper .card .card-inner .card-inner-content .card-quick-add .button > * {
+  pointer-events: none;
+}
+.card-wrapper.product-card-wrapper .card .card-inner.product--has-secondary-image .product-card-secondary-image {
+  visibility: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-wrapper.product-card-wrapper .card .card-inner:hover.product--has-secondary-image .product-card-featured-image, .card-wrapper.product-card-wrapper .card .card-inner:hover.product--has-secondary-image .placeholder-svg {
+    display: none;
+  }
+}
+.card-wrapper.product-card-wrapper .card .card-inner:hover.product--has-secondary-image .product-card-secondary-image {
+  visibility: visible;
+}
+.card-wrapper.product-card-wrapper .card .card-inner:hover.product--has-secondary-image.image-hover-effect--fade .product-card-featured-image, .card-wrapper.product-card-wrapper .card .card-inner:hover.product--has-secondary-image.image-hover-effect--fade .placeholder-svg {
+  animation: fadeOut 500ms cubic-bezier(0, 0, 0.3, 1) forwards;
+}
+.card-wrapper.product-card-wrapper .card .card-inner:hover.product--has-secondary-image.image-hover-effect--fade .product-card-secondary-image {
+  animation: fadeIn 500ms cubic-bezier(0, 0, 0.3, 1) forwards;
+}
+.card-wrapper.product-card-wrapper .card .card-inner:hover.product--has-secondary-image.image-hover-effect--push .product-card-featured-image, .card-wrapper.product-card-wrapper .card .card-inner:hover.product--has-secondary-image.image-hover-effect--push .placeholder-svg {
+  animation: pushOutToRight 500ms cubic-bezier(0, 0, 0.3, 1) forwards;
+}
+.card-wrapper.product-card-wrapper .card .card-inner:hover.product--has-secondary-image.image-hover-effect--push .product-card-secondary-image {
+  animation: pushInFromLeft 500ms cubic-bezier(0, 0, 0.3, 1) forwards;
+}
+.card-wrapper.product-card-wrapper .card .card-inner:hover:not(.product--has-secondary-image) .product-card-featured-image, .card-wrapper.product-card-wrapper .card .card-inner:hover:not(.product--has-secondary-image) .placeholder-svg {
+  transform: scale(1.05);
+  transition: transform 800ms cubic-bezier(0, 0, 0.3, 1);
+}
+.card-wrapper.product-card-wrapper .card .card-content .card-price .price {
+  font-size: 0.875rem;
+}
+.card-wrapper.product-card-wrapper .card .card-content .product-card-rating .rating-star {
+  --star-size: 0.875rem;
+}
+.card-wrapper.product-card-wrapper .card .card-content .card-swatches {
+  margin-top: 1rem;
+  line-height: 0;
+}
+.card-wrapper.product-card-wrapper .card .card-content .card-quick-add {
+  margin-top: 1rem;
+}
+.card-wrapper.product-card-wrapper .card .card-content .card-quick-add .loading-hidden {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.card-wrapper.product-card-wrapper .card.card-layout--horizontal .card-inner .card-media-wrapper {
+  padding: var(--card-media-padding-horizontal);
+}
+.card-wrapper.product-card-wrapper .card.card-layout--horizontal .card-others {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-wrapper.product-card-wrapper .card.has-swatch-active .card-inner .card-media-wrapper .product-card-featured-image,
+.card-wrapper.product-card-wrapper .card.has-swatch-active .card-inner .card-media-wrapper .product-card-secondary-image {
+  display: none !important;
+}
+@media screen and (max-width: 749px) {
+  .card-wrapper.product-card-wrapper .card .card-inner .card-quick-add .button {
+    min-width: 2.4rem;
+    min-height: 2.4rem;
+  }
+}
+@media screen and (min-width: 750px) {
+  .card-wrapper.product-card-wrapper .card .card-inner .card-quick-add .button:not(.loading, :focus-visible) {
+    opacity: 0;
+  }
+  .card-wrapper.product-card-wrapper .card:hover .card-inner .card-quick-add .button {
+    animation: fadeIn 300ms ease forwards;
+  }
+}
+@media screen and (min-width: 750px) and (prefers-reduced-motion: reduce) {
+  .card-wrapper.product-card-wrapper .card:hover .card-inner .card-quick-add .button {
+    opacity: 1;
+  }
+}
+.card-wrapper.collection-card-wrapper .card .card-inner .card-inner-content {
+  padding: 1rem;
+}
+.card-wrapper.collection-card-wrapper .card .card-inner .card-inner-content .card-information {
+  padding: 1rem;
+  text-align: center;
+  border-radius: var(--medium-radius);
+}
+.card-wrapper.collection-card-wrapper .card .card-inner .card-inner-content .card-information .card-heading {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.card-wrapper.collection-card-wrapper .card .card-inner .card-inner-content .card-information .card-heading.heading-size--small {
+  font-size: 1rem;
+}
+.card-wrapper.collection-card-wrapper .card .card-inner .card-inner-content .card-information .card-heading.heading-size--large {
+  font-size: 2rem;
+}
+.card-wrapper.collection-card-wrapper .card .card-inner .card-inner-content .card-information .card-buttons {
+  margin-top: 1rem;
+}
+.card-wrapper.collection-card-wrapper .card .card-content {
+  display: none;
+}
+.card-wrapper.collection-card-wrapper .card.card-layout--horizontal .card-content {
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+.card-wrapper.collection-card-wrapper .card.card-layout--horizontal .card-content .card-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-wrapper.collection-card-wrapper .card:not(.card-layout--horizontal) .card-inner {
+  height: 100%;
+}
+.card-wrapper.article-card-wrapper .card .article-badge {
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  font-size: 0.75rem;
+}
+.card-wrapper.article-card-wrapper .card .card-content .card-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-wrapper.page-card-wrapper .card-media-wrapper span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  font-weight: var(--font-body-weight-bold);
+  opacity: 0.5;
+}
+.card-wrapper.page-card-wrapper .card-layout--horizontal .card-media-wrapper span {
+  font-size: 2rem;
+}
+.card-wrapper.placeholder-card-wrapper .card .card-content > * {
+  display: block;
+}
+.card-wrapper.placeholder-card-wrapper .card .card-content .card-subheading {
+  max-width: 6rem;
+  height: 1rem;
+}
+.card-wrapper.placeholder-card-wrapper .card .card-content .card-heading {
+  max-width: 17rem;
+  height: 2rem;
+}
+.card-wrapper.placeholder-card-wrapper .card .card-content .card-information {
+  max-width: 12rem;
+  height: 1.5rem;
+}
+.card-wrapper.placeholder-card-wrapper .card.card-layout--horizontal .card-content .card-heading {
+  height: 1rem;
+}
+.card-wrapper.placeholder-card-wrapper .card.card-content--wrapper .card-inner {
+  border-radius: 0;
+}

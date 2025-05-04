@@ -1,0 +1,66 @@
+{% comment %}
+  产品推荐卡片
+  Accepts:
+      - products: {Array}
+      - title: {String}
+      - show_quick_add: {Boolean} 显示快捷结账
+      - number: {String} 限制数量
+
+  Usages:
+      {% render 'featured-products-card', products: products %}
+{% endcomment %}
+{% liquid
+  assign number = number | default: 5
+%}
+<div class="featured-products-card featured-card overflow-hidden">
+  <slider-component class="slider" data-slide-desktop data-slide-mobile data-draggable data-slide-smooth>
+    <div class="featured-header">
+      {%- if title != blank -%}
+        <h3 class="h6 mb-0 font-body font-weight-bold">{{ title }}</h3>
+      {%- endif -%}
+      <div class="button-group ms-auto{% unless products == blank or products.count > 1 and products != blank %} visibility-hidden{% endunless %}">
+        <button
+          type="button"
+          class="nav-button nav-button--prev button button--icon button--small button--ethereal focus-inset"
+          name="previous"
+          aria-label="{{ 'general.slider.previous_slide' | t }}"
+          aria-controls="Slider-{{ section.id }}"
+        >
+          {% render 'icon-sets', icon: 'caret-left' %}
+        </button>
+        <button
+          type="button"
+          class="nav-button nav-button--next button button--icon button--small button--ethereal focus-inset"
+          name="next"
+          aria-label="{{ 'general.slider.next_slide' | t }}"
+          aria-controls="Slider-{{ section.id }}"
+        >
+          {% render 'icon-sets', icon: 'caret-right' %}
+        </button>
+      </div>
+    </div>
+    <div class="slider-container">
+      <ul id="Slider-{{ section.id }}" class="slider-wrapper">
+        {%- for item in products limit: number -%}
+          <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="slider-slide focus-inset" tabindex="0">
+            {% render 'card-product',
+              card_product: item,
+              image_width: '200px',
+              image_width_mobile: '200px',
+              show_horizontal: true,
+              show_quick_add: show_quick_add
+            %}
+          </li>
+        {%- else -%}
+          {%- for i in (1..number) -%}
+            {% assign index = forloop.index0 | modulo: 6 | plus: 1 %}
+            {%- assign placeholder_image = 'product-' | append: index -%}
+            <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="slider-slide focus-inset" tabindex="0">
+              {% render 'card-product', show_horizontal: true, placeholder_image: placeholder_image %}
+            </li>
+          {%- endfor -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </slider-component>
+</div>

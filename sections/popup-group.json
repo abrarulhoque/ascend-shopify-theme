@@ -1,0 +1,82 @@
+{
+  "name": "t:sections.popup.name",
+  "type": "custom.popup",
+  "sections": {
+    "popupNewsletter": {
+      "type": "popup-newsletter",
+      "blocks": {
+        "heading_PbEBpw": {
+          "type": "heading",
+          "settings": {
+            "heading": "Subscribe now",
+            "heading_size": "medium",
+            "heading_decorative": false
+          }
+        },
+        "text_rfM8hb": {
+          "type": "text",
+          "settings": {
+            "description": "<p>Subscribe now and get 15% off your first purchase!<\/p>"
+          }
+        },
+        "countdown_AqtgYf": {
+          "type": "countdown",
+          "settings": {
+            "end_time": "2024-12-01 15:23",
+            "end_text": "Timer complete message",
+            "hide_when_end": false,
+            "simple_style": true,
+            "timer_background_color": "#f7f7f7",
+            "timer_foreground_color": "#000000"
+          }
+        },
+        "newsletter_rD3HN6": {
+          "type": "newsletter",
+          "settings": {
+            "input_style": "separate"
+          }
+        },
+        "social_list_YmfBNe": {
+          "type": "social_list",
+          "settings": {
+            "social_style": "border"
+          }
+        }
+      },
+      "block_order": [
+        "heading_PbEBpw",
+        "text_rfM8hb",
+        "countdown_AqtgYf",
+        "newsletter_rD3HN6",
+        "social_list_YmfBNe"
+      ],
+      "settings": {
+        "disable_for_holder": true,
+        "delay": 16,
+        "frequency": 7,
+        "color_scheme": "background-1",
+        "alignment": "center",
+        "alignment_mobile": "center"
+      }
+    },
+    "popupAgeVerifier": {
+      "type": "popup-age-verifier",
+      "disabled": true,
+      "settings": {
+        "debug_mode": false,
+        "background_color": "#b0b0b0",
+        "enable_background_image_blur": false,
+        "color_scheme": "background-1",
+        "heading": "Verify Your Age",
+        "heading_size": "medium",
+        "description": "<p>Please confirm that you are of legal age to view the content of this store. By entering, you agree that you are over the required age in your country<\/p>",
+        "declined_heading": "Come back when you're older",
+        "declined_description": "<p>Sorry, the content of this store can't be seen by a younger audience. Come back when you're older.<\/p>"
+      }
+    }
+  },
+  "order": [
+    "popupNewsletter",
+    "popupAgeVerifier"
+  ]
+}

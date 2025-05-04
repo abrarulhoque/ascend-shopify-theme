@@ -1,0 +1,353 @@
+{{ 'section-video-banner.css' | asset_url | stylesheet_tag }}
+{% liquid
+  assign alt = 'sections.video.load_video' | t: description: section.settings.video.alt
+  assign mobile_alt = 'sections.video.load_video' | t: description: section.settings.video_mobile.alt
+  assign poster = section.settings.cover_image | default: section.settings.video.preview_image
+  assign poster_mobile = section.settings.cover_image_mobile | default: section.settings.video_mobile.preview_image
+%}
+
+{%- style -%}
+  {%- if section.settings.video_height == 'adapt' -%}
+    {%- if poster != blank -%}
+      #Video-Banner-{{ section.id }} .banner::before {
+        padding-bottom: {{ 1 | divided_by: poster.aspect_ratio | times: 100 }}%;
+      }
+    {%- endif -%}
+
+    {%- if poster_mobile != blank -%}
+      @media screen and (max-width: 749px) {
+        #Video-Banner-{{ section.id }} .banner::before {
+          padding-bottom: {{ 1 | divided_by: poster_mobile.aspect_ratio | times: 100 }}%;
+        }
+      }
+    {%- endif -%}
+  {%- endif -%}
+
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- capture meida_poster -%}
+  <div class="media-poster media">
+    {% render 'lazy-image',
+            has_mobile: poster_mobile,
+            image_object: poster,
+            class: 'video-cover-image',
+            alt: alt,
+            preload: section.settings.if_as_main_area,
+            placeholder: 'lifestyle-2'
+    %}
+
+    {% render 'lazy-image',
+            is_mobile: true,
+            image_object: poster_mobile,
+            class: 'video-cover-image-mobile',
+            widths: '450, 660, 900',
+            alt: mobile_alt,
+            preload: section.settings.if_as_main_area
+    %}
+
+    {%- unless section.settings.enable_looping and section.settings.enable_autoload -%}
+      <div class="video-content-wrapper{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="text-content text-align--center">
+          <h2 class="text-content-heading heading-size--{{ section.settings.heading_size }}{% if section.settings.heading_decorative %} font-decorative{% endif %}">
+            {{ section.settings.heading | escape }}
+          </h2>
+          <div class="text-content-description rte">{{ section.settings.description }}</div>
+          <button class="media-play-button button button--pill button--hover-animate mt-4" aria-label="Play video button" disabled>
+            {%- render 'icon-sets', icon: 'play' -%}
+            {{ 'sections.video.play_video' | t }}
+          </button>
+        </div>
+      </div>
+    {%- endunless -%}
+  </div>
+{%- endcapture -%}
+
+<div
+  id="Video-Banner-{{ section.id }}"
+  class="video-banner{% unless section.settings.enable_full_width %} page-width{% endunless %} section-{{ section.id }}-margin"
+>
+  <div class="section__wrapper video-banner__wrapper isolate{% unless section.settings.enable_full_width %} lg-round{% endunless %} banner banner--{{ section.settings.video_height }}{% if poster == blank %} banner--placeholder{% endif %} color-{{ section.settings.color_scheme }} gradient">
+    <deferred-media
+      class="deferred-media video-model-media{% if section.settings.video_mobile != blank %} small-hide{% endif %}"
+      {% if section.settings.enable_autoload %}
+        data-load-when-visible
+      {% endif %}
+    >
+      {{ meida_poster }}
+      {%- unless section.settings.video == null and section.settings.video_url == null -%}
+        <template>
+          {%- if section.settings.video != null -%}
+            {{
+              section.settings.video
+              | video_tag:
+                image_size: '1600x',
+                autoplay: true,
+                loop: section.settings.enable_looping,
+                controls: section.settings.enable_controls,
+                muted: true
+            }}
+          {%- elsif section.settings.video_url != null -%}
+            {% liquid
+              assign video_id = section.settings.video_url.id
+              assign parameters = ''
+              if section.settings.enable_looping
+                assign parameters = '&loop=1&playlist=' | append: video_id
+              endif
+
+              if section.settings.enable_controls
+                assign parameters = parameters | append: '&controls=1'
+              else
+                assign parameters = parameters | append: '&controls=0'
+              endif
+            %}
+
+            {%- if section.settings.video_url.type == 'youtube' -%}
+              <iframe
+                src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1&mute=1{{ parameters }}"
+                class="js-youtube"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                title="{{ section.settings.heading | escape }}"
+              ></iframe>
+            {%- else -%}
+              <iframe
+                src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1&muted=1{{ parameters }}"
+                class="js-vimeo"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                title="{{ section.settings.heading | escape }}"
+              ></iframe>
+            {%- endif -%}
+          {%- endif -%}
+        </template>
+      {%- endunless -%}
+    </deferred-media>
+    {% comment %} 手机端视频 {% endcomment %}
+    {%- if section.settings.video_mobile != blank -%}
+      <deferred-media
+        class="deferred-media video-model-media medium-hide large-up-hide"
+        {% if section.settings.enable_autoload %}
+          data-load-when-visible
+        {% endif %}
+      >
+        {{ meida_poster }}
+
+        <template>
+          {{
+            section.settings.video_mobile
+            | video_tag:
+              image_size: '900x',
+              autoplay: true,
+              loop: section.settings.enable_looping,
+              controls: section.settings.enable_controls,
+              muted: true
+          }}
+        </template>
+      </deferred-media>
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.video-banner.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_full_width",
+      "label": "t:sections.all.layout.enable_full_width.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.video.header_content"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": ["youtube", "vimeo"],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "label": "t:sections.all.video.video_url.label",
+      "info": "t:sections.all.video.video_url.info"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "t:sections.all.video.video.label",
+      "info": "t:sections.all.video.video.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_controls",
+      "label": "t:sections.all.video.enable_controls.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoload",
+      "label": "t:sections.all.video.enable_autoload.label",
+      "default": false,
+      "info": "t:sections.all.video.enable_autoload.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_looping",
+      "label": "t:sections.all.video.enable_looping.label",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "t:sections.all.video.cover_image.label",
+      "info": "t:sections.all.banner.height.options__2.info"
+    },
+    {
+      "type": "select",
+      "id": "video_height",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.video-banner.settings.video_height.options__1.label"
+        },
+        {
+          "value": "small",
+          "label": "t:sections.video-banner.settings.video_height.options__2.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.video-banner.settings.video_height.options__3.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.video-banner.settings.video_height.options__4.label"
+        }
+      ],
+      "default": "medium",
+      "label": "t:sections.video-banner.settings.video_height.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.content.header_content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "inverse"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.text-content.heading.label",
+      "default": "Talk about your brand"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.all.text-content.heading.size.options__1.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.all.text-content.heading.size.options__2.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.all.text-content.heading.size.options__3.label"
+        }
+      ],
+      "default": "large",
+      "label": "t:sections.all.text-content.heading.size.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_decorative",
+      "label": "t:sections.all.text-content.heading.decorative.label",
+      "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.text-content.description.label",
+      "default": "<p>Share information about your brand with your customers<\/p>"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.mobile.header_content"
+    },
+    {
+      "type": "video",
+      "id": "video_mobile",
+      "label": "t:sections.all.video.video.label",
+      "info": "t:sections.all.video.video.info"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image_mobile",
+      "label": "t:sections.all.video.cover_image.label",
+      "info": "t:sections.all.banner.height_mobile.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.seo.header_content"
+    },
+    {
+      "type": "checkbox",
+      "id": "if_as_main_area",
+      "label": "t:sections.all.seo.if_as_main_area.label",
+      "default": false,
+      "info": "t:sections.all.seo.if_as_main_area.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.video-banner.presets.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,289 @@
+{% comment %}
+  产品卡片
+
+  Accepts:
+  - card_product: {Object} Product Liquid object (optional)
+  - media_aspect_ratio: {Enum} square|portrait
+  - image_width: {String} 电脑端最佳宽度, 用于优化速度
+  - image_width_mobile: {String} 手机端最佳宽度，用于优化速度
+  - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
+  - color_scheme: {String} 内容容器颜色方案
+  - show_vendor: {Boolean} Show the product vendor. Default: false
+  - show_rating: {Boolean} Show the product rating. Default: false
+  - show_badge: {Boolean} 显示标签. Default: false
+  - show_quick_add: {Boolean} Show the quick add button.
+  - show_swatch: {Boolean} 显示swatch
+  - show_horizontal: {Boolean} 横置布局
+  - show_content_wrapper: {Boolean} 显示内容容器
+  - text_alignment: {Enum} 内容对其方式
+  - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-1' (optional)
+
+  Usage:
+  {% render 'card-product' %}
+{% endcomment %}
+
+{%- liquid
+  assign ratio = 1
+  if media_aspect_ratio == 'portrait'
+    assign ratio = 0.8
+  elsif media_aspect_ratio == 'landscape'
+    assign ratio = 1.6
+  endif
+
+  if color_scheme == blank
+    assign color_scheme = settings.main_color_scheme
+  endif
+
+  if show_horizontal
+    assign show_content_wrapper = false
+  endif
+-%}
+
+{% capture sizes %}(min-width: 750px) calc({{ image_width }} * 1.5), {{ image_width_mobile | default: '100vw' }}{% endcapture %}
+
+{%- if card_product != blank -%}
+  {% liquid
+    if show_swatch and card_product.has_only_default_variant == false
+      if settings.card_color_swatch_type == 'color'
+        for option_with_values in card_product.options_with_values
+          assign first_value = option_with_values.values | first
+          if first_value.swatch != blank
+            assign swatch_values = option_with_values
+            break
+          endif
+        endfor
+      else
+        assign swatch_values = card_product.options_with_values | first
+      endif
+    endif
+
+    assign badge_id = 'Product-Badges-' | append: section.id | append: card_product.id
+  %}
+
+  <div class="card-wrapper product-card-wrapper">
+    <product-card class="card{% if show_horizontal %} card-layout--horizontal{% endif %}{% if show_content_wrapper %} card-content--wrapper color-{{ color_scheme }} gradient{% endif %}">
+      <div
+        class="card-inner ratio{% if card_product.images[1] != blank and show_secondary_image %} product--has-secondary-image{% endif %} image-hover-effect--{{ settings.card_hover_effect }}"
+        style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
+      >
+        <div class="card-media-wrapper" style="--alpha-background: {{ settings.card_media_background_alpha }}%;">
+          <div class="card-media media media-fit--{{ settings.card_media_fit }}">
+            {%- if card_product.featured_media != blank -%}
+              {% render 'lazy-image',
+                image_object: card_product.featured_media,
+                class: 'product-card-featured-image',
+                sizes: sizes,
+                widths: '165, 360, 533, 720, 940, 1066'
+              %}
+              {%- if card_product.images[1] != blank and show_secondary_image -%}
+                {% render 'lazy-image',
+                  image_object: card_product.images[1],
+                  class: 'product-card-secondary-image',
+                  sizes: sizes,
+                  widths: '165, 360, 533, 720, 940, 1066'
+                %}
+              {%- endif -%}
+
+              {%- if show_swatch and swatch_values != blank -%}
+                {%- for value in swatch_values.values -%}
+                  {% render 'lazy-image',
+                    image_object: value.variant.image,
+                    class: 'product-card-variant-image hidden',
+                    sizes: sizes,
+                    widths: '165, 360, 533, 720, 940, 1066',
+                    data-index: forloop.index0
+                  %}
+                {% endfor %}
+              {%- endif -%}
+            {%- else -%}
+              {%- if placeholder_image -%}
+                {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- else -%}
+                {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+        </div>
+
+        <a
+          class="card-inner-content link"
+          href="{{ card_product.url | within: collection }}"
+          aria-labelledby="Product-Title-{{ section.id }}-{{ card_product.id }}{% if show_badge %} {{ badge_id }}{% endif %}"
+          tabindex="-1"
+        >
+          {%- unless show_horizontal -%}
+            <div class="card-meta">
+              {%- if show_badge -%}
+                {% render 'product-badges', id: badge_id, product: card_product, position: 'right' %}
+              {%- endif -%}
+            </div>
+            <div class="card-information">
+              {%- if show_quick_add -%}
+                <div class="card-quick-add no-js-hidden">
+                  <modal-opener
+                    class="button button--icon button--pill button--hover-animate has-loading"
+                    data-product-handle="{{ card_product.handle }}"
+                    data-product-url="{{ card_product.url }}"
+                    role="button"
+                    aria-haspopup="dialog"
+                    aria-expanded="false"
+                    aria-controls="Product-QuickView-Drawer"
+                    aria-label="{{ 'products.card.quick_view' | t }}"
+                    tabindex="0"
+                  >
+                    <span class="loading-hidden d-inline-flex align-items-center gap-2">
+                      {% render 'icon-sets', icon: settings.card_quick_add_icon %}
+                    </span>
+                    {% render 'loading-overlay' %}
+                  </modal-opener>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endunless -%}
+        </a>
+      </div>
+      <div class="card-content text-align--{{ text_alignment | default: 'left' }}">
+        <div class="card-others">
+          {%- if show_vendor -%}
+            <span class="caption">{{ card_product.vendor }}</span>
+          {%- endif -%}
+          {%- if show_horizontal and show_badge -%}
+            {% render 'product-badges', id: badge_id, product: card_product, position: 'left', small: true %}
+          {%- endif -%}
+        </div>
+        <h3 class="card-heading font-body">
+          <a
+            id="Product-Title-{{ section.id }}-{{ card_product.id }}"
+            class="link link-underline"
+            href="{{ card_product.url | within: collection }}"
+            aria-labelledby="Product-Title-{{ section.id }}-{{ card_product.id }}{% if show_badge %} {{ badge_id }}{% endif %}"
+          >
+            {%- if settings.card_truncate_title -%}
+              {{ card_product.title | escape | truncate: 30 }}
+            {%- else -%}
+              {{ card_product.title | escape }}
+            {%- endif -%}
+          </a>
+        </h3>
+        {%- if show_rating
+          and card_product.metafields.reviews.rating.value != blank
+          or settings.enable_rating_preview
+        -%}
+          {% liquid
+            assign rating_value = card_product.metafields.reviews.rating.value.rating
+            assign rating_max_value = card_product.metafields.reviews.rating.value.scale_max
+
+            if settings.enable_rating_preview
+              assign rating_value = 4.5
+              assign rating_max_value = 5
+            endif
+          %}
+          <div class="product-card-rating">
+            {% render 'rating',
+              rating_value: rating_value,
+              scale_max: rating_max_value,
+              size: settings.card_star_size,
+              show_score: settings.card_rating_show_score
+            %}
+          </div>
+        {%- endif -%}
+        <div class="card-price">
+          {% render 'price', product_object: card_product %}
+        </div>
+        {%- if show_swatch and swatch_values != blank -%}
+          <div class="card-swatches">
+            {% render 'color-swatches',
+              swatch_type: settings.card_color_swatch_type,
+              swatch_values: swatch_values,
+              max: 5,
+              show_tooltip: true
+            %}
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if show_quick_add and show_horizontal -%}
+        <div class="card-quick-add no-js-hidden">
+          <modal-opener
+            class="button button--small button--icon button--pill button--hover-animate has-loading"
+            data-product-handle="{{ card_product.handle }}"
+            data-product-url="{{ card_product.url }}"
+            role="button"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="Product-QuickView-Drawer"
+            aria-label="{{ 'products.card.quick_view' | t }}"
+            tabindex="0"
+          >
+            <span class="loading-hidden d-inline-flex align-items-center gap-2">
+              {% render 'icon-sets', icon: settings.card_quick_add_icon %}
+            </span>
+            {% render 'loading-overlay' %}
+          </modal-opener>
+        </div>
+      {%- endif -%}
+    </product-card>
+  </div>
+{%- else -%}
+  <div class="card-wrapper product-card-wrapper">
+    <div class="card focus-inset{% if show_horizontal %} card-layout--horizontal{% endif %}{% if show_content_wrapper %} card-content--wrapper color-{{ color_scheme }} gradient{% endif %}">
+      <div class="card-inner ratio" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+        <div class="card-media-wrapper">
+          <div class="card-media media">
+            {%- if placeholder_image -%}
+              {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+        </div>
+        {%- unless show_horizontal -%}
+          <div class="card-inner-content">
+            <div class="card-meta"></div>
+            <div class="card-information">
+              {%- if show_quick_add -%}
+                <div class="card-quick-add no-js-hidden">
+                  <button class="button button--icon button--pill button--hover-animate">
+                    {% render 'icon-sets', icon: settings.card_quick_add_icon %}
+                  </button>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endunless -%}
+      </div>
+      <div class="card-content text-align--{{ text_alignment | default: 'left' }}">
+        {%- if show_vendor -%}
+          <div class="caption">
+            <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+            {{ 'products.product.vendor' | t }}
+          </div>
+        {%- endif -%}
+        <h3 class="card-heading font-body">
+          <a role="link" aria-disabled="true" class="link link-underline">
+            {{ 'onboarding.product_title' | t }}
+          </a>
+        </h3>
+        {%- if show_rating and settings.enable_rating_preview -%}
+          <div class="product-card-rating">
+            {% render 'rating',
+              rating_value: '4.5',
+              scale_max: '5',
+              size: settings.card_star_size,
+              show_score: settings.card_rating_show_score
+            %}
+          </div>
+        {%- endif -%}
+        <div class="card-price">
+          {% render 'price' %}
+        </div>
+      </div>
+      {%- if show_quick_add and show_horizontal -%}
+        <div class="card-quick-add no-js-hidden">
+          <button class="button button--small button--icon button--pill button--hover-animate">
+            {% render 'icon-sets', icon: settings.card_quick_add_icon %}
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

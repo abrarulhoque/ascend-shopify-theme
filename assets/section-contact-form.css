@@ -1,0 +1,62 @@
+.section-contact-form .contact-form__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+}
+.section-contact-form .contact-form__wrapper .contact-form-form {
+  flex: 1 1 auto;
+}
+.section-contact-form .contact-form__wrapper .contact-form-form h2 {
+  font-size: 2rem;
+}
+.section-contact-form .contact-form__wrapper .contact-form-more {
+  flex: 1 1 auto;
+  padding: 2rem;
+  border-radius: var(--medium-radius);
+}
+.section-contact-form .contact-form__wrapper .contact-form-more .contact-list .contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.section-contact-form .contact-form__wrapper .contact-form-more .contact-list .contact-item .icon {
+  width: 1.25rem;
+  opacity: 0.5;
+}
+.section-contact-form .contact-form__wrapper .contact-form-more .contact-list .contact-item h5 {
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+.section-contact-form .contact-form__wrapper .contact-form-more .contact-list .contact-item:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.section-contact-form .contact-form__wrapper .contact-form-more .contact-list:not(:first-child) {
+  margin-top: 2rem;
+}
+.section-contact-form .contact-form__wrapper .contact-form-more .list-social .social-item {
+  --icon-width: 1.5rem;
+}
+@media screen and (max-width: 749px) {
+  .section-contact-form .contact-form__wrapper {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .section-contact-form .contact-form__wrapper .contact-form-more {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 750px) {
+  .section-contact-form .contact-form__wrapper .contact-form-form {
+    min-width: 30rem;
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+  .section-contact-form .contact-form__wrapper .contact-form-more {
+    min-width: 20rem;
+    max-width: 40rem;
+  }
+  .section-contact-form .contact-form__wrapper.form-second .contact-form-form {
+    order: 2;
+  }
+}

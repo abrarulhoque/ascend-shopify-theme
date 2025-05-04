@@ -1,0 +1,290 @@
+*:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(var(--color-outline), 0.75) !important;
+  box-shadow: 0 0 5px 3px rgb(var(--color-outline), 0.2);
+  outline-offset: 3px;
+}
+*:focus-visible.focus-inset {
+  outline: 2px solid rgba(var(--color-outline), 0.75) !important;
+  box-shadow: 0 0 5px 3px rgb(var(--color-outline), 0.2);
+  outline-offset: -2px;
+}
+*:focus-visible.focus-none {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.focused {
+  outline: 2px solid rgba(var(--color-outline), 0.75) !important;
+  box-shadow: 0 0 5px 3px rgb(var(--color-outline), 0.2);
+  outline-offset: 3px;
+}
+.focused.focus-inset {
+  outline: 2px solid rgba(var(--color-outline), 0.75) !important;
+  box-shadow: 0 0 5px 3px rgb(var(--color-outline), 0.2);
+  outline-offset: -2px;
+}
+
+.no-js *:focus {
+  outline: 2px solid rgba(var(--color-outline), 0.75) !important;
+  box-shadow: 0 0 5px 3px rgb(var(--color-outline), 0.2);
+  outline-offset: 3px;
+}
+.no-js *:focus.focus-inset {
+  outline: 2px solid rgba(var(--color-outline), 0.75) !important;
+  box-shadow: 0 0 5px 3px rgb(var(--color-outline), 0.2);
+  outline-offset: -2px;
+}
+.no-js *:focus.focus-none {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.no-js *:focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.no-js *:focus:not(:focus-visible).focus-inset {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.page-width {
+  width: 100%;
+  max-width: 45rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+@media screen and (max-width: 749px) {
+  .page-width {
+    padding: 0 1rem;
+  }
+}
+
+div:empty {
+  display: none;
+}
+
+.gift-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.gift-card header {
+  opacity: 0.75;
+}
+.gift-card main {
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+.gift-card main .card {
+  position: relative;
+  padding: 2rem;
+  background: #CD5747;
+  border-radius: var(--large-radius);
+  color: rgb(var(--color-background));
+  box-shadow: 0 0 0.5rem 0 rgba(var(--color-foreground), 0.2);
+  overflow: hidden;
+}
+.gift-card main .card .expiration-date {
+  font-size: 0.875rem;
+  opacity: 0.75;
+  margin-bottom: 0.25rem;
+}
+.gift-card main .card h1 {
+  font-family: var(--font-heading-family), serif;
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-body-weight-bold);
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 0;
+  text-transform: uppercase;
+}
+.gift-card main .card .qrcode {
+  margin-bottom: 1.5rem;
+}
+.gift-card main .card .qrcode .media {
+  width: 10rem;
+  height: 10rem;
+  border-radius: var(--medium-radius);
+  overflow: hidden;
+  padding: 0.5rem;
+  background: rgb(var(--color-background));
+  margin: 0 auto;
+}
+.gift-card main .card .qrcode .media img {
+  width: 100%;
+  height: 100%;
+}
+.gift-card main .card .footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gift-card main .card .footer .information .price {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: var(--font-body-weight-bold);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.gift-card main .card .footer .information .price .badge {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: var(--font-body-weight-bold);
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  border-radius: 9999px;
+}
+.gift-card main .card .footer .information .price.has-expired .amount {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+.gift-card main .card .footer .shop-name {
+  opacity: 0.75;
+}
+.gift-card main .card:before {
+  content: "";
+  width: 12rem;
+  height: 12rem;
+  border-radius: 9999px;
+  background: rgba(var(--color-background), 0.4);
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  transition: transform 500ms cubic-bezier(0, 0, 0.3, 1);
+}
+.gift-card main .card:hover:before {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+@media screen and (max-width: 749px) {
+  .gift-card main .card {
+    padding: 1rem;
+  }
+  .gift-card main .card h1 {
+    font-size: 1.5rem;
+  }
+  .gift-card main .card .qrcode {
+    margin-bottom: 0.5rem;
+  }
+  .gift-card main .card .qrcode .media {
+    width: 6rem;
+    height: 6rem;
+  }
+  .gift-card main .card .footer .information .price {
+    font-size: 1rem;
+  }
+  .gift-card main .card .footer .information .code {
+    font-size: 0.875rem;
+  }
+  .gift-card main .card:before {
+    width: 10rem;
+    height: 10rem;
+  }
+}
+@media print {
+  .gift-card main .card:before {
+    content: none;
+  }
+}
+
+.button--clear, .button {
+  background: none;
+  border: none;
+  margin: 0;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+}
+
+.button {
+  position: relative;
+  padding: 1rem;
+  border-radius: var(--small-radius);
+  font-weight: var(--font-body-weight-bold);
+  font-size: 0.875rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+.button .icon {
+  width: 1.25rem;
+}
+.button.button-copy {
+  --border-width: 1px;
+}
+.button.button-copy:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--small-radius);
+  box-shadow: inset 0 0 0 var(--border-width) rgba(var(--color-foreground), 1);
+}
+.button.button-copy:hover {
+  --border-width: 2px;
+}
+.button.button-shop {
+  --alpha-background: 1;
+  background: rgba(var(--color-foreground), var(--alpha-background));
+  color: rgb(var(--color-background));
+}
+.button.button-shop:hover {
+  --alpha-background: 0.8;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 15rem;
+  margin: 0 auto;
+}
+.button-group .button {
+  width: 100%;
+}
+
+.introduce-text {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(var(--color-foreground), 0.05);
+  border-radius: var(--small-radius);
+}
+
+.add-to-wallet {
+  text-align: center;
+}
+.add-to-wallet a {
+  display: inline-flex;
+  opacity: 0;
+  animation: slideIn 300ms 2s cubic-bezier(0, 0, 0.3, 1) forwards;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+@keyframes slideIn {
+  0% {
+    transform: translateY(2rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

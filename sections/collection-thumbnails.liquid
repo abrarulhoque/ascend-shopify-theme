@@ -1,0 +1,243 @@
+{{ 'section-collection-thumbnails.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="collection-thumbnails overflow-hidden section-{{ section.id }}-margin">
+    <div class="section__wrapper collection-thumbnails__wrapper isolate page-width">
+      {%- if section.settings.show_section_header -%}
+        {% render 'section-header',
+                heading: section.settings.heading,
+                description: section.settings.description,
+                water_text: section.settings.water_text,
+                button_label: section.settings.button_label,
+                button_link: section.settings.button_link,
+                button_style: 'secondary',
+                show_bottom_line: settings.section_show_title_bottom_line
+        %}
+      {%- endif -%}
+
+      <scrollable-content-viewer class="scrollable-content scrollable--overflow-visible" data-draggable>
+          <ul id="Scrollable-Content-{{ section.id }}" class="scrollable-content-wrapper collection-list style--{{ section.settings.style }}{% if section.settings.adapt_transparent_image %} adapt-transparent-image{% endif %}">
+              {%- for block in section.blocks -%}
+                 {% assign title = block.settings.heading | escape | default: block.settings.collection.title %}
+                  <li class="collection-item hover-trigger{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                      tabindex="0"
+                      {% if settings.animations_reveal_on_scroll %}
+                        data-cascade
+                        style="--animation-order: {{ forloop.index0 }}"
+                      {% endif %}
+                      {{ block.shopify_attributes }}
+                  >
+                      <div class="image-wrapper media media--square{% unless section.settings.adapt_transparent_image %} media--circle{% endunless %}">
+                        {%- if block.settings.image != blank -%}
+                          {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', class: 'animate-scale-up' }}
+                        {%- else -%}
+                          {% assign index = forloop.index0 | modulo: 4 | plus: 1 %}
+                          {% assign placeholder_name = "collection-" | append: index %}
+                          {{ placeholder_name | placeholder_svg_tag: 'placeholder-svg background--transparent animate-scale-up' }}
+                        {%- endif -%}
+                      </div>
+                      <h3 class="mb-0">
+                        <a class="link link-full"
+                           {% if block.settings.collection != blank %}
+                              href="{{ block.settings.collection.url }}"
+                           {% else %}
+                              aria-disabled="true"
+                              role="link"
+                           {% endif %}
+                        >
+                          {{ title }}
+                        </a>
+                      </h3>
+                  </li>
+              {%- endfor -%}
+          </ul>
+          {%- if section.settings.show_nav_buttons -%}
+            <div class="scrollable-buttons">
+              <button  type="button"
+                       class="nav-button nav-button--prev button button--icon button--ethereal focus-inset"
+                       name="previous"
+                       aria-label="{{ 'general.slider.previous_slide' | t }}"
+                       aria-controls="Scrollable-Content-{{ section.id }}"
+              >
+                {% render 'icon-sets', icon: 'caret-left' %}
+              </button>
+              <button  type="button"
+                       class="nav-button nav-button--next button button--icon button--ethereal focus-inset"
+                       name="next"
+                       aria-label="{{ 'general.slider.next_slide' | t }}"
+                       aria-controls="Scrollable-Content-{{ section.id }}"
+              >
+                {% render 'icon-sets', icon: 'caret-right' %}
+              </button>
+            </div>
+          {%- endif -%}
+      </scrollable-content-viewer>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.collection-thumbnails.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.custom-section-header.settings.header_header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_header",
+      "label": "t:sections.custom-section-header.settings.show_section_header.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.text-content.heading.label",
+      "default": "Featured Categories"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.all.text-content.description.label"
+    },
+    {
+      "type": "text",
+      "id": "water_text",
+      "label": "t:sections.custom-section-header.settings.water_text.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.all.button.button_label.label",
+      "info": "t:sections.all.button.button_label.info"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.all.button.button_link.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.content.header_content"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "t:sections.collection-thumbnails.settings.style.label",
+      "default": "vertical",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "t:sections.collection-thumbnails.settings.style.options__1.label"
+        },
+        {
+          "value": "vertical",
+          "label": "t:sections.collection-thumbnails.settings.style.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "adapt_transparent_image",
+      "label": "t:sections.collection-thumbnails.settings.adapt_transparent_image.label",
+      "info": "t:sections.collection-thumbnails.settings.adapt_transparent_image.info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav_buttons",
+      "label": "t:sections.all.slider.show_nav_buttons.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "t:sections.collection-thumbnails.blocks.collection.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.all.image.image_picker.label",
+          "info": "t:sections.collection-thumbnails.blocks.collection.settings.image.info"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.all.collection.label"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.all.text-content.heading.label",
+          "info": "t:sections.collection-thumbnails.blocks.collection.settings.heading.info",
+          "default": "Collection title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.collection-thumbnails.presets.name",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

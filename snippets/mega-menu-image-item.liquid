@@ -1,0 +1,63 @@
+{% comment %}
+  Mega 菜单图片 Item
+  Accepts:
+      - type: {Enum} 类型 inside|below
+      - image: {Object} 图片对象
+      - column: {Number} 图片宽度
+      - heading: {String} 标题
+      - heading_size: {Enum} small|medium|large
+      - heading_position: {Enum} 标题位置(inside)
+      - heading_effect: {Enum} 文字效果(inside) shadow|background
+      - heading_alignment: {Enum} 文字对齐(below)
+      - url: {Url}
+      - class: {String}
+
+  Usage:
+      {% render 'mega-menu-image-item', image: image, heading: 'heading' %}
+{% endcomment %}
+
+{% liquid
+  assign index = id | modulo: 4 | plus: 1
+  assign placeholder_name = 'collection-' | append: index
+%}
+
+{% capture sizes %}(min-width: {{ settings.page_width }}px) {{ settings.page_width | divided_by: 4 | times: column }}, (min-width: 750px) calc(25vw * {{ column }}), 100vw{% endcapture %}
+
+<div class="mega-menu-image media hover-trigger{% if class != blank %} {{ class }}{% endif %}">
+  {% render 'lazy-image',
+    image_object: image,
+    class: 'animate-scale-up',
+    sizes: sizes,
+    widths: '200, 400, 500, 600, 800, 1200, 1500',
+    placeholder: placeholder_name
+  %}
+
+  <a
+    class="media-content link{% if type != 'below' %} position-container position--{{ heading_position | default: 'middle-center' }}{% endif %}"
+    {% if url != blank %}
+      href="{{ url }}"
+    {% else %}
+      role="link"
+      aria-disabled="true"
+    {% endif %}
+  >
+    {% if type != 'below' and heading != blank -%}
+      <b class="image-title title-size--{{ heading_size | default: 'small' }} title-effect--{{ heading_effect | default: 'background' }}">{{ heading }}</b>
+    {%- endif %}
+  </a>
+</div>
+{%- if type == 'below' and heading != blank -%}
+  <div class="mt-1 text-align--{{ heading_alignment | default: 'center' }}">
+    <a
+      class="image-title title-size--{{ heading_size | default: 'small' }} font-weight-bold link link-text"
+      {% if url != blank %}
+        href="{{ url }}"
+      {% else %}
+        role="link"
+        aria-disabled="true"
+      {% endif %}
+    >
+      {{ heading }}
+    </a>
+  </div>
+{%- endif -%}

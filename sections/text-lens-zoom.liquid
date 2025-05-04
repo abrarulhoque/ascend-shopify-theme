@@ -1,0 +1,198 @@
+{{ 'section-text-lens-zoom.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+      margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-margin {
+          margin-top: {{ section.settings.margin_top }}px;
+          margin-bottom: {{ section.settings.margin_bottom }}px;
+      }
+  }
+{%- endstyle -%}
+
+{% liquid
+  assign cover_image = section.settings.image | default: section.settings.video.preview_image
+  assign cover_image_mobile = section.settings.image_mobile | default: section.settings.video_mobile.preview_image
+%}
+
+<div class="text-lens-zoom section-{{ section.id }}-margin">
+  <div class="section__wrapper text-lens-zoom__wrapper isolate">
+    <text-lens-zoom
+      class="sticky-scroll"
+      data-sticky-distance="1500"
+      data-trigger-position="center"
+      {% if section.settings.disable_animate_mobile %}
+        data-mobile-disabled
+      {% endif %}
+      style="--change-ratio: 0"
+    >
+      <div class="sticky-scroll-container">
+        <div class="appear-content">
+          <h2 class="rte{% if section.settings.heading_decorative %} font-decorative{% endif %}">
+            {{ section.settings.heading }}
+          </h2>
+        </div>
+
+        <deferred-media
+          class="video-model-media deferred-media{% if section.settings.video_mobile != blank %} small-hide{% endif %} no-js-hidden"
+          data-load-when-visible
+        >
+          <div class="media-poster media">
+            {% render 'lazy-image',
+              has_mobile: cover_image_mobile,
+              image_object: cover_image,
+              preload: section.settings.if_as_main_area,
+              placeholder: 'lifestyle-1'
+            %}
+
+            {% render 'lazy-image',
+              is_mobile: true,
+              image_object: cover_image_mobile,
+              preload: section.settings.if_as_main_area,
+              placeholder: 'lifestyle-1'
+            %}
+          </div>
+          {%- if section.settings.video != blank -%}
+            <template>
+              {{
+                section.settings.video
+                | video_tag: image_size: '1800x', loop: true, controls: false, muted: true, autoplay: true
+              }}
+            </template>
+          {%- endif -%}
+        </deferred-media>
+
+        {%- if section.settings.video_mobile != blank -%}
+          <deferred-media
+            class="video-model-media deferred-media medium-hide large-up-hide no-js-hidden"
+            data-load-when-visible
+          >
+            <div class="media-poster media">
+              {% render 'lazy-image',
+                has_mobile: cover_image_mobile,
+                image_object: cover_image,
+                preload: section.settings.if_as_main_area,
+                placeholder: 'lifestyle-1'
+              %}
+
+              {% render 'lazy-image',
+                is_mobile: true,
+                image_object: cover_image_mobile,
+                preload: section.settings.if_as_main_area,
+                placeholder: 'lifestyle-1'
+              %}
+            </div>
+            <template>
+              {{
+                section.settings.video_mobile
+                | video_tag: image_size: '900x', loop: true, controls: false, muted: true, autoplay: true
+              }}
+            </template>
+          </deferred-media>
+        {%- endif -%}
+      </div>
+    </text-lens-zoom>
+  </div>
+</div>
+
+<script src="{{ 'text-lens-zoom.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "t:sections.text-lens-zoom.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.all.image.image_picker.label",
+      "info": "t:sections.all.banner.height.options__3.info"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "t:sections.all.video.video.label"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "t:sections.all.text-content.heading.label",
+      "info": "t:sections.text-lens-zoom.settings.heading.info",
+      "default": "<p>YOUR SLOGAN<\/p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_decorative",
+      "label": "t:sections.all.text-content.heading.decorative.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.mobile.header_content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "t:sections.all.image.image_picker.label",
+      "info": "t:sections.all.banner.height_mobile.info"
+    },
+    {
+      "type": "video",
+      "id": "video_mobile",
+      "label": "t:sections.all.video.video.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_animate_mobile",
+      "label": "t:sections.all.mobile.disable_animation_effect.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.seo.header_content"
+    },
+    {
+      "type": "checkbox",
+      "id": "if_as_main_area",
+      "label": "t:sections.all.seo.if_as_main_area.label",
+      "default": false,
+      "info": "t:sections.all.seo.if_as_main_area.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.text-lens-zoom.presets.name"
+    }
+  ]
+}
+{% endschema %}

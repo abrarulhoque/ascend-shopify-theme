@@ -1,0 +1,124 @@
+{% comment %}
+  为给定博客渲染文章卡片，设置是否显示图片。
+
+  Accepts：
+      - card_article: {Object} 文章对象
+      - media_aspect_ratio: {String} 设置文章图片的宽高比例（如果显示）
+      - perfect_width: {String} 最佳宽度
+      - perfect_width_mobile: {String} 手机端最佳宽度
+      - show_tags: {Boolean} 是否显示文章Tags
+      - show_date: {Boolean} 设置是否显示文章日期。如果未包含此设置，默认不显示日期
+      - show_author: {Boolean} 设置是否显示文章作者。如果未包含此设置，默认不显示作者
+      - show_excerpt: {Boolean} 设置显示简介
+      - show_horizontal: {Boolean} 是否横置布局
+      - placeholder_image: {Object} 占位图片对象
+
+  Usage：
+    {% render 'card-article' blog: blog, card_article: article %}
+{% endcomment %}
+
+{%- liquid
+    if media_aspect_ratio == 'portrait'
+        assign ratio = 0.8
+    elsif media_aspect_ratio == 'landscape'
+        assign ratio = 1.6
+    else
+        assign ratio = 1
+    endif
+
+    assign placeholder_image = placeholder_image | default: 'product-1'
+-%}
+
+{% capture sizes %}(min-width: 750px) calc({{ perfect_width }} * 1.5), {{ perfect_width_mobile | default: '100vw' }}{% endcapture %}
+{%- if card_article and card_article != empty -%}
+   <div class="article-card-wrapper card-wrapper hover-trigger">
+    <div class="card{% if show_horizontal %} card-layout--horizontal{% endif %}">
+      <div class="card-inner ratio" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+          <div class="card-media-wrapper">
+              <div class="card-media media">
+                  {% render 'lazy-image',
+                          image_object: card_article.image,
+                          class: 'animate-scale-up',
+                          sizes: sizes,
+                          widths: '165, 360, 533, 720, 1000, 1500',
+                          placeholder: placeholder_image
+                  %}
+              </div>
+          </div>
+          <a href="{{ card_article.url }}" class="card-inner-content link" aria-label="{{ card_article.title }}" tabindex="-1">
+                {%- if card_article.tags != blank and show_tags -%}
+                    <div id="Article-Badges-{{ section.id }}-{{ card_article.id }}" class="card-badges">
+                        {%- for tag in card_article.tags -%}
+                            <span class="badge article-badge">{{ tag }}</span>
+                        {%- endfor -%}
+                    </div>
+                {%- endif -%}
+          </a>
+      </div>
+      <div class="card-content">
+        <div class="card-caption caption">
+            {%- if show_date -%}
+                <span>{{- card_article.published_at | time_tag: format: 'date' -}}</span>
+            {%- endif -%}
+            {%- if show_author -%}
+                <span>{{- card_article.author -}}</span>
+            {%- endif -%}
+        </div>
+        <h3 class="card-heading font-body">
+            <a id="Article-Title-{{ section.id }}-{{ card_article.id }}"
+               class="link link-underline"
+               href="{{ card_article.url }}"
+               aria-labelledby="Article-Title-{{ section.id }}-{{ card_article.id }} Article-Badges-{{ section.id }}-{{ card_article.id }}"
+            >
+                {{ card_article.title | escape }}
+            </a>
+        </h3>
+        {%- if show_excerpt and card_article.excerpt.size > 0 or card_article.content.size > 0 -%}
+            <div class="card-description light">
+                {%- if card_article.excerpt.size > 0 -%}
+                    {{ card_article.excerpt | strip_html | truncatewords: 15 }}
+                {%- else -%}
+                    {{ card_article.content | strip_html | truncatewords: 15 }}
+                {%- endif -%}
+            </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- else -%}
+   <div class="article-card-wrapper card-wrapper hover-trigger">
+       <div class="card{% if show_horizontal %} card-layout--horizontal{% endif %}">
+           <div class="card-inner ratio" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+               <div class="card-media-wrapper">
+                   <div class="card-media media">
+                       {%- if placeholder_image -%}
+                           {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg animate-scale-up' }}
+                       {%- else -%}
+                           {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg animate-scale-up' }}
+                       {% endif %}
+                   </div>
+               </div>
+           </div>
+           <div class="card-content">
+               <div class="card-caption caption">
+                   {%- if show_date -%}
+                       <span>{{ 'sections.featured_blog.onboarding_date' | t }}</span>
+                   {%- endif -%}
+                   {%- if show_author -%}
+                       <span>{{ 'sections.featured_blog.onboarding_author' | t }}</span>
+                   {%- endif -%}
+               </div>
+               <h3 class="card-heading font-body">
+                   <a role="link" aria-disabled="true" class="link link-underline">
+                       {{ 'sections.featured_blog.onboarding_title' | t }}
+                   </a>
+               </h3>
+               {%- if show_excerpt -%}
+                   <div class="card-description light">
+                       {{ 'sections.featured_blog.onboarding_content' | t }}
+                   </div>
+               {%- endif -%}
+           </div>
+       </div>
+   </div>
+{%- endif -%}

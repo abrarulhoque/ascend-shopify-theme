@@ -1,0 +1,76 @@
+.section-faq .section-faq__wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4rem;
+}
+.section-faq .section-faq__wrapper .faq-list details-disclosure:not(:last-child) {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.section-faq .section-faq__wrapper .faq-list .faq-item summary {
+  padding: 1rem;
+  font-weight: var(--font-body-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  --alpha-background: 0;
+  background: rgba(var(--color-foreground), var(--alpha-background));
+  position: relative;
+  border-radius: var(--small-radius);
+}
+.section-faq .section-faq__wrapper .faq-list .faq-item summary:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: inset 0 0 0 1px rgba(var(--color-foreground), 0.2);
+  border-radius: var(--small-radius);
+  pointer-events: none;
+  z-index: 1;
+}
+.section-faq .section-faq__wrapper .faq-list .faq-item summary .icon {
+  width: 0.75rem;
+}
+.section-faq .section-faq__wrapper .faq-list .faq-item summary:hover {
+  --alpha-background: 0.05;
+}
+.section-faq .section-faq__wrapper .faq-list .faq-item .details-disclosure-content {
+  min-height: 5rem;
+  padding: 1rem;
+  border-radius: 0 0 var(--small-radius) var(--small-radius);
+  background: rgba(var(--color-foreground), 0.02);
+}
+.section-faq .section-faq__wrapper .faq-list .faq-item.has-opened summary {
+  --alpha-background: 1;
+  color: rgb(var(--color-background));
+}
+.section-faq .section-faq__wrapper .faq-more .media {
+  border-radius: var(--medium-radius);
+}
+@media screen and (max-width: 749px) {
+  .section-faq .section-faq__wrapper {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .section-faq .section-faq__wrapper > * {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 750px) {
+  .section-faq .section-faq__wrapper .faq-more {
+    position: sticky;
+    top: calc(var(--header-height, 5rem) + 1rem);
+    min-width: 30rem;
+    max-width: 40rem;
+    flex: 1 100 auto;
+  }
+  .section-faq .section-faq__wrapper .faq-list {
+    flex: 100 1 40rem;
+  }
+  .section-faq .section-faq__wrapper.faq-list--only .faq-list {
+    max-width: 60rem;
+  }
+}

@@ -1,0 +1,39 @@
+{% comment %}
+  渲染Page卡片
+  Accepts
+      - card_page: {Object} 页面对象
+      - media_aspect_ratio: {Enum} square|portrait
+      - show_horizontal: {Boolean} 水平显示
+
+  Usage:
+      {% render 'card-page', card_page: page %}
+{% endcomment %}
+{% liquid
+  assign ratio = 1
+  if media_aspect_ratio == 'portrait'
+    assign ratio = 0.8
+  elsif media_aspect_ratio == 'landscape'
+    assign ratio = 1.6
+  endif
+%}
+<div class="card-wrapper page-card-wrapper hover-trigger">
+  <div class="card{% if show_horizontal %} card-layout--horizontal{% endif %}">
+    <div class="card-inner ratio" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+      <div class="card-media-wrapper">
+        <div class="card-media media">
+          <span class="animate-scale-up">{{ card_page.title | slice: 0 }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-content">
+      <h3 class="card-heading font-body">
+        <a class="link link-underline" href="{{ card_page.url }}">
+          {{ card_page.title | truncate: 50 | escape }}
+        </a>
+      </h3>
+      <p class="card-description light">
+        {{ card_page.content | strip_html | truncate: 60 }}
+      </p>
+    </div>
+  </div>
+</div>

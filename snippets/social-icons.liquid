@@ -1,0 +1,209 @@
+{% comment %}
+  Renders social icons.
+  Accepts:
+  - class: {String} a class to be added to the <ul> element (optional).
+  - show_tooltip: {Boolean} 显示tooltip
+  - style: {Enum} 风格 icon|border|wrapper|solid
+
+  Usage:
+  {% render 'social-icons', class: 'my-class', show_tooltip: true, style: 'icon' %}
+{% endcomment %}
+
+<ul class="list-social{% if class %} {{ class }}{% endif %} social-style--{{ style | default: 'icon' }}">
+  {%- if settings.social_facebook_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.facebook' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_facebook_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'meta' -%}
+        <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_instagram_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.instagram' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_instagram_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'instagram' -%}
+        <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_youtube_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.youtube' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_youtube_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'youTube' -%}
+        <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_tiktok_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.tiktok' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_tiktok_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'tiktok' -%}
+        <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_twitter_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.twitter' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_twitter_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'twitter' -%}
+        <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_snapchat_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.snapchat' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_snapchat_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'snapchat' -%}
+        <span class="visually-hidden">{{ 'general.social.links.snapchat' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_pinterest_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.pinterest' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_pinterest_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'pinterest' -%}
+        <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_tumblr_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.tumblr' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_tumblr_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'tumblr' -%}
+        <span class="visually-hidden">{{ 'general.social.links.tumblr' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_vimeo_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.vimeo' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_vimeo_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'vimeo' -%}
+        <span class="visually-hidden">{{ 'general.social.links.vimeo' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_linkedin_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.linkedin' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_linkedin_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'linkedIn' -%}
+        <span class="visually-hidden">{{ 'general.social.links.linkedin' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_whatsapp_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.whatsapp' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_whatsapp_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'whatsApp' -%}
+        <span class="visually-hidden">{{ 'general.social.links.whatsapp' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_reddit_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.reddit' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_reddit_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'reddit' -%}
+        <span class="visually-hidden">{{ 'general.social.links.reddit' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_discord_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.discord' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_discord_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'discord' -%}
+        <span class="visually-hidden">{{ 'general.social.links.discord' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_bluesky_link != blank -%}
+    <li
+      class="social-item"
+      {% if show_tooltip == true %}
+        data-toggle="tooltip"
+        data-title="{{ 'general.social.links.bluesky' | t }}"
+      {% endif %}
+    >
+      <a href="{{ settings.social_bluesky_link }}" class="link focus-inset" target="_blank">
+        {%- render 'icon-sets', icon: 'bluesky' -%}
+        <span class="visually-hidden">{{ 'general.social.links.bluesky' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
+</ul>

@@ -1,0 +1,84 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-cart-details.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+    .main-cart__wrapper .banner:before {
+        padding-bottom: 15rem;
+    }
+{%- endstyle -%}
+<div id="Main-Cart" class="main-cart" data-section="{{ section.id }}">
+    <div class="section__wrapper main-cart__wrapper isolate isolate--higher template-collection">
+        <div class="banner banner--small color-{{ section.settings.color_scheme }} gradient">
+            <div class="banner-content">
+                <div class="banner-content-main page-width">
+                    <div class="text-content full-width text-align--{{ section.settings.alignment }}">
+                        {%- if settings.enable_breadcrumb -%}
+                            {%- render 'breadcrumb', page_type: 'cart' -%}
+                        {%- endif -%}
+                        <h1 class="text-content-heading heading-size--{{ section.settings.heading_size }}{% if section.settings.heading_uppercase %} uppercase{% endif %}{% if section.settings.heading_decorative %} font-decorative{% endif %}">
+                            {{ 'templates.cart.my_cart' | t }}
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Main-Cart-Details" class="main-cart-content page-width{% if cart == empty %} is-empty{% endif %}">
+            {% render 'cart-details' %}
+        </div>
+    </div>
+</div>
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "t:sections.main-cart.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.banner.header_content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "background-2"
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "t:sections.all.text-alignment.label",
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:sections.all.text-content.heading.size.label",
+      "options": [
+        {
+          "label": "t:sections.all.text-content.heading.size.options__1.label",
+          "value": "small"
+        },
+        {
+          "label": "t:sections.all.text-content.heading.size.options__2.label",
+          "value": "medium"
+        },
+        {
+          "label": "t:sections.all.text-content.heading.size.options__3.label",
+          "value": "large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_uppercase",
+      "label": "t:sections.all.text-content.heading.uppercase.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_decorative",
+      "label": "t:sections.all.text-content.heading.decorative.label",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

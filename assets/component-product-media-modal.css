@@ -1,0 +1,95 @@
+.product-media-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 101;
+}
+.product-media-modal .modal-close-button {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  z-index: 1;
+  --color-button: var(--color-background);
+  --alpha-button-background: 0.5;
+}
+.product-media-modal .modal-content {
+  height: 100vh;
+}
+.product-media-modal .modal-content .slider {
+  height: 100%;
+}
+.product-media-modal .modal-content .slider .slider-container {
+  height: 100%;
+}
+.product-media-modal .modal-content .slider .slider-container .slider-wrapper {
+  height: 100%;
+}
+.product-media-modal .modal-content .slider .slider-container .slider-wrapper .modal-media {
+  height: 100%;
+}
+.product-media-modal .modal-content .slider .slider-container .slider-wrapper .modal-media > * {
+  height: 100%;
+}
+.product-media-modal .modal-content .slider .slider-container .slider-wrapper .modal-media img, .product-media-modal .modal-content .slider .slider-container .slider-wrapper .modal-media svg {
+  object-fit: contain;
+}
+.product-media-modal .modal-content .slider .slider-controller {
+  position: absolute;
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.product-media-modal .modal-content .slider .slider-controller .slider-nav-buttons {
+  width: 100%;
+  justify-content: space-between;
+}
+.product-media-modal .modal-content .slider .slider-controller .slider-nav-buttons .nav-button {
+  --color-button: var(--color-background);
+  --alpha-button-background: 0.5;
+}
+.product-media-modal .modal-content .slider .slider-controller .slider-counter {
+  position: absolute;
+  bottom: 2rem;
+  padding: 0.5rem 2rem;
+  border-radius: 9999px;
+  background: rgba(var(--color-background), 0.8);
+  font-size: 0.875rem;
+}
+@media screen and (max-width: 749px) {
+  .product-media-modal .modal-content .slider .slider-controller {
+    display: flex !important;
+  }
+}
+.product-media-modal .modal-tip {
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: var(--small-radius);
+  padding: 0.5rem 1rem;
+  background: rgba(var(--color-background), 0.8);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.product-media-modal .modal-tip .icon {
+  width: 1.25rem;
+}
+.product-media-modal .modal-tip.active {
+  animation: fadeIn 300ms 500ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+.product-media-modal[open] {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}

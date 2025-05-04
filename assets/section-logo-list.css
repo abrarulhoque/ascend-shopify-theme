@@ -1,0 +1,40 @@
+.section-logo-list chaser-lights {
+  display: block;
+  padding: 2rem 0;
+}
+.section-logo-list chaser-lights .logo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  row-gap: 1.5rem;
+}
+.section-logo-list chaser-lights .logo-list .logo-item {
+  width: 8rem;
+}
+.section-logo-list chaser-lights .logo-list .logo-item img, .section-logo-list chaser-lights .logo-list .logo-item svg {
+  width: 100%;
+  height: auto;
+}
+.section-logo-list chaser-lights .logo-list.gray-effect .logo-item {
+  opacity: 0.3;
+  filter: grayscale(1);
+  transition: opacity 800ms cubic-bezier(0, 0, 0.3, 1);
+}
+.section-logo-list chaser-lights .logo-list.gray-effect .logo-item:hover, .section-logo-list chaser-lights .logo-list.gray-effect .logo-item.active {
+  opacity: 1;
+  filter: none;
+}
+@media screen and (max-width: 749px) {
+  .section-logo-list chaser-lights .logo-list {
+    gap: 2rem;
+    row-gap: 1rem;
+  }
+  .section-logo-list chaser-lights .logo-list .logo-item {
+    width: 5rem;
+  }
+}

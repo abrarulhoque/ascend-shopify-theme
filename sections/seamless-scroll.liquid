@@ -1,0 +1,745 @@
+{{ 'section-seamless-scroll.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .section-{{ section.id }}-margin {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div class="seamless-scroll section-{{ section.id }}-margin{% unless section.settings.enable_full_width %} page-width{% endunless %}">
+  <scroll-seamless
+    class="section__wrapper seamless-scroll__wrapper overflow-hidden section-{{ section.id }}-padding isolate{% if section.settings.display_border_blur %} border-gradient-alpha{% endif %} color-{{ section.settings.color_scheme }} gradient{% unless section.settings.enable_full_width %} lg-round{% endunless %}"
+    data-direction="{{ section.settings.direction }}"
+    data-speed="{{ section.settings.speed }}"
+    role="marquee"
+    aria-label="scrolling marquee"
+  >
+    <div class="scroll-container{% if section.settings.enable_scroll_synergy %} scroll-synergy synergy--crab-{{ section.settings.direction }}{% endif %}">
+      <div class="scroll-list" style="--item-gap: {{ section.settings.gap }}px; --item-gap-mobile: {{ section.settings.gap | times: 0.75 | round: 0 }}px;">
+        {%- for block in section.blocks -%}
+          <div class="scroll-item" {{ block.shopify_attributes }}>
+            {%- if block.type == 'text' -%}
+              <div
+                class="scroll-item-text{% if block.settings.font_decorative %} font-decorative{% endif %}"
+                style="--font-size: {{ block.settings.font_size }}px; --font-size-mobile: {{ block.settings.font_size | times: 0.75 | round: 0 }}px; font-weight: {{ block.settings.font_weight }};{% if block.settings.enable_custom_color %} color: {{ block.settings.custom_color }};{% endif %}"
+              >
+                {{ block.settings.content }}
+              </div>
+            {%- elsif block.type == 'icon' -%}
+              <div
+                class="scroll-item-icon"
+                style="--icon-size: {{ block.settings.icon_size }}px; --icon-size-mobile: {{ block.settings.icon_size | times: 0.75 | round: 0 }}px;{% if block.settings.enable_custom_color %} color: {{ block.settings.custom_color }};{% endif %}"
+              >
+                {% render 'icon-sets', icon: block.settings.icon %}
+                <span class="visually-hidden">{{ 'general.icon.description' | t: icon: block.settings.icon }}</span>
+              </div>
+            {%- elsif block.type == 'spacer' -%}
+              <div class="scroll-item-spacer" style="--width: {{ block.settings.width }}px; --width-mobile: {{ block.settings.width | times: 0.75 | round: 0 }}px;">
+                {% comment %} Leave a space {% endcomment %}
+              </div>
+            {%- else -%}
+              <div
+                class="scroll-item-image media media--square"
+                style="--image-size: {{ block.settings.image_size }}px; --image-size-mobile: {{ block.settings.image_size | times: 0.75 | round: 0 }}px; --image-rotate: {{ block.settings.image_rotate }}deg;"
+              >
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 200 | image_tag: loading: 'lazy' }}
+                {%- else -%}
+                  {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </scroll-seamless>
+</div>
+<script src="{{ "seamless-scroll.js" | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.seamless-scroll.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["custom.drawer", "custom.popup"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_full_width",
+      "label": "t:sections.all.layout.enable_full_width.label",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.scheme.label",
+      "default": "inverse"
+    },
+    {
+      "type": "radio",
+      "label": "t:sections.seamless-scroll.settings.direction.label",
+      "id": "direction",
+      "options": [
+        {
+          "label": "t:sections.seamless-scroll.settings.direction.options__1.label",
+          "value": "left"
+        },
+        {
+          "label": "t:sections.seamless-scroll.settings.direction.options__2.label",
+          "value": "right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:sections.seamless-scroll.settings.gap.label",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:sections.seamless-scroll.settings.speed.label",
+      "info": "t:sections.seamless-scroll.settings.speed.info",
+      "min": 5,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "checkbox",
+      "id": "display_border_blur",
+      "label": "t:sections.seamless-scroll.settings.display_border_blur.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_scroll_synergy",
+      "label": "t:sections.seamless-scroll.settings.enable_scroll_synergy.label",
+      "info": "t:sections.all.desktop.effect.info",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.header_content"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top.label",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom.label",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.margin.header_content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.margin.margin_bottom.label",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "t:sections.seamless-scroll.blocks.text.name",
+      "settings": [
+        {
+          "type": "text",
+          "label": "t:sections.seamless-scroll.blocks.text.settings.content.label",
+          "id": "content",
+          "default": "Enter your text here"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "label": "t:sections.seamless-scroll.blocks.text.settings.font_size.label",
+          "min": 10,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 24
+        },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "t:sections.seamless-scroll.blocks.text.settings.font_weight.label",
+          "info": "t:sections.seamless-scroll.blocks.text.settings.font_weight.info",
+          "options": [
+            {
+              "value": "100",
+              "label": "t:sections.seamless-scroll.blocks.text.settings.font_weight.options__1.label"
+            },
+            {
+              "value": "300",
+              "label": "t:sections.seamless-scroll.blocks.text.settings.font_weight.options__2.label"
+            },
+            {
+              "value": "400",
+              "label": "t:sections.seamless-scroll.blocks.text.settings.font_weight.options__3.label"
+            },
+            {
+              "value": "700",
+              "label": "t:sections.seamless-scroll.blocks.text.settings.font_weight.options__4.label"
+            },
+            {
+              "value": "900",
+              "label": "t:sections.seamless-scroll.blocks.text.settings.font_weight.options__5.label"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "checkbox",
+          "id": "font_decorative",
+          "label": "t:sections.all.text-content.heading.decorative.label",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "t:sections.seamless-scroll.blocks.text.settings.header_custom_color.content"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_custom_color",
+          "label": "t:sections.all.colors.enable_custom_color.label",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "custom_color",
+          "label": "t:sections.all.colors.custom_color.label",
+          "default": "#000000"
+        }
+      ]
+    },
+    {
+      "type": "icon",
+      "name": "t:sections.seamless-scroll.blocks.icon.name",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.all.icon.label",
+          "default": "wish",
+          "options": [
+            {
+              "value": "none",
+              "label": "t:sections.all.icon.options__1.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.shop",
+              "value": "cart",
+              "label": "t:sections.all.icon.options__2.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.shop",
+              "value": "wish",
+              "label": "t:sections.all.icon.options__3.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.shop",
+              "value": "sale",
+              "label": "t:sections.all.icon.options__4.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.shop",
+              "value": "new",
+              "label": "t:sections.all.icon.options__5.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.shop",
+              "value": "hot",
+              "label": "t:sections.all.icon.options__6.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.shop",
+              "value": "gift",
+              "label": "t:sections.all.icon.options__7.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.shipping",
+              "value": "truck",
+              "label": "t:sections.all.icon.options__8.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.shipping",
+              "value": "plane",
+              "label": "t:sections.all.icon.options__9.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.shipping",
+              "value": "steamer",
+              "label": "t:sections.all.icon.options__10.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.order",
+              "value": "track",
+              "label": "t:sections.all.icon.options__11.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.order",
+              "value": "return",
+              "label": "t:sections.all.icon.options__12.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.order",
+              "value": "refund",
+              "label": "t:sections.all.icon.options__13.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.order",
+              "value": "security",
+              "label": "t:sections.all.icon.options__14.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.order",
+              "value": "card",
+              "label": "t:sections.all.icon.options__15.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.order",
+              "value": "money",
+              "label": "t:sections.all.icon.options__16.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.communication",
+              "value": "phone",
+              "label": "t:sections.all.icon.options__17.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.communication",
+              "value": "email",
+              "label": "t:sections.all.icon.options__18.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.communication",
+              "value": "chat",
+              "label": "t:sections.all.icon.options__19.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.communication",
+              "value": "24h",
+              "label": "t:sections.all.icon.options__20.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.communication",
+              "value": "service",
+              "label": "t:sections.all.icon.options__21.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.communication",
+              "value": "question",
+              "label": "t:sections.all.icon.options__22.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.communication",
+              "value": "send",
+              "label": "t:sections.all.icon.options__23.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.tech",
+              "value": "wifi",
+              "label": "t:sections.all.icon.options__24.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.tech",
+              "value": "bluetooth",
+              "label": "t:sections.all.icon.options__25.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.tech",
+              "value": "camera",
+              "label": "t:sections.all.icon.options__26.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.tech",
+              "value": "ar",
+              "label": "t:sections.all.icon.options__27.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.tech",
+              "value": "vr",
+              "label": "t:sections.all.icon.options__28.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.tech",
+              "value": "print",
+              "label": "t:sections.all.icon.options__29.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.tech",
+              "value": "scan",
+              "label": "t:sections.all.icon.options__30.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.tech",
+              "value": "3d",
+              "label": "t:sections.all.icon.options__31.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "apple",
+              "label": "t:sections.all.icon.options__32.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "carrot",
+              "label": "t:sections.all.icon.options__33.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "lemon",
+              "label": "t:sections.all.icon.options__34.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "burger",
+              "label": "t:sections.all.icon.options__35.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "cake",
+              "label": "t:sections.all.icon.options__36.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "coffee",
+              "label": "t:sections.all.icon.options__37.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "milk",
+              "label": "t:sections.all.icon.options__38.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "beer",
+              "label": "t:sections.all.icon.options__39.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "ice-cream",
+              "label": "t:sections.all.icon.options__40.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.food_drink",
+              "value": "fork-spoon",
+              "label": "t:sections.all.icon.options__41.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.clothing",
+              "value": "dress",
+              "label": "t:sections.all.icon.options__51.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.clothing",
+              "value": "pants",
+              "label": "t:sections.all.icon.options__52.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.clothing",
+              "value": "shoe",
+              "label": "t:sections.all.icon.options__53.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.clothing",
+              "value": "hat",
+              "label": "t:sections.all.icon.options__54.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.clothing",
+              "value": "skirt",
+              "label": "t:sections.all.icon.options__55.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.clothing",
+              "value": "tops",
+              "label": "t:sections.all.icon.options__56.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.clothing",
+              "value": "shorts",
+              "label": "t:sections.all.icon.options__57.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.clothing",
+              "value": "socks",
+              "label": "t:sections.all.icon.options__58.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.clothing",
+              "value": "bag",
+              "label": "t:sections.all.icon.options__59.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.sports",
+              "value": "running",
+              "label": "t:sections.all.icon.options__60.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.sports",
+              "value": "weightlifting",
+              "label": "t:sections.all.icon.options__61.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.sports",
+              "value": "swimming",
+              "label": "t:sections.all.icon.options__62.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.sports",
+              "value": "cycling",
+              "label": "t:sections.all.icon.options__63.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.sports",
+              "value": "yoga",
+              "label": "t:sections.all.icon.options__64.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.sports",
+              "value": "skiing",
+              "label": "t:sections.all.icon.options__65.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.others",
+              "value": "diamond",
+              "label": "t:sections.all.icon.options__42.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.others",
+              "value": "clock",
+              "label": "t:sections.all.icon.options__43.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.others",
+              "value": "ruler",
+              "label": "t:sections.all.icon.options__44.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.others",
+              "value": "eye",
+              "label": "t:sections.all.icon.options__45.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.others",
+              "value": "bell",
+              "label": "t:sections.all.icon.options__46.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.others",
+              "value": "light",
+              "label": "t:sections.all.icon.options__47.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.others",
+              "value": "battery",
+              "label": "t:sections.all.icon.options__48.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.others",
+              "value": "star",
+              "label": "t:sections.all.icon.options__49.label"
+            },
+            {
+              "group": "t:sections.all.icon.groups.others",
+              "value": "book",
+              "label": "t:sections.all.icon.options__50.label"
+            }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "t:sections.seamless-scroll.blocks.icon.settings.icon_size.label",
+          "min": 12,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 32
+        },
+        {
+          "type": "header",
+          "content": "t:sections.seamless-scroll.blocks.icon.settings.header_custom_color.content"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_custom_color",
+          "label": "t:sections.all.colors.enable_custom_color.label",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "custom_color",
+          "label": "t:sections.all.colors.custom_color.label",
+          "default": "#000000"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "t:sections.seamless-scroll.blocks.image.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.all.image.image_picker.label",
+          "info": "t:sections.seamless-scroll.blocks.image.settings.image.info"
+        },
+        {
+          "type": "range",
+          "id": "image_size",
+          "label": "t:sections.seamless-scroll.blocks.image.settings.image_size.label",
+          "min": 20,
+          "max": 300,
+          "step": 5,
+          "unit": "px",
+          "default": 100
+        },
+        {
+          "type": "range",
+          "id": "image_rotate",
+          "label": "t:sections.seamless-scroll.blocks.image.settings.image_rotate.label",
+          "min": 0,
+          "max": 360,
+          "step": 5,
+          "unit": "deg",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "spacer",
+      "name": "t:sections.seamless-scroll.blocks.spacer.name",
+      "settings": [
+        {
+          "type": "range",
+          "id": "width",
+          "label": "t:sections.seamless-scroll.blocks.spacer.settings.width.label",
+          "min": 16,
+          "max": 200,
+          "step": 4,
+          "unit": "px",
+          "default": 32
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.seamless-scroll.presets.name",
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+            "content": "PROMOTION TEXT",
+            "font_size": 32,
+            "font_weight": "400"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "content": "promotion text",
+            "font_size": 16,
+            "font_weight": "700"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "content": "PROMOTION TEXT",
+            "font_size": 32,
+            "font_weight": "300"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "content": "PROMOTION TEXT",
+            "font_size": 32,
+            "font_weight": "900"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "content": "promotion text",
+            "font_size": 16,
+            "font_weight": "700"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "content": "PROMOTION TEXT",
+            "font_size": 32,
+            "font_weight": "100"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "content": "promotion text",
+            "font_size": 16,
+            "font_weight": "700"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

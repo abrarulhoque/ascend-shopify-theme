@@ -1,0 +1,88 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product_form_id: {String} 表单 id
+  - option_with_values: {Object} current product_option object.
+  - type: {Enum} option type. button|dropdown|color|imgae
+
+  Usage:
+  {% render 'product-variant-options',
+    option_with_values: option_with_values,
+    type: 'button'
+  %}
+{% endcomment %}
+
+{%- for value in option_with_values.values -%}
+  {%- if type == 'color' or type == 'image' -%}
+    <div class="color-swatch" data-toggle="tooltip" data-title="{{ value }}">
+      <input
+        id="{{ section.id }}-{{ option_with_values.position }}-{{ forloop.index0 }}"
+        {% unless value.available %}
+          class="disabled"
+        {% endunless %}
+        type="radio"
+        name="{{ option_with_values.name }}"
+        value="{{ value | escape }}"
+        form="{{ product_form_id }}"
+        {% if option_with_values.selected_value == value %}
+          checked
+        {% endif %}
+        data-option-value-id="{{ value.id }}"
+      >
+      <label
+        class="color color-{{ value | strip | downcase | replace: ' ', '-' }}"
+        for="{{ section.id }}-{{ option_with_values.position }}-{{ forloop.index0 }}"
+        role="button"
+        aria-label="{{ value }}"
+        {%- if value.swatch != blank -%}
+          style="background: {{ value.swatch.color }};"
+        {%- endif -%}
+      >
+        {%- if type == 'image' -%}
+          {%- if value.variant.image != blank -%}
+            {{ value.variant.image | image_url: width: 100 | image_tag: loading: 'lazy' }}
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        {%- elsif value.swatch.image != blank and value.swatch != blank -%}
+          {{ value.swatch.image | image_url: width: 120 | image_tag: loading: 'lazy' }}
+        {%- endif -%}
+      </label>
+    </div>
+  {%- elsif type == 'button' -%}
+    <input
+      id="{{ section.id }}-{{ option_with_values.position }}-{{ forloop.index0 }}"
+      {% unless value.available %}
+        class="disabled"
+      {% endunless %}
+      type="radio"
+      name="{{ option_with_values.name }}"
+      value="{{ value | escape }}"
+      form="{{ product_form_id }}"
+      {% if option_with_values.selected_value == value %}
+        checked
+      {% endif %}
+      data-option-value-id="{{ value.id }}"
+    >
+    <label for="{{ section.id }}-{{ option_with_values.position }}-{{ forloop.index0 }}" role="button">
+      {{- value -}}
+    </label>
+  {%- elsif type == 'dropdown' -%}
+    <option
+      value="{{ value | escape }}"
+      {% if option_with_values.selected_value == value %}
+        selected="selected"
+      {% endif %}
+      data-option-value-id="{{ value.id }}"
+      {% unless value.available %}
+        data-disabled
+      {% endunless %}
+    >
+      {{ value }}
+      {%- unless value.available %}
+        - {{ 'products.product.unavailable' | t }}
+      {%- endunless -%}
+    </option>
+  {%- endif -%}
+{%- endfor -%}
