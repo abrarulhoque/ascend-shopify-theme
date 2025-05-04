@@ -1,1 +1,739 @@
-{"sections":{"carousal_WpGAKi":{"type":"carousal","blocks":{"slide_HB3Q9e":{"type":"slide","settings":{"image":"shopify:\/\/shop_images\/pro4.jpg","image_overlay_opacity":10,"color_scheme":"accent-2","desktop_content_position":"middle-center","desktop_content_alignment":"center","caption":"","heading":"<p>JOOLA PADDLES<\/p>","heading_size":"large","heading_decorative":false,"text":"<p>Engineered for Every Skill Level and Playing Style<\/p>","button_label":"SHOP NOW","button_link":"shopify:\/\/collections\/joola","button_style":"primary","button_arrow":true,"mobile_content_position":"middle-center","mobile_content_alignment":"center"}},"slide_FCaxRh":{"type":"slide","settings":{"image":"shopify:\/\/shop_images\/JG_01388.jpg","image_overlay_opacity":10,"color_scheme":"inverse","desktop_content_position":"middle-center","desktop_content_alignment":"center","caption":"","heading":"<p>TOP-TIER CRAFTED<\/p>","heading_size":"large","heading_decorative":false,"text":"<p>Elevate your game with premium pickleball gear.<\/p>","button_label":"SHOP NOW","button_link":"shopify:\/\/collections","button_style":"primary","button_arrow":true,"mobile_content_position":"middle-center","mobile_content_alignment":"center"}},"slide_kCERGQ":{"type":"slide","settings":{"image":"shopify:\/\/shop_images\/alw222222.webp","image_overlay_opacity":10,"color_scheme":"inverse","desktop_content_position":"top-center","desktop_content_alignment":"center","caption":"","heading":"<p>TRUSTED BY PROS<\/p>","heading_size":"large","heading_decorative":false,"text":"<p>Crafted for players who demand more<\/p>","button_label":"SHOP NOW","button_link":"shopify:\/\/collections\/diadem-sports","button_style":"primary","button_arrow":true,"mobile_content_position":"middle-center","mobile_content_alignment":"center"}}},"block_order":["slide_HB3Q9e","slide_FCaxRh","slide_kCERGQ"],"settings":{"enable_full_width":true,"slide_height":"small","enable_adapter_transparent_header":false,"auto_rotate":true,"change_slides_speed":10,"show_nav_buttons":true,"show_page_dots":true,"controller_color":"#dd1b52","margin_top":0,"margin_bottom":0,"if_as_main_area":true}},"rich_text_73PC9n":{"type":"rich-text","blocks":{"heading_prkzNe":{"type":"heading","settings":{"heading":"WHERE LEGENDS MEET THE COURT","heading_size":"large","heading_decorative":false}}},"block_order":["heading_prkzNe"],"name":"t:sections.rich-text.presets.name","settings":{"enable_full_width":true,"color_scheme":"accent-1","texture_alpha":90,"texture_fixed":false,"content_width":"normal","alignment":"center","alignment_mobile":"center","padding_top":12,"padding_bottom":0,"margin_top":0,"margin_bottom":0}},"seamless_scroll_eGqxQ8":{"type":"seamless-scroll","blocks":{"image_4cYcDj":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/Diadem_Logo_Teal.png","image_size":95,"image_rotate":0}},"image_HFAgmP":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/selkirk-logo-icon_eda15e15-374d-4ef8-a4e3-41de8af659b4.png","image_size":95,"image_rotate":0}},"image_Keb4xX":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/Volair_Logo_WhiteBlueDot_ForWeb.png","image_size":95,"image_rotate":0}},"image_VBwm3g":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/logo_45e768fa-079f-4811-b5a3-13c9489bcce8.png","image_size":95,"image_rotate":0}},"image_zwVYyQ":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/CRBN-Pickleball-Logo-Black.png","image_size":95,"image_rotate":0}},"image_ceXzM3":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/23c1f72a-5307-434a-b094-4dc134644df9.png","image_size":95,"image_rotate":0}},"image_PTxANB":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/paddle.png","image_size":95,"image_rotate":0}},"image_eFMB6U":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/Mask_group.png","image_size":95,"image_rotate":0}},"image_HPre4A":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/dark_franklin_logo.png","image_size":95,"image_rotate":0}},"image_PBVDqT":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/kennexlogo-black-white.png","image_size":95,"image_rotate":0}}},"block_order":["image_4cYcDj","image_HFAgmP","image_Keb4xX","image_VBwm3g","image_zwVYyQ","image_ceXzM3","image_PTxANB","image_eFMB6U","image_HPre4A","image_PBVDqT"],"settings":{"enable_full_width":true,"color_scheme":"accent-1","direction":"left","gap":32,"speed":40,"display_border_blur":true,"enable_scroll_synergy":true,"padding_top":24,"padding_bottom":24,"margin_top":0,"margin_bottom":80}},"image_gallery_iyRCWr":{"type":"image-gallery","blocks":{"image_JYBJ4r":{"type":"image","settings":{"columns":"1","rows":"1","image":"shopify:\/\/shop_images\/x-40-outdoor-pickleballs-920774.webp","link":"shopify:\/\/collections\/accessories","heading":"ACCESSORIES","heading_size":"medium","heading_color":"#ffffff","heading_position":"top-left","mobile_columns":"2","mobile_rows":"1","heading_size_mobile":"medium","heading_color_mobile":"#ffffff","heading_position_mobile":"middle-center"}},"image_77d4n8":{"type":"image","settings":{"columns":"2","rows":"2","image":"shopify:\/\/shop_images\/IMG-9872.png","link":"shopify:\/\/collections\/paddles","heading":"PADDLES","heading_size":"medium","heading_color":"#ffffff","heading_position":"top-left","mobile_columns":"1","mobile_rows":"2","heading_size_mobile":"medium","heading_color_mobile":"#ffffff","heading_position_mobile":"middle-center"}},"image_GNf7fB":{"type":"image","settings":{"columns":"1","rows":"2","image":"shopify:\/\/shop_images\/472677682_18475436899029186_3158841344613631805_n.jpg","link":"shopify:\/\/collections\/apparel","heading":"APPAREL","heading_size":"medium","heading_color":"#ffffff","heading_position":"top-left","mobile_columns":"1","mobile_rows":"1","heading_size_mobile":"medium","heading_color_mobile":"#ffffff","heading_position_mobile":"middle-center"}},"image_CcUtyW":{"type":"image","settings":{"columns":"1","rows":"2","image":"shopify:\/\/shop_images\/61bAYs3F_2L.jpg","link":"shopify:\/\/collections\/training-aids","heading":"TRAINING AIDS","heading_size":"medium","heading_color":"#ffffff","heading_position":"top-left","mobile_columns":"1","mobile_rows":"1","heading_size_mobile":"medium","heading_color_mobile":"#ffffff","heading_position_mobile":"middle-center"}},"image_zfpCRE":{"type":"image","settings":{"columns":"2","rows":"1","image":"shopify:\/\/shop_images\/2024_03-13-Diadem-PickeballShoes-Group-collection.jpg","link":"shopify:\/\/collections\/shoes","heading":"SHOES","heading_size":"medium","heading_color":"#ffffff","heading_position":"top-left","mobile_columns":"1","mobile_rows":"1","heading_size_mobile":"medium","heading_color_mobile":"#ffffff","heading_position_mobile":"middle-center"}},"image_wPyKpM":{"type":"image","settings":{"columns":"1","rows":"1","image":"shopify:\/\/shop_images\/42_8cea188a-2c6d-4767-90c7-a6a580b5dd64.webp","link":"shopify:\/\/collections\/bags","heading":"BAGS","heading_size":"medium","heading_color":"#ffffff","heading_position":"top-center","mobile_columns":"1","mobile_rows":"1","heading_size_mobile":"medium","heading_color_mobile":"#ffffff","heading_position_mobile":"middle-center"}}},"block_order":["image_JYBJ4r","image_77d4n8","image_GNf7fB","image_CcUtyW","image_zfpCRE","image_wPyKpM"],"settings":{"show_section_header":true,"heading":"UNLIMITED PICKLEBALL “YOUR GAME. YOUR GEAR. YOUR SHOP.”","description":"","water_text":"","margin_top":0,"margin_bottom":80}},"video_banner_9xgX6n":{"type":"video-banner","name":"t:sections.video-banner.presets.name","settings":{"enable_full_width":true,"video_url":"https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc","enable_controls":false,"enable_autoload":false,"enable_looping":false,"cover_image":"shopify:\/\/shop_images\/GRGH_on_net_tape_no_claw__56127.jpg","video_height":"medium","color_scheme":"background-2","heading":"EXPERIENCE THE GAME","heading_size":"large","heading_decorative":false,"description":"<p>See what makes our gear stand out<\/p>","if_as_main_area":false,"margin_top":0,"margin_bottom":80}},"featured_collection_AEJXwA":{"type":"featured-collection","settings":{"show_collection_image":true,"collection_image_color_scheme":"accent-1","collection_image_position":"left","collection_image_opacity":42,"collection_title":"SHOP PADDLES","collection_title_size":"medium","collection_title_decorative":false,"collection":"paddles","products_to_show":6,"enable_desktop_slider":true,"show_nav_buttons":true,"show_dots":true,"card_size":"small","image_ratio":"square","show_content_wrapper":false,"color_scheme":"accent-1","text_alignment":"center","enable_mobile_slider":true,"margin_top":0,"margin_bottom":80}},"featured_collection_WagqiU":{"type":"featured-collection","settings":{"show_collection_image":true,"collection_image_color_scheme":"accent-1","collection_image_position":"left","collection_image_opacity":42,"collection_title":"SHOP ACCESSORIES","collection_title_size":"medium","collection_title_decorative":false,"collection":"accessories","products_to_show":6,"enable_desktop_slider":true,"show_nav_buttons":true,"show_dots":true,"card_size":"small","image_ratio":"square","show_content_wrapper":false,"color_scheme":"accent-1","text_alignment":"center","enable_mobile_slider":true,"margin_top":0,"margin_bottom":80}},"featured_collection_tfx7Ah":{"type":"featured-collection","settings":{"show_collection_image":true,"collection_image_color_scheme":"accent-1","collection_image_position":"left","feature_image":"shopify:\/\/shop_images\/472677682_18475436899029186_3158841344613631805_n.jpg","collection_image_opacity":42,"collection_title":"APPAREL COLLECTION","collection_title_size":"medium","collection_title_decorative":false,"collection":"apparel","products_to_show":6,"enable_desktop_slider":true,"show_nav_buttons":true,"show_dots":true,"card_size":"small","image_ratio":"square","show_content_wrapper":false,"color_scheme":"accent-1","text_alignment":"center","enable_mobile_slider":true,"margin_top":0,"margin_bottom":80}},"featured_collection_CnDifW":{"type":"featured-collection","settings":{"show_collection_image":true,"collection_image_color_scheme":"accent-1","collection_image_position":"left","feature_image":"shopify:\/\/shop_images\/40_d94346e0-9c16-40b4-a145-4a171887c278.webp","collection_image_opacity":42,"collection_title":"BAGS","collection_title_size":"medium","collection_title_decorative":false,"collection":"bags","products_to_show":6,"enable_desktop_slider":true,"show_nav_buttons":true,"show_dots":true,"card_size":"small","image_ratio":"square","show_content_wrapper":false,"color_scheme":"accent-1","text_alignment":"center","enable_mobile_slider":true,"margin_top":0,"margin_bottom":80}},"confetti_trigger_iMYh9i":{"type":"confetti-trigger","settings":{"trigger_position":"center","effect":"cannon","trigger_once":true}},"sticky_scroll_reveal_4NKzc7":{"type":"sticky-scroll-reveal","settings":{"image":"shopify:\/\/shop_images\/Court_Flo_Hero_Banner.jpg","image_original_size":"medium","color_scheme":"accent-2","heading":"CURATED FOR EVERY PLAYER","heading_decorative":false,"description":"<p>Gear up with paddles, apparel, and accessories built for the court.<\/p>","button_label":"SHOP NOW","button_link":"shopify:\/\/collections","button_arrow":true,"margin_top":0,"margin_bottom":80}},"testimonial_nDKd9f":{"type":"testimonial","blocks":{"review_4Hnd8f":{"type":"review","settings":{"rating":5,"content":"<p>I’ve tried a lot of paddles, but this one seriously leveled up my game. Great control, lightweight, and the grip feels amazing. Highly recommend!<\/p>","author_name":"Jenna L","show_verified":true}},"review_FFhBDi":{"type":"review","settings":{"rating":5,"content":"<p>My order arrived earlier than expected and was packaged perfectly. Customer support was super responsive too. I’ll definitely be ordering again!<\/p>","author_name":"Mike R","show_verified":true}},"image_dGfPVe":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/5_Socks_-_Model_5_1160x_crop_center_e42096eb-a1ee-4174-b34b-67984e8789c7.webp","image_ratio":"landscape"}},"review_TKQfMp":{"type":"review","settings":{"rating":5,"content":"<p>Not only do I love how the paddle looks, but it performs just as good as it feels. I’ve already gotten a few compliments during games.<\/p>","author_name":"Sarah T.","show_verified":true}},"image_UUGEmQ":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/JOOLA_WBG_2025_ProIV_Magnus-Magnus14mm-04_21687bc7-b948-4f9d-b21d-899a91563c69.webp","image_ratio":"landscape"}},"review_YcfdkU":{"type":"review","settings":{"rating":5,"content":"<p>As someone new to pickleball, I was worried about picking the right gear — this paddle was easy to handle and gave me confidence right away.<\/p>","author_name":"David P.","show_verified":true}},"image_DYG6jY":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/JOOLA_WBG_2025_ProIV_Scorpeus-Scorpeus14mm-04.webp","image_ratio":"landscape"}},"review_jxR7N6":{"type":"review","settings":{"rating":5,"content":"<p>You can tell the materials are premium the second you hold it. This isn’t just another mass-produced paddle — it’s built to last<\/p>","author_name":"Rachel M.","show_verified":true}},"image_JNJBz7":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/GX2-I_Ecom-1700X1400_3-min.webp","image_ratio":"landscape"}}},"block_order":["review_4Hnd8f","review_FFhBDi","image_dGfPVe","review_TKQfMp","image_UUGEmQ","review_YcfdkU","image_DYG6jY","review_jxR7N6","image_JNJBz7"],"settings":{"show_section_header":true,"heading":"Customer Testimonials","description":"","water_text":"","speed":40,"star_color":"#ffd600","enlarge_first_letter":false,"columns_mobile":"2","margin_top":0,"margin_bottom":80}},"text_with_icons_jUNB3b":{"type":"text-with-icons","blocks":{"icon_text_8L49dH":{"type":"icon_text","settings":{"icon":"truck","heading":"Free Shipping","description":"<p>Fast & Free<\/p>"}},"icon_text_MiPPTj":{"type":"icon_text","settings":{"icon":"card","heading":"Secure payment","description":"<p>Peace of Mind<\/p>"}},"icon_text_NhfYJJ":{"type":"icon_text","settings":{"icon":"return","heading":"Free Returns","description":"<p>Easy Return<\/p>"}},"icon_text_Hjwm7f":{"type":"icon_text","settings":{"icon":"24h","heading":"Trusted Service","description":"<p>Urgency & Responsiveness<\/p>"}}},"block_order":["icon_text_8L49dH","icon_text_MiPPTj","icon_text_NhfYJJ","icon_text_Hjwm7f"],"settings":{"show_section_header":false,"heading":"Text with icons","description":"","color_scheme":"accent-1","columns_on_desktop":4,"item_alignment":"center","icon_size":"small","columns_on_mobile":"1","hide_description":false,"padding_top":16,"padding_bottom":16,"margin_top":0,"margin_bottom":0}}},"order":["carousal_WpGAKi","rich_text_73PC9n","seamless_scroll_eGqxQ8","image_gallery_iyRCWr","video_banner_9xgX6n","featured_collection_AEJXwA","featured_collection_WagqiU","featured_collection_tfx7Ah","featured_collection_CnDifW","confetti_trigger_iMYh9i","sticky_scroll_reveal_4NKzc7","testimonial_nDKd9f","text_with_icons_jUNB3b"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "carousal_WpGAKi": {
+      "type": "carousal",
+      "blocks": {
+        "slide_HB3Q9e": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 10,
+            "color_scheme": "accent-2",
+            "desktop_content_position": "middle-center",
+            "desktop_content_alignment": "center",
+            "caption": "",
+            "heading": "<p>JOOLA PADDLES</p>",
+            "heading_size": "large",
+            "heading_decorative": false,
+            "text": "<p>Engineered for Every Skill Level and Playing Style</p>",
+            "button_label": "SHOP NOW",
+            "button_link": "shopify://collections/joola",
+            "button_style": "primary",
+            "button_arrow": true,
+            "mobile_content_position": "middle-center",
+            "mobile_content_alignment": "center"
+          }
+        },
+        "slide_FCaxRh": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 10,
+            "color_scheme": "inverse",
+            "desktop_content_position": "middle-center",
+            "desktop_content_alignment": "center",
+            "caption": "",
+            "heading": "<p>TOP-TIER CRAFTED</p>",
+            "heading_size": "large",
+            "heading_decorative": false,
+            "text": "<p>Elevate your game with premium pickleball gear.</p>",
+            "button_label": "SHOP NOW",
+            "button_link": "shopify://collections",
+            "button_style": "primary",
+            "button_arrow": true,
+            "mobile_content_position": "middle-center",
+            "mobile_content_alignment": "center"
+          }
+        },
+        "slide_kCERGQ": {
+          "type": "slide",
+          "settings": {
+            "image_overlay_opacity": 10,
+            "color_scheme": "inverse",
+            "desktop_content_position": "top-center",
+            "desktop_content_alignment": "center",
+            "caption": "",
+            "heading": "<p>TRUSTED BY PROS</p>",
+            "heading_size": "large",
+            "heading_decorative": false,
+            "text": "<p>Crafted for players who demand more</p>",
+            "button_label": "SHOP NOW",
+            "button_link": "shopify://collections/diadem-sports",
+            "button_style": "primary",
+            "button_arrow": true,
+            "mobile_content_position": "middle-center",
+            "mobile_content_alignment": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_HB3Q9e",
+        "slide_FCaxRh",
+        "slide_kCERGQ"
+      ],
+      "settings": {
+        "enable_full_width": true,
+        "slide_height": "small",
+        "enable_adapter_transparent_header": false,
+        "auto_rotate": true,
+        "change_slides_speed": 10,
+        "show_nav_buttons": true,
+        "show_page_dots": true,
+        "controller_color": "#dd1b52",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "if_as_main_area": true
+      }
+    },
+    "product_quiz_TgPnTR": {
+      "type": "product-quiz",
+      "blocks": {
+        "question_jJFmmJ": {
+          "type": "question",
+          "settings": {
+            "question_title": "What's most important to you?",
+            "option_a": "Power",
+            "option_a_value": "power",
+            "option_b": "Control",
+            "option_b_value": "control",
+            "option_c": "Both",
+            "option_c_value": "both"
+          }
+        },
+        "question_4JKCVL": {
+          "type": "question",
+          "settings": {
+            "question_title": "What do you value more?",
+            "option_a": "Reach",
+            "option_a_value": "reach",
+            "option_b": "Large sweet spot",
+            "option_b_value": "sweet_spot",
+            "option_c": "Both",
+            "option_c_value": "both"
+          }
+        },
+        "question_YqTd3t": {
+          "type": "question",
+          "settings": {
+            "question_title": "What's your budget?",
+            "option_a": "Under $100",
+            "option_a_value": "budget",
+            "option_b": "$100 to $200",
+            "option_b_value": "mid_range",
+            "option_c": "No budget",
+            "option_c_value": "premium"
+          }
+        }
+      },
+      "block_order": [
+        "question_jJFmmJ",
+        "question_4JKCVL",
+        "question_YqTd3t"
+      ],
+      "name": "Product Quiz",
+      "settings": {
+        "color_scheme": "background-2",
+        "texture_alpha": 10,
+        "texture_fixed": false,
+        "show_profile_image": true,
+        "profile_image": "shopify://shop_images/Main_d624f226-0a89-4fe1-b333-0d1548b43c06.jpg",
+        "intro_subheading": "Our co-founder Brandon will help you",
+        "intro_heading": "Find the Perfect Pickleball Paddle",
+        "intro_text": "<p>I've tested over 80 paddles but only include the best in my recommendations. This quiz helps me learn your needs and play style. After the quiz, I'll recommend the 3 best paddles that fit your game.</p>",
+        "show_question_count": true,
+        "show_progress_bar": true,
+        "next_button_text": "Next",
+        "prev_button_text": "Prev",
+        "results_button_text": "See your paddles",
+        "results_heading": "These Paddles are Perfect for You",
+        "results_text": "<p>Here are 3 paddles that match the preferences you expressed in the quiz. I'm confident any of these options will help advance your game.</p>",
+        "show_review_link": true,
+        "review_link_text": "my review process",
+        "review_link": "",
+        "loading_text": "Finding your perfect paddles...",
+        "product_button_text": "Get 10% Off",
+        "show_restart_button": true,
+        "restart_button_text": "Take the quiz again",
+        "product_collection": "",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "rich_text_73PC9n": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_prkzNe": {
+          "type": "heading",
+          "settings": {
+            "heading": "WHERE LEGENDS MEET THE COURT",
+            "heading_size": "large",
+            "heading_decorative": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_prkzNe"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "enable_full_width": true,
+        "color_scheme": "accent-1",
+        "texture_alpha": 90,
+        "texture_fixed": false,
+        "content_width": "normal",
+        "alignment": "center",
+        "alignment_mobile": "center",
+        "padding_top": 12,
+        "padding_bottom": 0,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "seamless_scroll_eGqxQ8": {
+      "type": "seamless-scroll",
+      "blocks": {
+        "image_4cYcDj": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        },
+        "image_HFAgmP": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        },
+        "image_Keb4xX": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        },
+        "image_VBwm3g": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        },
+        "image_zwVYyQ": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        },
+        "image_ceXzM3": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        },
+        "image_PTxANB": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        },
+        "image_eFMB6U": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        },
+        "image_HPre4A": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        },
+        "image_PBVDqT": {
+          "type": "image",
+          "settings": {
+            "image_size": 95,
+            "image_rotate": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_4cYcDj",
+        "image_HFAgmP",
+        "image_Keb4xX",
+        "image_VBwm3g",
+        "image_zwVYyQ",
+        "image_ceXzM3",
+        "image_PTxANB",
+        "image_eFMB6U",
+        "image_HPre4A",
+        "image_PBVDqT"
+      ],
+      "settings": {
+        "enable_full_width": true,
+        "color_scheme": "accent-1",
+        "direction": "left",
+        "gap": 32,
+        "speed": 40,
+        "display_border_blur": true,
+        "enable_scroll_synergy": true,
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "image_gallery_iyRCWr": {
+      "type": "image-gallery",
+      "blocks": {
+        "image_JYBJ4r": {
+          "type": "image",
+          "settings": {
+            "columns": "1",
+            "rows": "1",
+            "link": "shopify://collections/accessories",
+            "heading": "ACCESSORIES",
+            "heading_size": "medium",
+            "heading_color": "#ffffff",
+            "heading_position": "top-left",
+            "mobile_columns": "2",
+            "mobile_rows": "1",
+            "heading_size_mobile": "medium",
+            "heading_color_mobile": "#ffffff",
+            "heading_position_mobile": "middle-center"
+          }
+        },
+        "image_77d4n8": {
+          "type": "image",
+          "settings": {
+            "columns": "2",
+            "rows": "2",
+            "link": "shopify://collections/paddles",
+            "heading": "PADDLES",
+            "heading_size": "medium",
+            "heading_color": "#ffffff",
+            "heading_position": "top-left",
+            "mobile_columns": "1",
+            "mobile_rows": "2",
+            "heading_size_mobile": "medium",
+            "heading_color_mobile": "#ffffff",
+            "heading_position_mobile": "middle-center"
+          }
+        },
+        "image_GNf7fB": {
+          "type": "image",
+          "settings": {
+            "columns": "1",
+            "rows": "2",
+            "link": "shopify://collections/apparel",
+            "heading": "APPAREL",
+            "heading_size": "medium",
+            "heading_color": "#ffffff",
+            "heading_position": "top-left",
+            "mobile_columns": "1",
+            "mobile_rows": "1",
+            "heading_size_mobile": "medium",
+            "heading_color_mobile": "#ffffff",
+            "heading_position_mobile": "middle-center"
+          }
+        },
+        "image_CcUtyW": {
+          "type": "image",
+          "settings": {
+            "columns": "1",
+            "rows": "2",
+            "link": "shopify://collections/training-aids",
+            "heading": "TRAINING AIDS",
+            "heading_size": "medium",
+            "heading_color": "#ffffff",
+            "heading_position": "top-left",
+            "mobile_columns": "1",
+            "mobile_rows": "1",
+            "heading_size_mobile": "medium",
+            "heading_color_mobile": "#ffffff",
+            "heading_position_mobile": "middle-center"
+          }
+        },
+        "image_zfpCRE": {
+          "type": "image",
+          "settings": {
+            "columns": "2",
+            "rows": "1",
+            "link": "shopify://collections/shoes",
+            "heading": "SHOES",
+            "heading_size": "medium",
+            "heading_color": "#ffffff",
+            "heading_position": "top-left",
+            "mobile_columns": "1",
+            "mobile_rows": "1",
+            "heading_size_mobile": "medium",
+            "heading_color_mobile": "#ffffff",
+            "heading_position_mobile": "middle-center"
+          }
+        },
+        "image_wPyKpM": {
+          "type": "image",
+          "settings": {
+            "columns": "1",
+            "rows": "1",
+            "link": "shopify://collections/bags",
+            "heading": "BAGS",
+            "heading_size": "medium",
+            "heading_color": "#ffffff",
+            "heading_position": "top-center",
+            "mobile_columns": "1",
+            "mobile_rows": "1",
+            "heading_size_mobile": "medium",
+            "heading_color_mobile": "#ffffff",
+            "heading_position_mobile": "middle-center"
+          }
+        }
+      },
+      "block_order": [
+        "image_JYBJ4r",
+        "image_77d4n8",
+        "image_GNf7fB",
+        "image_CcUtyW",
+        "image_zfpCRE",
+        "image_wPyKpM"
+      ],
+      "settings": {
+        "show_section_header": true,
+        "heading": "UNLIMITED PICKLEBALL “YOUR GAME. YOUR GEAR. YOUR SHOP.”",
+        "description": "",
+        "water_text": "",
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "video_banner_9xgX6n": {
+      "type": "video-banner",
+      "name": "t:sections.video-banner.presets.name",
+      "settings": {
+        "enable_full_width": true,
+        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "enable_controls": false,
+        "enable_autoload": false,
+        "enable_looping": false,
+        "video_height": "medium",
+        "color_scheme": "background-2",
+        "heading": "EXPERIENCE THE GAME",
+        "heading_size": "large",
+        "heading_decorative": false,
+        "description": "<p>See what makes our gear stand out</p>",
+        "if_as_main_area": false,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "featured_collection_AEJXwA": {
+      "type": "featured-collection",
+      "settings": {
+        "show_collection_image": true,
+        "collection_image_color_scheme": "accent-1",
+        "collection_image_position": "left",
+        "collection_image_opacity": 42,
+        "collection_title": "SHOP PADDLES",
+        "collection_title_size": "medium",
+        "collection_title_decorative": false,
+        "collection": "paddles",
+        "products_to_show": 6,
+        "enable_desktop_slider": true,
+        "show_nav_buttons": true,
+        "show_dots": true,
+        "card_size": "small",
+        "image_ratio": "square",
+        "show_content_wrapper": false,
+        "color_scheme": "accent-1",
+        "text_alignment": "center",
+        "enable_mobile_slider": true,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "featured_collection_WagqiU": {
+      "type": "featured-collection",
+      "settings": {
+        "show_collection_image": true,
+        "collection_image_color_scheme": "accent-1",
+        "collection_image_position": "left",
+        "collection_image_opacity": 42,
+        "collection_title": "SHOP ACCESSORIES",
+        "collection_title_size": "medium",
+        "collection_title_decorative": false,
+        "collection": "accessories",
+        "products_to_show": 6,
+        "enable_desktop_slider": true,
+        "show_nav_buttons": true,
+        "show_dots": true,
+        "card_size": "small",
+        "image_ratio": "square",
+        "show_content_wrapper": false,
+        "color_scheme": "accent-1",
+        "text_alignment": "center",
+        "enable_mobile_slider": true,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "featured_collection_tfx7Ah": {
+      "type": "featured-collection",
+      "settings": {
+        "show_collection_image": true,
+        "collection_image_color_scheme": "accent-1",
+        "collection_image_position": "left",
+        "collection_image_opacity": 42,
+        "collection_title": "APPAREL COLLECTION",
+        "collection_title_size": "medium",
+        "collection_title_decorative": false,
+        "collection": "apparel",
+        "products_to_show": 6,
+        "enable_desktop_slider": true,
+        "show_nav_buttons": true,
+        "show_dots": true,
+        "card_size": "small",
+        "image_ratio": "square",
+        "show_content_wrapper": false,
+        "color_scheme": "accent-1",
+        "text_alignment": "center",
+        "enable_mobile_slider": true,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "featured_collection_CnDifW": {
+      "type": "featured-collection",
+      "settings": {
+        "show_collection_image": true,
+        "collection_image_color_scheme": "accent-1",
+        "collection_image_position": "left",
+        "collection_image_opacity": 42,
+        "collection_title": "BAGS",
+        "collection_title_size": "medium",
+        "collection_title_decorative": false,
+        "collection": "bags",
+        "products_to_show": 6,
+        "enable_desktop_slider": true,
+        "show_nav_buttons": true,
+        "show_dots": true,
+        "card_size": "small",
+        "image_ratio": "square",
+        "show_content_wrapper": false,
+        "color_scheme": "accent-1",
+        "text_alignment": "center",
+        "enable_mobile_slider": true,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "confetti_trigger_iMYh9i": {
+      "type": "confetti-trigger",
+      "settings": {
+        "trigger_position": "center",
+        "effect": "cannon",
+        "trigger_once": true
+      }
+    },
+    "sticky_scroll_reveal_4NKzc7": {
+      "type": "sticky-scroll-reveal",
+      "settings": {
+        "image_original_size": "medium",
+        "color_scheme": "accent-2",
+        "heading": "CURATED FOR EVERY PLAYER",
+        "heading_decorative": false,
+        "description": "<p>Gear up with paddles, apparel, and accessories built for the court.</p>",
+        "button_label": "SHOP NOW",
+        "button_link": "shopify://collections",
+        "button_arrow": true,
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "testimonial_nDKd9f": {
+      "type": "testimonial",
+      "blocks": {
+        "review_4Hnd8f": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "content": "<p>I’ve tried a lot of paddles, but this one seriously leveled up my game. Great control, lightweight, and the grip feels amazing. Highly recommend!</p>",
+            "author_name": "Jenna L",
+            "show_verified": true
+          }
+        },
+        "review_FFhBDi": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "content": "<p>My order arrived earlier than expected and was packaged perfectly. Customer support was super responsive too. I’ll definitely be ordering again!</p>",
+            "author_name": "Mike R",
+            "show_verified": true
+          }
+        },
+        "image_dGfPVe": {
+          "type": "image",
+          "settings": {
+            "image_ratio": "landscape"
+          }
+        },
+        "review_TKQfMp": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "content": "<p>Not only do I love how the paddle looks, but it performs just as good as it feels. I’ve already gotten a few compliments during games.</p>",
+            "author_name": "Sarah T.",
+            "show_verified": true
+          }
+        },
+        "image_UUGEmQ": {
+          "type": "image",
+          "settings": {
+            "image_ratio": "landscape"
+          }
+        },
+        "review_YcfdkU": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "content": "<p>As someone new to pickleball, I was worried about picking the right gear — this paddle was easy to handle and gave me confidence right away.</p>",
+            "author_name": "David P.",
+            "show_verified": true
+          }
+        },
+        "image_DYG6jY": {
+          "type": "image",
+          "settings": {
+            "image_ratio": "landscape"
+          }
+        },
+        "review_jxR7N6": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "content": "<p>You can tell the materials are premium the second you hold it. This isn’t just another mass-produced paddle — it’s built to last</p>",
+            "author_name": "Rachel M.",
+            "show_verified": true
+          }
+        },
+        "image_JNJBz7": {
+          "type": "image",
+          "settings": {
+            "image_ratio": "landscape"
+          }
+        }
+      },
+      "block_order": [
+        "review_4Hnd8f",
+        "review_FFhBDi",
+        "image_dGfPVe",
+        "review_TKQfMp",
+        "image_UUGEmQ",
+        "review_YcfdkU",
+        "image_DYG6jY",
+        "review_jxR7N6",
+        "image_JNJBz7"
+      ],
+      "settings": {
+        "show_section_header": true,
+        "heading": "Customer Testimonials",
+        "description": "",
+        "water_text": "",
+        "speed": 40,
+        "star_color": "#ffd600",
+        "enlarge_first_letter": false,
+        "columns_mobile": "2",
+        "margin_top": 0,
+        "margin_bottom": 80
+      }
+    },
+    "text_with_icons_jUNB3b": {
+      "type": "text-with-icons",
+      "blocks": {
+        "icon_text_8L49dH": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "truck",
+            "heading": "Free Shipping",
+            "description": "<p>Fast & Free</p>"
+          }
+        },
+        "icon_text_MiPPTj": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "card",
+            "heading": "Secure payment",
+            "description": "<p>Peace of Mind</p>"
+          }
+        },
+        "icon_text_NhfYJJ": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "return",
+            "heading": "Free Returns",
+            "description": "<p>Easy Return</p>"
+          }
+        },
+        "icon_text_Hjwm7f": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "24h",
+            "heading": "Trusted Service",
+            "description": "<p>Urgency & Responsiveness</p>"
+          }
+        }
+      },
+      "block_order": [
+        "icon_text_8L49dH",
+        "icon_text_MiPPTj",
+        "icon_text_NhfYJJ",
+        "icon_text_Hjwm7f"
+      ],
+      "settings": {
+        "show_section_header": false,
+        "heading": "Text with icons",
+        "description": "",
+        "color_scheme": "accent-1",
+        "columns_on_desktop": 4,
+        "item_alignment": "center",
+        "icon_size": "small",
+        "columns_on_mobile": "1",
+        "hide_description": false,
+        "padding_top": 16,
+        "padding_bottom": 16,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "carousal_WpGAKi",
+    "product_quiz_TgPnTR",
+    "rich_text_73PC9n",
+    "seamless_scroll_eGqxQ8",
+    "image_gallery_iyRCWr",
+    "video_banner_9xgX6n",
+    "featured_collection_AEJXwA",
+    "featured_collection_WagqiU",
+    "featured_collection_tfx7Ah",
+    "featured_collection_CnDifW",
+    "confetti_trigger_iMYh9i",
+    "sticky_scroll_reveal_4NKzc7",
+    "testimonial_nDKd9f",
+    "text_with_icons_jUNB3b"
+  ]
+}
